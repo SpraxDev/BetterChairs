@@ -18,7 +18,7 @@ public class Panel extends JPanel {
     public static void main(String[] args) {
         JOptionPane.showMessageDialog(new Panel(), "This is a plugin.\n" +
                 "Just place it in the plugins folder of your server\n" +
-                "BetterChairs Version: 0.9.0", "BetterChairs", JOptionPane.INFORMATION_MESSAGE);
+                "BetterChairs Version: 0.10.1", "BetterChairs", JOptionPane.INFORMATION_MESSAGE);
         System.exit(0);
     }
 
