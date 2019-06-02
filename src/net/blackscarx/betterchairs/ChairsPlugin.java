@@ -9,6 +9,7 @@ import net.blackscarx.betterchairs.Files.Messages;
 import net.blackscarx.betterchairs.NMSManager.NMS_V1_10_R1.v1_10_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_V1_11_R1.v1_11_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_V1_13_R2.v1_13_R2;
+import net.blackscarx.betterchairs.NMSManager.NMS_V1_14_R1.v1_14_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R1.v1_8_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R2.v1_8_R2;
 import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R3.v1_8_R3;
@@ -123,6 +124,9 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         }
         getLogger().info("Your server is running version " + version);
         switch (version) {
+            case "v1_14_R1":
+                nms = new v1_14_R1();
+                break;
             case "v1_13_R2":
                 nms = new v1_13_R2();
                 break;
