@@ -23,3 +23,6 @@ permissions:
     description: Permission for command betterchairstoggle
   betterchairs.reset:
     description: Permission for command betterchairsreset
+  betterchairs.update:
+    descritpion: Permission for betterchairs update
+    default: false
