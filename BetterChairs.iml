@@ -17,5 +17,6 @@
     <orderEntry type="library" name="spigot-1.13.2" level="project" />
     <orderEntry type="library" name="R Skeletons" level="application" />
     <orderEntry type="library" name="spigot-1.14.2" level="project" />
+    <orderEntry type="library" name="spigot-1.15" level="project" />
   </component>
 </module>

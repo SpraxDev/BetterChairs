@@ -1,6 +1,6 @@
 main: net.blackscarx.betterchairs.ChairsPlugin
 name: BetterChairs
-version: 0.10.1
+version: 0.10.2
 author: BlackScarx
 commands:
   betterchairsreload:
