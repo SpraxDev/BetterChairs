@@ -90,6 +90,8 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         new SlabBlock(Material.STONE_SLAB2, (short) 0, "red_sandstone_slab");
         if (nms.getVersion().equals("v1_9_R1") || nms.getVersion().equals("v1_10_R1") || nms.getVersion().equals("v1_11_R1"))
             new SlabBlock(Material.PURPUR_SLAB, (short) 0, "purpur_slab");
+	if (nms.getVersion().equals("v1_14_R1"))
+            new SlabBlock(Material.PRISMARINE_BRICK_SLAB, (short) 0, "prismarine_brick_slab");
         Config.init();
         Messages.init();
         getCommand("betterchairsreload").setExecutor(new CmdReload());
