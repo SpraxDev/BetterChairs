@@ -3,7 +3,6 @@
 
 
 # TODO: Don't run BuildTools every time (Cache?)
-# TODO: Upload build artifacts (packaged .jar)
 name: Build with Maven
 
 on:
