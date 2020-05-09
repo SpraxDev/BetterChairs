@@ -12,56 +12,56 @@ import org.bukkit.event.HandlerList;
  * beeing disconnected.
  */
 public class PlayerLeavingChairEvent extends Event implements Cancellable {
-	public static HandlerList handlers = new HandlerList();
-	private boolean canceled = false;
+    public static HandlerList handlers = new HandlerList();
+    private boolean canceled = false;
 
-	private Player p;
+    private Player p;
 
-	private Block chair;
+    private Block chair;
 
-	public PlayerLeavingChairEvent(Player p, Block chair) {
-		this.p = p;
+    public PlayerLeavingChairEvent(Player p, Block chair) {
+        this.p = p;
 
-		this.chair = chair;
-	}
+        this.chair = chair;
+    }
 
-	/**
-	 * @return The player that is trying to sit on a chair
-	 */
-	public Player getPlayer() {
-		return p;
-	}
+    /**
+     * @return The player that is trying to sit on a chair
+     */
+    public Player getPlayer() {
+        return p;
+    }
 
-	/**
-	 * @return The Block the player is trying to sit on (Stair or Step)
-	 */
-	public Block getChair() {
-		return chair;
-	}
+    /**
+     * @return The Block the player is trying to sit on (Stair or Step)
+     */
+    public Block getChair() {
+        return chair;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return canceled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return canceled;
+    }
 
-	/*
-	 * The event won't get cancelled when the player is for example disconnecting
-	 * 
-	 * (non-Javadoc)
-	 * 
-	 * @see org.bukkit.event.Cancellable#setCancelled(boolean)
-	 */
-	@Override
-	public void setCancelled(boolean cancel) {
-		canceled = cancel;
-	}
+    /*
+     * The event won't get cancelled when the player is for example disconnecting
+     *
+     * (non-Javadoc)
+     *
+     * @see org.bukkit.event.Cancellable#setCancelled(boolean)
+     */
+    @Override
+    public void setCancelled(boolean cancel) {
+        canceled = cancel;
+    }
 
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

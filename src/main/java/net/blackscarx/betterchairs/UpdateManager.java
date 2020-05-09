@@ -15,6 +15,7 @@ public class UpdateManager implements Listener {
 
     /**
      * Update checker
+     *
      * @return
      */
 

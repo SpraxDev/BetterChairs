@@ -9,13 +9,25 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
 
@@ -112,6 +124,7 @@ public class Metrics {
      * GZip compress a string of bytes
      *
      * @param input
+     *
      * @return
      */
     public static byte[] gzip(String input) {
@@ -139,6 +152,7 @@ public class Metrics {
      * @param json
      * @param key
      * @param value
+     *
      * @throws UnsupportedEncodingException
      */
     private static void appendJSONPair(StringBuilder json, String key, String value) throws UnsupportedEncodingException {
@@ -171,6 +185,7 @@ public class Metrics {
      * Escape a string to create a valid JSON string
      *
      * @param text
+     *
      * @return
      */
     private static String escapeJSON(String text) {
@@ -217,6 +232,7 @@ public class Metrics {
      * Encode text as UTF-8
      *
      * @param text the text to encode
+     *
      * @return the encoded text, as UTF-8
      */
     private static String urlEncode(final String text) throws UnsupportedEncodingException {
@@ -228,6 +244,7 @@ public class Metrics {
      * website. Plotters can be added to the graph object returned.
      *
      * @param name The name of the graph
+     *
      * @return Graph object created. Will never return NULL under normal circumstances unless bad parameters are given
      */
     public Graph createGraph(final String name) {
