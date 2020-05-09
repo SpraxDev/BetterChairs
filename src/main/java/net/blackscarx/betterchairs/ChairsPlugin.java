@@ -6,16 +6,7 @@ package net.blackscarx.betterchairs;
 
 import net.blackscarx.betterchairs.Files.Config;
 import net.blackscarx.betterchairs.Files.Messages;
-import net.blackscarx.betterchairs.NMSManager.NMS_V1_10_R1.v1_10_R1;
-import net.blackscarx.betterchairs.NMSManager.NMS_V1_11_R1.v1_11_R1;
-import net.blackscarx.betterchairs.NMSManager.NMS_V1_13_R2.v1_13_R2;
-import net.blackscarx.betterchairs.NMSManager.NMS_V1_14_R1.v1_14_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_V1_15_R1.v1_15_R1;
-import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R1.v1_8_R1;
-import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R2.v1_8_R2;
-import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R3.v1_8_R3;
-import net.blackscarx.betterchairs.NMSManager.NMS_v1_9_R1.v1_9_R1;
-import net.blackscarx.betterchairs.NMSManager.NMS_v1_9_R2.v1_9_R2;
 import net.blackscarx.betterchairs.events.PlayerEnteringChairEvent;
 import net.blackscarx.betterchairs.events.PlayerLeavingChairEvent;
 import org.bukkit.*;
@@ -74,20 +65,20 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-        new SlabBlock(Material.STEP, (short) 0, "stone_slab");
-        new SlabBlock(Material.STEP, (short) 1, "sandstone_slab");
-        new SlabBlock(Material.STEP, (short) 3, "cobblestone_slab");
-        new SlabBlock(Material.STEP, (short) 4, "bricks_slab");
-        new SlabBlock(Material.STEP, (short) 5, "stone_bricks_slab");
-        new SlabBlock(Material.STEP, (short) 6, "nether_brick_slab");
-        new SlabBlock(Material.STEP, (short) 7, "quartz_slab");
-        new SlabBlock(Material.WOOD_STEP, (short) 0, "oak_wood_slab");
-        new SlabBlock(Material.WOOD_STEP, (short) 1, "spruce_wood_slab");
-        new SlabBlock(Material.WOOD_STEP, (short) 2, "brich_wood_slab");
-        new SlabBlock(Material.WOOD_STEP, (short) 3, "jungle_wood_slab");
-        new SlabBlock(Material.WOOD_STEP, (short) 4, "acacia_wood_slab");
-        new SlabBlock(Material.WOOD_STEP, (short) 5, "dark_oak_wood_slab");
-        new SlabBlock(Material.STONE_SLAB2, (short) 0, "red_sandstone_slab");
+//        new SlabBlock(Material.STEP, (short) 0, "stone_slab");
+//        new SlabBlock(Material.STEP, (short) 1, "sandstone_slab");
+//        new SlabBlock(Material.STEP, (short) 3, "cobblestone_slab");
+//        new SlabBlock(Material.STEP, (short) 4, "bricks_slab");
+//        new SlabBlock(Material.STEP, (short) 5, "stone_bricks_slab");
+//        new SlabBlock(Material.STEP, (short) 6, "nether_brick_slab");
+//        new SlabBlock(Material.STEP, (short) 7, "quartz_slab");
+//        new SlabBlock(Material.WOOD_STEP, (short) 0, "oak_wood_slab");
+//        new SlabBlock(Material.WOOD_STEP, (short) 1, "spruce_wood_slab");
+//        new SlabBlock(Material.WOOD_STEP, (short) 2, "brich_wood_slab");
+//        new SlabBlock(Material.WOOD_STEP, (short) 3, "jungle_wood_slab");
+//        new SlabBlock(Material.WOOD_STEP, (short) 4, "acacia_wood_slab");
+//        new SlabBlock(Material.WOOD_STEP, (short) 5, "dark_oak_wood_slab");
+//        new SlabBlock(Material.STONE_SLAB2, (short) 0, "red_sandstone_slab");
         if (nms.getVersion().equals("v1_9_R1") || nms.getVersion().equals("v1_10_R1") || nms.getVersion().equals("v1_11_R1"))
             new SlabBlock(Material.PURPUR_SLAB, (short) 0, "purpur_slab");
 	if (nms.getVersion().equals("v1_14_R1"))
@@ -130,33 +121,33 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             case "v1_15_R1":
                 nms = new v1_15_R1();
                 break;
-            case "v1_14_R1":
-                nms = new v1_14_R1();
-                break;
-            case "v1_13_R2":
-                nms = new v1_13_R2();
-                break;
-            case "v1_11_R1":
-                nms = new v1_11_R1();
-                break;
-            case "v1_10_R1":
-                nms = new v1_10_R1();
-                break;
-            case "v1_9_R2":
-                nms = new v1_9_R2();
-                break;
-            case "v1_9_R1":
-                nms = new v1_9_R1();
-                break;
-            case "v1_8_R3":
-                nms = new v1_8_R3();
-                break;
-            case "v1_8_R2":
-                nms = new v1_8_R2();
-                break;
-            case "v1_8_R1":
-                nms = new v1_8_R1();
-                break;
+//            case "v1_14_R1":
+//                nms = new v1_14_R1();
+//                break;
+//            case "v1_13_R2":
+//                nms = new v1_13_R2();
+//                break;
+//            case "v1_11_R1":
+//                nms = new v1_11_R1();
+//                break;
+//            case "v1_10_R1":
+//                nms = new v1_10_R1();
+//                break;
+//            case "v1_9_R2":
+//                nms = new v1_9_R2();
+//                break;
+//            case "v1_9_R1":
+//                nms = new v1_9_R1();
+//                break;
+//            case "v1_8_R3":
+//                nms = new v1_8_R3();
+//                break;
+//            case "v1_8_R2":
+//                nms = new v1_8_R2();
+//                break;
+//            case "v1_8_R1":
+//                nms = new v1_8_R1();
+//                break;
         }
         return nms != null;
     }
@@ -205,7 +196,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             short data = b.getState().getData().toItemStack().getDurability();
             Block right = b.getRelative(data == 0 ? BlockFace.SOUTH : data == 1 ? BlockFace.NORTH : data == 2 ? BlockFace.WEST : BlockFace.EAST);
             Block left = b.getRelative(data == 0 ? BlockFace.NORTH : data == 1 ? BlockFace.SOUTH : data == 2 ? BlockFace.EAST : BlockFace.WEST);
-            if (!((right.getType().equals(Material.WALL_SIGN) || getConfig().getStringList("Enable Stairs Block").contains(StairsBlock.from(right.getType()))) && (left.getType().equals(Material.WALL_SIGN) || getConfig().getStringList("Enable Stairs Block").contains(StairsBlock.from(left.getType()))))) {
+            if (!((/*right.getType().equals(Material.WALL_SIGN) ||*/ getConfig().getStringList("Enable Stairs Block").contains(StairsBlock.from(right.getType()))) && (/*left.getType().equals(Material.WALL_SIGN) ||*/ getConfig().getStringList("Enable Stairs Block").contains(StairsBlock.from(left.getType()))))) {
                 if (getConfig().getBoolean("Send message if the Chairs need sign or chair", false)) {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.getConfig().getString("Message to send if the chairs need sign or chair", "&cIf you want to sit on this stairs you need to place a sign or stairs on each side")));
                 }
@@ -257,7 +248,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         //Check if the player is already sit
         if (ChairsConf.isSit(p))
             return;
-        
+
 		PlayerEnteringChairEvent event = new PlayerEnteringChairEvent(p, ChairType.STAIR, b);
 		Bukkit.getPluginManager().callEvent(event);
 
@@ -381,7 +372,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         }
         if (ChairsConf.isSit(p))
             return;
-        
+
         PlayerEnteringChairEvent event = new PlayerEnteringChairEvent(p, ChairType.SLAP, b);
 		Bukkit.getPluginManager().callEvent(event);
 
