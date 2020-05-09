@@ -30,15 +30,9 @@ jobs:
       #  with:
       #    name: BetterChairs.jar
       #    path: /home/runner/work/BetterChairs/BetterChairs/target/BetterChairs.jar
-      - name: Update docs/version.txt
-        run: mkdir docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version.txt
-      - name: Commit changes (if any)
-        uses: EndBug/add-and-commit@v4.1.0
-        with:
-          ref: $GITHUB_REF
-          add: docs/version.txt
-          # author_name: # optional
-          # author_email: # optional
-          message: Update version.txt used by UpdateChecker
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract version from pom.xml and compare to docs/version.txt
+        id: pom-version-compare
+        run: mkdir docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && cmp -s docs/version.txt docs/version_new.txt && echo "same" || "diff"
+      - name: Check if extracted version matches docs/version.txt
+        if: steps.package.outputs.content == 'diff'
+        run: echo 'Detected different version! pls fix'
