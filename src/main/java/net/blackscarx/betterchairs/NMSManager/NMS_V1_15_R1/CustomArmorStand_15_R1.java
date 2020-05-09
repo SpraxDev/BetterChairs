@@ -1,7 +1,3 @@
-/*
- * Copyright (c) BlackScarx
- */
-
 package net.blackscarx.betterchairs.NMSManager.NMS_V1_15_R1;
 
 import net.blackscarx.betterchairs.ChairsConf;

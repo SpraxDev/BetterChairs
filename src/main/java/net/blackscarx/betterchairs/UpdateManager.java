@@ -1,7 +1,3 @@
-/*
- * Copyright (c) BlackScarx
- */
-
 package net.blackscarx.betterchairs;
 
 import org.bukkit.Bukkit;
