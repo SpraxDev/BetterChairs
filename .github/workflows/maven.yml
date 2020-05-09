@@ -32,7 +32,8 @@ jobs:
       #    path: /home/runner/work/BetterChairs/BetterChairs/target/BetterChairs.jar
       - name: Update docs/version.txt
         run: mkdir docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version.txt
-      - uses: EndBug/add-and-commit@v4.1.0
+      - name: Commit changes (if any)
+        uses: EndBug/add-and-commit@v4.1.0
         with:
           # Arguments for the git add command
           add: docs/version.txt
