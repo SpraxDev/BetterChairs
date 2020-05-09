@@ -40,7 +40,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           #name: BetterChairs.jar
-          path: ${{ github.workspace }}/target/BetterChairs.jar
+          path: ${{ github.workspace }}/target/
       - name: Fail Action when versions (from above) are not the same
         if: ${{ steps.pomVersionCompare.outputs.content != 'diff' }}
         run: exit -1
