@@ -42,4 +42,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Fail Action when version (from above) are not the same
-          run: exit -1
+        run: exit -1
