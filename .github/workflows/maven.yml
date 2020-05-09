@@ -41,6 +41,6 @@ jobs:
         with:
           #name: BetterChairs.jar
           path: ${{ github.workspace }}/target/BetterChairs.jar
-      - name: Fail Action when version (from above) are not the same
+      - name: Fail Action when versions (from above) are not the same
         if: ${{ steps.pomVersionCompare.outputs.content != 'diff' }}
         run: exit -1
