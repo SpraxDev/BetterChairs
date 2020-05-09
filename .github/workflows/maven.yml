@@ -40,3 +40,5 @@ jobs:
           # author_name: # optional
           # author_email: # optional
           message: Update version.txt used by UpdateChecker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
