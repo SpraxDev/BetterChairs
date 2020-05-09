@@ -25,6 +25,11 @@ jobs:
         run: mkdir .spigot-buildtools && cd .spigot-buildtools && wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar && java -jar BuildTools.jar --rev 1.15.2
       - name: Build with Maven
         run: mvn -B clean package
+      - name: Download packaged .jar
+        uses: actions/download-artifact@v2
+        with:
+          #name: BetterChairs.jar
+          path: ${{ github.workspace }}/target/
       - name: Extract version from pom.xml and compare to docs/version.txt
         id: pomVersionCompare
         run: mkdir docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && cmp -s docs/version.txt docs/version_new.txt && echo "same" || echo "diff"
@@ -33,14 +38,9 @@ jobs:
         uses: unsplash/comment-on-pr@master
         with:
           msg: "Versions in `pom.xml` and `docs/version.txt` are not the same! Please use the same version in both files."
-          check_for_duplicate_msg: true
+          check_for_duplicate_msg: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Download packaged .jar
-        uses: actions/download-artifact@v2
-        with:
-          #name: BetterChairs.jar
-          path: ${{ github.workspace }}/target/
       - name: Fail Action when versions (from above) are not the same
         if: ${{ steps.pomVersionCompare.outputs.content != 'diff' }}
         run: exit -1
