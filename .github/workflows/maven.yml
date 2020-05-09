@@ -35,7 +35,7 @@ jobs:
       - name: Commit changes (if any)
         uses: EndBug/add-and-commit@v4.1.0
         with:
-          # Arguments for the git add command
+          ref: $GITHUB_REF
           add: docs/version.txt
           # author_name: # optional
           # author_email: # optional
