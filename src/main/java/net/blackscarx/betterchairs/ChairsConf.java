@@ -14,6 +14,7 @@ public class ChairsConf {
 
     /**
      * Create new Chairs
+     *
      * @param state
      * @param p
      * @param loc
@@ -27,7 +28,9 @@ public class ChairsConf {
 
     /**
      * Check if a block is used for sit player
+     *
      * @param state
+     *
      * @return boolean
      */
 
@@ -41,7 +44,9 @@ public class ChairsConf {
 
     /**
      * Check if the player is sit
+     *
      * @param p
+     *
      * @return boolean
      */
 
@@ -55,6 +60,7 @@ public class ChairsConf {
 
     /**
      * Get the block used for sit player
+     *
      * @return state
      */
 
@@ -64,6 +70,7 @@ public class ChairsConf {
 
     /**
      * Get the player
+     *
      * @return p
      */
 
@@ -73,6 +80,7 @@ public class ChairsConf {
 
     /**
      * Get location
+     *
      * @return loc
      */
 
