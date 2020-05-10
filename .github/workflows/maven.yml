@@ -23,7 +23,7 @@ jobs:
           java-version: 1.8
       - name: Extract version from pom.xml and compare to docs/version.txt
         id: pomVersionCompare
-        run: mkdir docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt && echo "same" || echo "diff"
+        run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt && echo "same" || echo "diff"
       - name: Check if extracted version matches docs/version.txt
         if: ${{ steps.pomVersionCompare.outputs.content != 'diff' }}
         uses: unsplash/comment-on-pr@master
