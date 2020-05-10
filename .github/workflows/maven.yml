@@ -1,0 +1,71 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+
+# TODO: Don't run BuildTools every time (Cache?)
+name: Build with Maven
+
+on:
+  push:
+    branches: [ master, move-to-maven ]
+  pull_request:
+    branches: [ master, move-to-maven ]
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Extract version from pom.xml and compare to docs/version.txt
+        id: version_diff
+        run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "##[set-output name=result;]same" || echo "##[set-output name=result;]diff"
+      - name: Check if extracted version matches docs/version.txt
+        if: ${{ steps.version_diff.outputs.result == 'diff' }}
+        uses: unsplash/comment-on-pr@master
+        with:
+          msg: "Versions in `pom.xml` and `docs/version.txt` are not the same! Please use the same version in both files."
+          check_for_duplicate_msg: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fail Action when versions (from above) are not the same
+        if: ${{ steps.version_diff.outputs.result == 'diff' }}
+        run: echo "Versions in pom.xml and docs/version.txt are not the same!" && exit -1
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: 'init Cache: Maven-Repository'
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+      - name: 'init Cache: Spigot-BuildTools'
+        uses: actions/cache@v1.1.2
+        with:
+          path: .spigot-buildtools
+          key: Spigot-BuildTools
+      - name: Run Spigot-BuildTools
+        run: |
+          mkdir -p .spigot-buildtools
+          cd .spigot-buildtools
+          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+          java -jar BuildTools.jar --rev 1.15.2
+      - name: Build with Maven
+        run: mvn -B clean package
+      - name: 'Upload Build Artifact: BetterChairs.jar'
+        uses: actions/upload-artifact@v2
+        with:
+          name: BetterChairs.jar
+          path: ./target/BetterChairs.jar
