@@ -2,7 +2,16 @@ package net.blackscarx.betterchairs;
 
 import net.blackscarx.betterchairs.Files.Config;
 import net.blackscarx.betterchairs.Files.Messages;
+import net.blackscarx.betterchairs.NMSManager.NMS_V1_10_R1.v1_10_R1;
+import net.blackscarx.betterchairs.NMSManager.NMS_V1_11_R1.v1_11_R1;
+import net.blackscarx.betterchairs.NMSManager.NMS_V1_13_R2.v1_13_R2;
+import net.blackscarx.betterchairs.NMSManager.NMS_V1_14_R1.v1_14_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_V1_15_R1.v1_15_R1;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R1.v1_8_R1;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R2.v1_8_R2;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R3.v1_8_R3;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_9_R1.v1_9_R1;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_9_R2.v1_9_R2;
 import net.blackscarx.betterchairs.events.PlayerEnteringChairEvent;
 import net.blackscarx.betterchairs.events.PlayerLeavingChairEvent;
 import net.blackscarx.betterchairs.xseries.XMaterial;
@@ -128,33 +137,33 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             case "v1_15_R1":
                 nms = new v1_15_R1();
                 break;
-//            case "v1_14_R1":
-//                nms = new v1_14_R1();
-//                break;
-//            case "v1_13_R2":
-//                nms = new v1_13_R2();
-//                break;
-//            case "v1_11_R1":
-//                nms = new v1_11_R1();
-//                break;
-//            case "v1_10_R1":
-//                nms = new v1_10_R1();
-//                break;
-//            case "v1_9_R2":
-//                nms = new v1_9_R2();
-//                break;
-//            case "v1_9_R1":
-//                nms = new v1_9_R1();
-//                break;
-//            case "v1_8_R3":
-//                nms = new v1_8_R3();
-//                break;
-//            case "v1_8_R2":
-//                nms = new v1_8_R2();
-//                break;
-//            case "v1_8_R1":
-//                nms = new v1_8_R1();
-//                break;
+            case "v1_14_R1":
+                nms = new v1_14_R1();
+                break;
+            case "v1_13_R2":
+                nms = new v1_13_R2();
+                break;
+            case "v1_11_R1":
+                nms = new v1_11_R1();
+                break;
+            case "v1_10_R1":
+                nms = new v1_10_R1();
+                break;
+            case "v1_9_R2":
+                nms = new v1_9_R2();
+                break;
+            case "v1_9_R1":
+                nms = new v1_9_R1();
+                break;
+            case "v1_8_R3":
+                nms = new v1_8_R3();
+                break;
+            case "v1_8_R2":
+                nms = new v1_8_R2();
+                break;
+            case "v1_8_R1":
+                nms = new v1_8_R1();
+                break;
         }
         return nms != null;
     }
