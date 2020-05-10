@@ -24,8 +24,6 @@ jobs:
       - name: Extract version from pom.xml and compare to docs/version.txt
         id: version_diff
         run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "##[set-output name=result;]same" || echo "##[set-output name=result;]diff"
-      - name: debug1
-        run: echo "'${{ steps.version_diff.outputs.result }}'"
       - name: Check if extracted version matches docs/version.txt
         if: ${{ steps.version_diff.outputs.result == 'diff' }}
         uses: unsplash/comment-on-pr@master
@@ -38,25 +36,25 @@ jobs:
         if: ${{ steps.version_diff.outputs.result == 'diff' }}
         run: echo "Versions in pom.xml and docs/version.txt are not the same!" && exit -1
 
-#  build:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Set up JDK 1.8
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 1.8
-#      - name: Run Spigot-BuildTools
-#        run: |
-#          mkdir -p .spigot-buildtools
-#          cd .spigot-buildtools
-#          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-#          java -jar BuildTools.jar --rev 1.15.2
-#      - name: Build with Maven
-#        run: mvn -B clean package
-#      - name: 'Upload Build Artifact: BetterChairs.jar'
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: BetterChairs.jar
-#          path: ./target/BetterChairs.jar
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Run Spigot-BuildTools
+        run: |
+          mkdir -p .spigot-buildtools
+          cd .spigot-buildtools
+          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+          java -jar BuildTools.jar --rev 1.15.2
+      - name: Build with Maven
+        run: mvn -B clean package
+      - name: 'Upload Build Artifact: BetterChairs.jar'
+        uses: actions/upload-artifact@v2
+        with:
+          name: BetterChairs.jar
+          path: ./target/BetterChairs.jar
