@@ -1,9 +1,9 @@
 name: ${pluginName}
 #description: Plugin description for ${pluginName}
-version: ${version}
+version: ${project.parent.version}
 api-version: '1.15'
 
-main: ${project.groupId}.${project.artifactId}.ChairsPlugin
+main: ${project.parent.groupId}.${project.parent.artifactId}.ChairsPlugin
 
 author: BlackScarx
 authors: [BlackScarx, Sprax2013]
