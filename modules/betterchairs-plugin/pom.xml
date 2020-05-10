@@ -8,13 +8,14 @@
         <groupId>net.blackscarx</groupId>
         <artifactId>betterchairs</artifactId>
         <version>0.10.2</version>
+		<relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>betterchairs-plugin</artifactId>
 
     <build>
         <finalName>${pluginName}</finalName>
-        <directory>../target</directory>
+        <directory>../../target</directory>
 
         <resources>
             <resource>
