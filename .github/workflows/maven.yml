@@ -42,7 +42,7 @@ jobs:
         uses: unsplash/comment-on-pr@master
         with:
           msg: "Versions in `pom.xml` and `docs/version.txt` are not the same! Please use the same version in both files."
-          check_for_duplicate_msg: false
+          check_for_duplicate_msg: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Fail Action when versions (from above) are not the same
