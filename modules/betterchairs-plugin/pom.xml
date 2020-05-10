@@ -50,12 +50,12 @@
                                 <exclude>META-INF/*</exclude>
                             </excludes>
                         </filter>
-                        <!--                        <filter>-->
-                        <!--                            <artifact>org.jetbrains:annotations</artifact>-->
-                        <!--                            <excludes>-->
-                        <!--                                <exclude>**</exclude>-->
-                        <!--                            </excludes>-->
-                        <!--                        </filter>-->
+                        <filter>
+                            <artifact>org.jetbrains:annotations</artifact>
+                            <excludes>
+                                <exclude>**</exclude>
+                            </excludes>
+                        </filter>
                     </filters>
 
                     <transformers>
