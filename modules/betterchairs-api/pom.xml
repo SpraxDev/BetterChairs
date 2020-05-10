@@ -2,28 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>betterchairs</artifactId>
-        <groupId>net.blackscarx</groupId>
-        <version>0.10.2</version>
-        <relativePath>../../pom.xml</relativePath>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>betterchairs-v1_15_R1</artifactId>
+    <parent>
+        <groupId>net.blackscarx</groupId>
+        <artifactId>betterchairs</artifactId>
+        <version>0.10.2</version>
+		<relativePath>../../pom.xml</relativePath>
+    </parent>
+    <artifactId>betterchairs-api</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>net.blackscarx</groupId>
-            <artifactId>betterchairs-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
+            <artifactId>spigot-api</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
