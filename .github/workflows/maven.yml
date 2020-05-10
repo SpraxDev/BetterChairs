@@ -24,6 +24,8 @@ jobs:
       - name: Extract version from pom.xml and compare to docs/version.txt
         id: pomVersionCompare
         run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "same" || echo "diff"
+      - name: debug1
+        run: echo "'${{ steps.pomVersionCompare.outputs.content }}'"
       - name: Check if extracted version matches docs/version.txt
         if: ${{ steps.pomVersionCompare.outputs.content != 'same' }}
         uses: unsplash/comment-on-pr@master
