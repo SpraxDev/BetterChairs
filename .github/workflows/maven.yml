@@ -59,6 +59,15 @@ jobs:
           mkdir -p .spigot-buildtools
           cd .spigot-buildtools
           wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+          java -jar BuildTools.jar --rev 1.8
+          java -jar BuildTools.jar --rev 1.8.3
+          java -jar BuildTools.jar --rev 1.8.8
+          java -jar BuildTools.jar --rev 1.9
+          java -jar BuildTools.jar --rev 1.9.4
+          java -jar BuildTools.jar --rev 1.10.2
+          java -jar BuildTools.jar --rev 1.11
+          java -jar BuildTools.jar --rev 1.13.2
+          java -jar BuildTools.jar --rev 1.14.2
           java -jar BuildTools.jar --rev 1.15.2
       - name: Build with Maven
         run: 'mvn -B -Duser.name="GitHub Runner on $GITHUB_REPOSITORY (id=$GITHUB_RUN_ID)" clean package'
