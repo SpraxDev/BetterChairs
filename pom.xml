@@ -31,12 +31,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
 
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>${groupId}.${artifactId}.Panel</mainClass>
+                            <mainClass>${project.groupId}.${project.artifactId}.Panel</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
