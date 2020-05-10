@@ -1,7 +1,11 @@
 package net.blackscarx.betterchairs.NMSManager.NMS_V1_15_R1;
 
+import net.blackscarx.betterchairs.ChairsConf;
+import net.blackscarx.betterchairs.Files.Config;
+import net.blackscarx.betterchairs.TempGlobal;
 import net.minecraft.server.v1_15_R1.EntityArmorStand;
 import net.minecraft.server.v1_15_R1.EntityHuman;
+import net.minecraft.server.v1_15_R1.EntityPlayer;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import net.minecraft.server.v1_15_R1.World;
 import org.bukkit.Location;
@@ -10,6 +14,8 @@ import org.bukkit.craftbukkit.v1_15_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class CustomArmorStand_15_R1 extends EntityArmorStand {
 
@@ -65,36 +71,35 @@ public class CustomArmorStand_15_R1 extends EntityArmorStand {
 
     private boolean shouldDie(CustomArmorStand_15_R1 mount) {
         if (mount.passengers.size() == 0 || !(mount.passengers.get(0) instanceof EntityHuman)) {
-//            if (ChairsPlugin.list.containsKey(mount.getId())) {
-//                ChairsConf chairsConf = ChairsPlugin.list.get(mount.getId());
-//                Player p = chairsConf.getP();
-//                if (p != null) {
-//                    p.teleport(chairsConf.getLoc());
-//                }
-//                ChairsPlugin.list.remove(mount.getId());
-//            }
+            if (TempGlobal.list.containsKey(mount.getId())) {
+                ChairsConf chairsConf = TempGlobal.list.get(mount.getId());
+                Player p = chairsConf.getP();
+                if (p != null) {
+                    p.teleport(chairsConf.getLoc());
+                }
+                TempGlobal.list.remove(mount.getId());
+            }
             protect = false;
             mount.die();
             return true;
+        } else if (Config.getConfig().getBoolean("Regen when sit", false)) {
+            EntityPlayer p = (EntityPlayer) mount.passengers.get(0);
+            if (Config.getConfig().getBoolean("Regen need permission", false))
+                if (!p.getBukkitEntity().hasPermission("betterchairs.regen"))
+                    return false;
+            PotionEffect potion = new PotionEffect(PotionEffectType.REGENERATION, 60, Config.getConfig().getInt("Amplifier", 1) - 1, false, false);
+            if (p.getBukkitEntity().getActivePotionEffects() != null) {
+                boolean regen = false;
+                for (PotionEffect popo : p.getBukkitEntity().getActivePotionEffects()) {
+                    if (popo.getType().equals(PotionEffectType.REGENERATION))
+                        regen = true;
+                }
+                if (!regen)
+                    p.getBukkitEntity().addPotionEffect(potion);
+            } else {
+                p.getBukkitEntity().addPotionEffect(potion);
+            }
         }
-//        else if (Config.getConfig().getBoolean("Regen when sit", false)) {
-//            EntityPlayer p = (EntityPlayer) mount.passengers.get(0);
-//            if (Config.getConfig().getBoolean("Regen need permission", false))
-//                if (!p.getBukkitEntity().hasPermission("betterchairs.regen"))
-//                    return false;
-//            PotionEffect potion = new PotionEffect(PotionEffectType.REGENERATION, 60, Config.getConfig().getInt("Amplifier", 1) - 1, false, false);
-//            if (p.getBukkitEntity().getActivePotionEffects() != null) {
-//                boolean regen = false;
-//                for (PotionEffect popo : p.getBukkitEntity().getActivePotionEffects()) {
-//                    if (popo.getType().equals(PotionEffectType.REGENERATION))
-//                        regen = true;
-//                }
-//                if (!regen)
-//                    p.getBukkitEntity().addPotionEffect(potion);
-//            } else {
-//                p.getBukkitEntity().addPotionEffect(potion);
-//            }
-//        }
         return false;
     }
 }

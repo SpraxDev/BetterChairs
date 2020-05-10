@@ -1,6 +1,5 @@
 package net.blackscarx.betterchairs.Files;
 
-import net.blackscarx.betterchairs.ChairsPlugin;
 import net.blackscarx.betterchairs.SlabBlock;
 import net.blackscarx.betterchairs.StairsBlock;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,9 +14,11 @@ import java.util.List;
 public class Config {
     private static FileConfiguration config = null;
     private static File configFile = null;
-    private static Plugin plugin = ChairsPlugin.getPlugin(ChairsPlugin.class);
+    private static Plugin plugin;
 
-    public static void init() {
+    public static void init(Plugin javaPlugin) {
+        plugin = javaPlugin;
+
         reload();
         load();
         reload();
