@@ -35,7 +35,7 @@ public class ChairsConf {
      */
 
     public static boolean isUsed(BlockState state) {
-        for (ChairsConf conf : ChairsPlugin.list.values()) {
+        for (ChairsConf conf : TempGlobal.list.values()) {
             if (conf.getState().equals(state))
                 return true;
         }
@@ -51,7 +51,7 @@ public class ChairsConf {
      */
 
     public static boolean isSit(Player p) {
-        for (ChairsConf conf : ChairsPlugin.list.values()) {
+        for (ChairsConf conf : TempGlobal.list.values()) {
             if (conf.getP().equals(p))
                 return true;
         }

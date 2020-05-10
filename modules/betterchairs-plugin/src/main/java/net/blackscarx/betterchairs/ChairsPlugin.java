@@ -5,6 +5,7 @@ import net.blackscarx.betterchairs.Files.Messages;
 import net.blackscarx.betterchairs.NMSManager.NMS_V1_15_R1.v1_15_R1;
 import net.blackscarx.betterchairs.events.PlayerEnteringChairEvent;
 import net.blackscarx.betterchairs.events.PlayerLeavingChairEvent;
+import net.blackscarx.betterchairs.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -31,6 +32,7 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Stairs;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,15 +43,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
 public class ChairsPlugin extends JavaPlugin implements Listener {
 
-    public static Map<Integer, ChairsConf> list = new HashMap<>();
     public static NMS nms;
     public UpdateManager um;
     public ChairsPlugin plugin;
@@ -71,26 +70,27 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-//        new SlabBlock(Material.STEP, (short) 0, "stone_slab");
-//        new SlabBlock(Material.STEP, (short) 1, "sandstone_slab");
-//        new SlabBlock(Material.STEP, (short) 3, "cobblestone_slab");
-//        new SlabBlock(Material.STEP, (short) 4, "bricks_slab");
-//        new SlabBlock(Material.STEP, (short) 5, "stone_bricks_slab");
-//        new SlabBlock(Material.STEP, (short) 6, "nether_brick_slab");
-//        new SlabBlock(Material.STEP, (short) 7, "quartz_slab");
-//        new SlabBlock(Material.WOOD_STEP, (short) 0, "oak_wood_slab");
-//        new SlabBlock(Material.WOOD_STEP, (short) 1, "spruce_wood_slab");
-//        new SlabBlock(Material.WOOD_STEP, (short) 2, "brich_wood_slab");
-//        new SlabBlock(Material.WOOD_STEP, (short) 3, "jungle_wood_slab");
-//        new SlabBlock(Material.WOOD_STEP, (short) 4, "acacia_wood_slab");
-//        new SlabBlock(Material.WOOD_STEP, (short) 5, "dark_oak_wood_slab");
-//        new SlabBlock(Material.STONE_SLAB2, (short) 0, "red_sandstone_slab");
-        if (nms.getVersion().equals("v1_9_R1") || nms.getVersion().equals("v1_10_R1") || nms.getVersion().equals("v1_11_R1"))
-            new SlabBlock(Material.PURPUR_SLAB, (short) 0, "purpur_slab");
-        if (nms.getVersion().equals("v1_14_R1"))
-            new SlabBlock(Material.PRISMARINE_BRICK_SLAB, (short) 0, "prismarine_brick_slab");
-        Config.init();
-        Messages.init();
+
+        new SlabBlock(XMaterial.STONE_SLAB);
+        new SlabBlock(XMaterial.SANDSTONE_SLAB);
+        new SlabBlock(XMaterial.COBBLESTONE_SLAB);
+        new SlabBlock(XMaterial.BRICK_SLAB, "bricks_slab");
+        new SlabBlock(XMaterial.STONE_BRICK_SLAB, "stone_bricks_slab");
+        new SlabBlock(XMaterial.NETHER_BRICK_SLAB);
+        new SlabBlock(XMaterial.QUARTZ_SLAB);
+        new SlabBlock(XMaterial.OAK_SLAB, "oak_wood_slab");
+        new SlabBlock(XMaterial.SPRUCE_SLAB, "spruce_wood_slab");
+        new SlabBlock(XMaterial.BIRCH_SLAB, "brich_wood_slab");
+        new SlabBlock(XMaterial.JUNGLE_SLAB, "jungle_wood_slab");
+        new SlabBlock(XMaterial.ACACIA_SLAB, "acacia_wood_slab");
+        new SlabBlock(XMaterial.DARK_OAK_SLAB, "dark_oak_wood_slab");
+        new SlabBlock(XMaterial.RED_SANDSTONE_SLAB);
+        if (XMaterial.PURPUR_SLAB.isSupported())
+            new SlabBlock(XMaterial.PURPUR_SLAB);
+        if (XMaterial.PRISMARINE_BRICK_SLAB.isSupported())
+            new SlabBlock(XMaterial.PRISMARINE_BRICK_SLAB);
+        Config.init(this);
+        Messages.init(this);
         Objects.requireNonNull(getCommand("betterchairsreload")).setExecutor(new CmdReload());
         Objects.requireNonNull(getCommand("betterchairstoggle")).setExecutor(new ChairsToggle());
         Objects.requireNonNull(getCommand("betterchairsreset")).setExecutor(new ChairsReset());
@@ -161,7 +161,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        for (ChairsConf cc : list.values()) {
+        for (ChairsConf cc : TempGlobal.list.values()) {
             Player p = cc.getP();
             p.teleport(cc.getLoc());
         }
@@ -213,14 +213,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         }
         //Check no item in hand
         if (getConfig().getBoolean("No item in hand")) {
-            if (!(nms.getVersion().equals("v1_9_R1") || nms.getVersion().equals("v1_9_R2") || nms.getVersion().equals("v1_10_R1") || nms.getVersion().equals("v1_11_R1"))) {
-                if (p.getItemInHand().getType() != Material.AIR)
-                    return;
-            } else {
-                if (p.getInventory().getItemInMainHand().getType() != Material.AIR || p.getInventory().getItemInOffHand().getType() != Material.AIR)
-                    return;
-
-            }
+            if (!hasEmptyHands(p)) return;
         }
         e.setCancelled(true);
         //Check if the plugin use permission for sit
@@ -293,7 +286,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             // Spawn the armostand
             ArmorStand stand = nms.spawn(loc, p);
             // Add the armorstand and the ChairsConf in the list
-            list.put(getEntityId(stand), new ChairsConf(b.getState(), p, pLoc));
+            TempGlobal.list.put(getEntityId(stand), new ChairsConf(b.getState(), p, pLoc));
             if (Config.getConfig().getBoolean("Send message when player sit", false)) {
                 if (!uuidList.contains(p.getUniqueId()))
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.getConfig()
@@ -344,13 +337,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         if (p.isSneaking())
             return;
         if (getConfig().getBoolean("No item in hand")) {
-            if (!(nms.getVersion().equals("v1_9_R1") || nms.getVersion().equals("v1_9_R2") || nms.getVersion().equals("v1_10_R1") || nms.getVersion().equals("v1_11_R1"))) {
-                if (p.getItemInHand().getType() != Material.AIR)
-                    return;
-            } else {
-                if (p.getInventory().getItemInMainHand().getType() != Material.AIR || p.getInventory().getItemInOffHand().getType() != Material.AIR)
-                    return;
-            }
+            if (!hasEmptyHands(p)) return;
         }
         e.setCancelled(true);
         if (Config.getConfig().getBoolean("Use permission for sit", false)) {
@@ -388,7 +375,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         if (!event.isCancelled()) {
             Location pLoc = p.getLocation();
             ArmorStand stand = nms.spawn(loc, p);
-            list.put(getEntityId(stand), new ChairsConf(b.getState(), p, pLoc));
+            TempGlobal.list.put(getEntityId(stand), new ChairsConf(b.getState(), p, pLoc));
             if (Config.getConfig().getBoolean("Send message when player sit", false)) {
                 if (!uuidList.contains(p.getUniqueId()))
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.getConfig()
@@ -404,6 +391,18 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
                 }.runTaskLater(this, 2L);
             }
         }
+    }
+
+    private boolean hasEmptyHands(Player p) {
+        try {
+            ItemStack itemInHand = (ItemStack) p.getInventory().getClass().getMethod("getItemInMainHand").invoke(p.getInventory()),
+                    itemInOffHand = (ItemStack) p.getInventory().getClass().getMethod("getItemInOffHand").invoke(p.getInventory());
+
+            return itemInHand.getType() == Material.AIR && itemInOffHand.getType() == Material.AIR;
+        } catch (Throwable ignore) {
+        }
+
+        return p.getItemInHand().getType() == Material.AIR;
     }
 
     /**
@@ -505,7 +504,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
                 if (!event.isCancelled()) {
                     ArmorStand armorStand = (ArmorStand) e.getPlayer().getVehicle();
                     if (nms.check(armorStand)) {
-                        ChairsPlugin.list.remove(getEntityId(armorStand));
+                        TempGlobal.list.remove(getEntityId(armorStand));
                         nms.kill(armorStand);
                     }
                 } else {
@@ -554,10 +553,10 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
                 Bukkit.getPluginManager().callEvent(event);
 
                 Integer id = getEntityId(p.getVehicle());
-                if (list.containsKey(id)) {
-                    ChairsConf cc = list.get(id);
+                if (TempGlobal.list.containsKey(id)) {
+                    ChairsConf cc = TempGlobal.list.get(id);
                     p.teleport(cc.getLoc());
-                    list.remove(id);
+                    TempGlobal.list.remove(id);
                 }
             }
         }
@@ -628,7 +627,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
             Config.reload();
             reloadConfig();
-            Messages.init();
+            Messages.init(plugin);
             if (Config.getConfig().getBoolean("Update Checker", true)) {
                 if (!isRegister) {
                     Bukkit.getPluginManager().registerEvents(um, plugin);
@@ -682,7 +681,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
                     }
                 }
             }
-            list.clear();
+            TempGlobal.list.clear();
             sender.sendMessage("§aBetterChairs reset");
             return true;
         }

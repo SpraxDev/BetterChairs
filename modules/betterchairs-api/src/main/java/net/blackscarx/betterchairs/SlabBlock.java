@@ -1,5 +1,6 @@
 package net.blackscarx.betterchairs;
 
+import net.blackscarx.betterchairs.xseries.XMaterial;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -9,15 +10,16 @@ public class SlabBlock {
 
     private static List<SlabBlock> list = new ArrayList<>();
 
-    private Material material;
-
-    private Short data;
+    private XMaterial material;
 
     private String name;
 
-    public SlabBlock(Material material, Short data, String name) {
+    public SlabBlock(XMaterial material) {
+        this(material, material.name().toLowerCase());
+    }
+
+    public SlabBlock(XMaterial material, String name) {
         this.material = material;
-        this.data = data;
         this.name = name;
         list.add(this);
     }
@@ -27,11 +29,11 @@ public class SlabBlock {
     }
 
     public Material getType() {
-        return material;
+        return material.parseMaterial();
     }
 
     public Short getData() {
-        return data;
+        return material.getData();
     }
 
     public String getName() {

@@ -1,6 +1,5 @@
 package net.blackscarx.betterchairs.Files;
 
-import net.blackscarx.betterchairs.ChairsPlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -12,9 +11,10 @@ public class Messages {
 
     private static FileConfiguration messages = null;
     private static File messagesFile = null;
-    private static Plugin plugin = ChairsPlugin.getPlugin(ChairsPlugin.class);
+    private static Plugin plugin;
 
-    public static void init() {
+    public static void init(Plugin javaPlugin) {
+        plugin = javaPlugin;
         reload();
         check();
         load();
