@@ -1,31 +1,31 @@
 name: ${pluginName}
-#description: 'Plugin description for ${pluginName}'
+#description: Plugin description for ${pluginName}
 version: ${version}
 api-version: '1.15'
 
-main: ${groupId}.${artifactId}.ChairsPlugin
+main: ${project.groupId}.${project.artifactId}.ChairsPlugin
 
 author: BlackScarx
-authors: ['BlackScarx', 'Sprax2013']
-website: 'https://github.com/Sprax2013/BetterChairs'
+authors: [BlackScarx, Sprax2013]
+website: https://github.com/Sprax2013/BetterChairs
 
 commands:
   betterchairsreload:
-    description: 'Reload the config'
+    description: Reload the config
     aliases:
-      - 'bcreload'
-      - 'bcr'
+      - bcreload
+      - bcr
     permission: ${pluginName}.reload
   betterchairstoggle:
-    description: 'Command betterchairstoggle'
+    description: Command betterchairstoggle
     aliases:
-      - 'bctoggle'
-      - 'bct'
+      - bctoggle
+      - bct
     permission: ${pluginName}.toggle
   betterchairsreset:
-    description: 'Command betterchairsreset'
+    description: Command betterchairsreset
     aliases:
-      - 'bcreset'
+      - bcreset
     permission: ${pluginName}.reset
 
 permissions:
