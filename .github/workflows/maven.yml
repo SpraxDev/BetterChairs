@@ -23,7 +23,7 @@ jobs:
           java-version: 1.8
       - name: Extract version from pom.xml and compare to docs/version.txt
         id: version_diff
-        run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && ##[set-output name=result;]"same" || ##[set-output name=result;]"diff"
+        run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "##[set-output name=result;]same" || echo "##[set-output name=result;]diff"
       - name: debug1
         run: echo "'${{ steps.version_diff.outputs.result }}'"
       - name: Check if extracted version matches docs/version.txt
