@@ -45,6 +45,17 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: 'init Cache: Maven-Repository'
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+      - name: 'init Cache: Spigot-BuildTools'
+        uses: actions/cache@v1.1.2
+        with:
+          path: .spigot-buildtools
+          key: Spigot-BuildTools
       - name: Run Spigot-BuildTools
         run: |
           mkdir -p .spigot-buildtools
