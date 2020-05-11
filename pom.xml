@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.blackscarx</groupId>
+    <artifactId>betterchairs</artifactId>
+    <packaging>pom</packaging>
+    <version>0.10.2</version>
+    <!-- Run 'mvn versions:update-parent -DgenerateBackupPoms=false' to update parent-version in modules -->
+
+    <modules>
+        <module>modules/betterchairs-api</module>
+        <module>modules/betterchairs-plugin</module>
+        <module>modules/nms/betterchairs-v1_15_R1</module>
+        <module>modules/nms/betterchairs-v1_14_R1</module>
+        <module>modules/nms/betterchairs-v1_13_R2</module>
+        <module>modules/nms/betterchairs-v1_11_R1</module>
+        <module>modules/nms/betterchairs-v1_10_R1</module>
+        <module>modules/nms/betterchairs-v1_9_R2</module>
+        <module>modules/nms/betterchairs-v1_9_R1</module>
+        <module>modules/nms/betterchairs-v1_8_R3</module>
+        <module>modules/nms/betterchairs-v1_8_R2</module>
+        <module>modules/nms/betterchairs-v1_8_R1</module>
+    </modules>
+
+    <properties>
+        <pluginName>BetterChairs</pluginName>
+
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>19.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>
