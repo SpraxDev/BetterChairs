@@ -1,0 +1,28 @@
+main: net.blackscarx.betterchairs.ChairsPlugin
+name: BetterChairs
+version: 0.10.2
+author: BlackScarx
+commands:
+  betterchairsreload:
+    aliases: [bcreload, bcr]
+    permission: betterchairs.reload
+  betterchairstoggle:
+    aliases: [bctoggle, bct]
+    permission: betterchairs.toggle
+  betterchairsreset:
+    aliases: [bcreset]
+    permission: betterchairs.reset
+permissions:
+  betterchairs.use:
+    description: Use the stairs
+  betterchairs.reload:
+    description: Reload the config
+  betterchairs.regen:
+    description: Regen when you are sit on chairs
+  betterchairs.toggle:
+    description: Permission for command betterchairstoggle
+  betterchairs.reset:
+    description: Permission for command betterchairsreset
+  betterchairs.update:
+    descritpion: Permission for betterchairs update
+    default: false
