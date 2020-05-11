@@ -47,28 +47,24 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
-      - name: 'init Cache: Spigot-BuildTools'
-        uses: actions/cache@v1.1.2
-        with:
-          path: .spigot-buildtools
-          key: Spigot-BuildTools
+          key: ${{ runner.os }}-maven-v1
       - name: Run Spigot-BuildTools
         run: |
           mkdir -p .spigot-buildtools
           cd .spigot-buildtools
-          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-          java -jar BuildTools.jar --rev 1.8
-          java -jar BuildTools.jar --rev 1.8.3
-          java -jar BuildTools.jar --rev 1.8.8
-          java -jar BuildTools.jar --rev 1.9
-          java -jar BuildTools.jar --rev 1.9.4
-          java -jar BuildTools.jar --rev 1.10.2
-          java -jar BuildTools.jar --rev 1.11
-          java -jar BuildTools.jar --rev 1.13.2
-          java -jar BuildTools.jar --rev 1.14.2
-          java -jar BuildTools.jar --rev 1.15.2
+          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
+          test -f ${SPIGOT_M2}/1.8-R0.1-SNAPSHOT/spigot-1.8-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.8
+          test -f ${SPIGOT_M2}/1.8.3-R0.1-SNAPSHOT/spigot-1.8.3-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.8.3
+          test -f ${SPIGOT_M2}/1.8.8-R0.1-SNAPSHOT/spigot-1.8.8-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.8.8
+          test -f ${SPIGOT_M2}/1.9-R0.1-SNAPSHOT/spigot-1.9-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.9
+          test -f ${SPIGOT_M2}/1.9.4-R0.1-SNAPSHOT/spigot-1.9.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.9.4
+          test -f ${SPIGOT_M2}/1.10.2-R0.1-SNAPSHOT/spigot-1.10.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.10.2
+          test -f ${SPIGOT_M2}/1.11-R0.1-SNAPSHOT/spigot-1.11-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.11
+          test -f ${SPIGOT_M2}/1.13.2-R0.1-SNAPSHOT/spigot-1.13.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.13.2
+          test -f ${SPIGOT_M2}/1.14.4-R0.1-SNAPSHOT/spigot-1.14.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.14.4
+          test -f ${SPIGOT_M2}/1.15.2-R0.1-SNAPSHOT/spigot-1.15.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.15.2
+        env:
+          SPIGOT_M2: /home/runner/.m2/repository/org/spigotmc/spigot
       - name: Build with Maven
         run: 'mvn -B -Duser.name="GitHub Runner on $GITHUB_REPOSITORY (id=$GITHUB_RUN_ID)" clean package'
       - name: 'Upload Build Artifact: BetterChairs.jar'
