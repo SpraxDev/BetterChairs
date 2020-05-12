@@ -37,6 +37,15 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+
+                        <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>nms</pattern>
+                                    <shadedPattern>net.blackscarx.betterchairs.NMSManager</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
                     </execution>
                 </executions>
 
