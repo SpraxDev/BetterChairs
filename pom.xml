@@ -7,7 +7,7 @@
     <groupId>net.blackscarx</groupId>
     <artifactId>betterchairs</artifactId>
     <packaging>pom</packaging>
-    <version>0.10.2</version>
+    <version>0.10.3</version>
     <!-- Run 'mvn versions:update-parent -DgenerateBackupPoms=false' to update parent-version in modules -->
 
     <modules>

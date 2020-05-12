@@ -5,7 +5,7 @@
     <parent>
         <artifactId>betterchairs</artifactId>
         <groupId>net.blackscarx</groupId>
-        <version>0.10.2</version>
+        <version>0.10.3</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
