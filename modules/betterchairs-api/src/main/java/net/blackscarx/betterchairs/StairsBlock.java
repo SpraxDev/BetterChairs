@@ -3,7 +3,6 @@ package net.blackscarx.betterchairs;
 import org.bukkit.Material;
 
 public enum StairsBlock {
-
     ACACIA("acacia_stairs"),
     BIRCH_WOOD("birch_wood_stairs"),
     BRICK("brick_stairs"),

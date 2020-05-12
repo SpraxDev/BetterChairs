@@ -1,6 +1,7 @@
 package net.blackscarx.betterchairs;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * Created by BlackScarx on 11/05/2016.
