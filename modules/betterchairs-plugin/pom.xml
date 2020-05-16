@@ -42,7 +42,12 @@
                             <relocations>
                                 <relocation>
                                     <pattern>nms</pattern>
-                                    <shadedPattern>net.blackscarx.betterchairs.NMSManager</shadedPattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.nms</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>org.bstats.bukkit</pattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.bstats</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -84,6 +89,13 @@
             <artifactId>spigot-api</artifactId>
             <version>1.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit-lite</artifactId>
+            <version>1.7</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Modules -->

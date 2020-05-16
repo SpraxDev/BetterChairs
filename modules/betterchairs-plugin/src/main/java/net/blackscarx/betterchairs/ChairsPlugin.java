@@ -5,16 +5,6 @@ import net.blackscarx.betterchairs.Files.Messages;
 import net.blackscarx.betterchairs.events.PlayerEnteringChairEvent;
 import net.blackscarx.betterchairs.events.PlayerLeavingChairEvent;
 import net.blackscarx.betterchairs.xseries.XMaterial;
-import nms.v1_10_R1.v1_10_R1;
-import nms.v1_11_R1.v1_11_R1;
-import nms.v1_13_R2.v1_13_R2;
-import nms.v1_14_R1.v1_14_R1;
-import nms.v1_15_R1.v1_15_R1;
-import nms.v1_8_R1.v1_8_R1;
-import nms.v1_8_R2.v1_8_R2;
-import nms.v1_8_R3.v1_8_R3;
-import nms.v1_9_R1.v1_9_R1;
-import nms.v1_9_R2.v1_9_R2;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -30,7 +20,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -46,7 +35,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -56,11 +44,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class ChairsPlugin extends JavaPlugin implements Listener {
-
     public static NMS nms;
-    public UpdateManager um;
     public ChairsPlugin plugin;
-    public boolean isRegister = false;
+    //    public boolean isRegister = false;
     public List<UUID> disableList = new ArrayList<>();
     public List<UUID> uuidList = new ArrayList<>();
 
@@ -70,15 +56,6 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        if (setUpNms()) {
-            getLogger().info("NMS hooked !");
-        } else {
-            getLogger().severe("Failed to setup nms !");
-            getLogger().severe("Your server version is not compatible with this plugin!");
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
-
         new SlabBlock(XMaterial.STONE_SLAB);
         new SlabBlock(XMaterial.SANDSTONE_SLAB);
         new SlabBlock(XMaterial.COBBLESTONE_SLAB);
@@ -102,69 +79,9 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("betterchairsreload")).setExecutor(new CmdReload());
         Objects.requireNonNull(getCommand("betterchairstoggle")).setExecutor(new ChairsToggle());
         Objects.requireNonNull(getCommand("betterchairsreset")).setExecutor(new ChairsReset());
-        um = new UpdateManager();
         plugin = this;
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(this, this);
-        if (Config.getConfig().getBoolean("Update Checker", true)) {
-            pm.registerEvents(um, this);
-            isRegister = true;
-        }
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Set the nms version
-     *
-     * @return nms
-     */
-
-    private Boolean setUpNms() {
-        String version;
-        try {
-            version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-        } catch (ArrayIndexOutOfBoundsException whatVersionAreYouUsingException) {
-            return false;
-        }
-        getLogger().info("Your server is running version " + version);
-        switch (version) {
-            case "v1_15_R1":
-                nms = new v1_15_R1();
-                break;
-            case "v1_14_R1":
-                nms = new v1_14_R1();
-                break;
-            case "v1_13_R2":
-                nms = new v1_13_R2();
-                break;
-            case "v1_11_R1":
-                nms = new v1_11_R1();
-                break;
-            case "v1_10_R1":
-                nms = new v1_10_R1();
-                break;
-            case "v1_9_R2":
-                nms = new v1_9_R2();
-                break;
-            case "v1_9_R1":
-                nms = new v1_9_R1();
-                break;
-            case "v1_8_R3":
-                nms = new v1_8_R3();
-                break;
-            case "v1_8_R2":
-                nms = new v1_8_R2();
-                break;
-            case "v1_8_R1":
-                nms = new v1_8_R1();
-                break;
-        }
-        return nms != null;
     }
 
     @Override
@@ -177,10 +94,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Sit the player on stairs
-     *
-     * @param e
      */
-
     @EventHandler
     public void spawnStairs(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -197,9 +111,6 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             return;
         //Check if the stairs face down
         if (b.getState().getData().toItemStack().getDurability() > 3)
-            return;
-        //Check if the stairs if the stairs is valide
-        if (StairsBlock.from(b.getType()) == null)
             return;
         //Check if the stairs is enable
         if (!getConfig().getStringList("Enable Stairs Block").contains(StairsBlock.from(b.getType())))
@@ -314,10 +225,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Sit the player on slab
-     *
-     * @param e
      */
-
     @EventHandler
     public void slabSpawn(PlayerInteractEvent e) {
         //Same of chairsSpawn but for slab
@@ -443,10 +351,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Cancel the break of the chairs
-     *
-     * @param e
      */
-
     @EventHandler
     public void blockBreak(BlockBreakEvent e) {
         if (ChairsConf.isUsed(e.getBlock().getState()))
@@ -455,10 +360,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Override the spawn of the ArmorStand
-     *
-     * @param e
      */
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onSpawn(EntitySpawnEvent e) {
         if (!(e.getEntity() instanceof ArmorStand))
@@ -471,10 +373,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Override the spawn of the ArmorStand
-     *
-     * @param e
      */
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onSpawn2(CreatureSpawnEvent e) {
         if (!(e.getEntity() instanceof ArmorStand))
@@ -487,10 +386,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Teleport fixer
-     *
-     * @param e
      */
-
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e) {
         Location loc = e.getTo();
@@ -525,14 +421,8 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
     /**
      * get nearbies entity because the method don't exist in 1.8
      *
-     * @param loc
-     * @param x
-     * @param y
-     * @param z
-     *
      * @return list
      */
-
     private Collection<Entity> getNearbyEntities(Location loc, double x, double y, double z) {
         List<Entity> list = loc.getWorld().getEntities();
         Collection<Entity> finalColl = new ArrayList<>();
@@ -548,10 +438,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * remove chairs if the player is sit on disconnect
-     *
-     * @param e
      */
-
     @EventHandler(priority = EventPriority.LOWEST)
     public void quit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
@@ -572,10 +459,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Cancel the push of the chairs
-     *
-     * @param e
      */
-
     @EventHandler
     public void pistonExtend(BlockPistonExtendEvent e) {
         for (Block b : e.getBlocks()) {
@@ -586,10 +470,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Cancel the push of the chairs
-     *
-     * @param e
      */
-
     @EventHandler
     public void pistonRetract(BlockPistonRetractEvent e) {
         for (Block b : e.getBlocks()) {
@@ -600,12 +481,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 
     /**
      * Because method don't exist in 1.8
-     *
-     * @param i
-     *
-     * @return
      */
-
     public Integer getEntityId(Entity i) {
         try {
             Class<?> CraftEntity = Class.forName("org.bukkit.craftbukkit." + nms.getVersion() + ".entity.CraftEntity");
@@ -628,25 +504,23 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
     /**
      * Command for reload the config
      */
-
     public class CmdReload implements CommandExecutor {
-
         @Override
         public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
             Config.reload();
             reloadConfig();
             Messages.init(plugin);
-            if (Config.getConfig().getBoolean("Update Checker", true)) {
-                if (!isRegister) {
-                    Bukkit.getPluginManager().registerEvents(um, plugin);
-                    isRegister = true;
-                }
-            } else {
-                if (isRegister) {
-                    HandlerList.unregisterAll(um);
-                    isRegister = false;
-                }
-            }
+//            if (Config.getConfig().getBoolean("Update Checker", true)) {
+//                if (!isRegister) {
+//                    Bukkit.getPluginManager().registerEvents(um, plugin);
+//                    isRegister = true;
+//                }
+//            } else {
+//                if (isRegister) {
+//                    HandlerList.unregisterAll(um);
+//                    isRegister = false;
+//                }
+//            }
             commandSender.sendMessage(ChatColor.GREEN + "[BC] Reload successful !");
             return true;
         }
@@ -655,7 +529,6 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
     /**
      * Command for toggle chairs
      */
-
     public class ChairsToggle implements CommandExecutor {
         @Override
         public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -676,8 +549,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
     /**
      * Reset the chairs
      */
-
-    private class ChairsReset implements CommandExecutor {
+    private static class ChairsReset implements CommandExecutor {
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             for (World world : Bukkit.getWorlds()) {
@@ -694,5 +566,4 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             return true;
         }
     }
-
 }
