@@ -42,7 +42,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Stairs;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -194,7 +193,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         //Get the clicked block
         Block b = e.getClickedBlock();
         //Check if the block is a Stairs
-        if (!(b.getState().getData() instanceof Stairs))
+        if (!getNMS().isStair(b))
             return;
         //Check if the stairs face down
         if (b.getState().getData().toItemStack().getDurability() > 3)

@@ -5,6 +5,7 @@ import net.minecraft.server.v1_8_R2.EntityArmorStand;
 import net.minecraft.server.v1_8_R2.IChatBaseComponent;
 import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
@@ -37,6 +38,11 @@ public class v1_8_R2 implements NMS {
     @Override
     public boolean check(ArmorStand armorStand) {
         return ((CraftArmorStand) armorStand).getHandle() instanceof CustomArmorStand_R2;
+    }
+
+    @Override
+    public boolean isStair(Block b) {
+        return false;
     }
 
 }
