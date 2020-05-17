@@ -7,9 +7,14 @@ import net.minecraft.server.v1_15_R1.EntityHuman;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import net.minecraft.server.v1_15_R1.World;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Stairs;
 import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,6 +50,22 @@ public class v1_15_R1 extends ChairNMS {
 
         ((CustomArmorStand) nmsArmorStand).remove = true;
         armorStand.remove();
+    }
+
+    @Override
+    protected boolean isStair(Block b) {
+        return b.getBlockData() instanceof Stairs;
+    }
+
+    @Override
+    protected boolean isSlab(Block b) {
+        return b.getBlockData() instanceof Slab;
+    }
+
+    @Override
+    protected boolean hasEmptyHands(Player p) {
+        return p.getInventory().getItemInMainHand().getType() == Material.AIR &&
+                p.getInventory().getItemInOffHand().getType() == Material.AIR;
     }
 
     public static class CustomArmorStand extends EntityArmorStand {

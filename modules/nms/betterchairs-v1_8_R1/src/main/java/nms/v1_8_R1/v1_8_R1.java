@@ -1,20 +1,15 @@
 package nms.v1_8_R1;
 
 import net.blackscarx.betterchairs.NMS;
-import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.EntityArmorStand;
-import net.minecraft.server.v1_8_R1.IChatBaseComponent;
-import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Stairs;
 
 public class v1_8_R1 implements NMS {
-
     @Override
     public String getVersion() {
         return "v1_8_R1";
@@ -32,13 +27,6 @@ public class v1_8_R1 implements NMS {
     }
 
     @Override
-    public void sendUpdate(Player p) {
-        IChatBaseComponent msg = ChatSerializer.a("[\"\",{\"text\":\"[UPDATE]\",\"color\":\"aqua\",\"bold\":true,\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://www.spigotmc.org/resources/18705/\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click for go on the plugin page\",\"color\":\"green\"}]}}}]");
-        PacketPlayOutChat packet = new PacketPlayOutChat(msg, (byte) 0);
-        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-    }
-
-    @Override
     public boolean check(ArmorStand armorStand) {
         return ((CraftArmorStand) armorStand).getHandle() instanceof CustomArmorStand_R1;
     }
@@ -47,5 +35,4 @@ public class v1_8_R1 implements NMS {
     public boolean isStair(Block b) {
         return b.getState() instanceof Stairs;
     }
-
 }

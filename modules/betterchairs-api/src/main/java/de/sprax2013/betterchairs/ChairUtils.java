@@ -17,11 +17,4 @@ public class ChairUtils {
         // Chairs should always be removed... But just in case
         armorStand.setRemoveWhenFarAway(true);
     }
-
-    public static void destroyChair(ArmorStand armorStand) {
-        if (ChairManager.getInstance() == null)
-            throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
-
-        ChairManager.getInstance().chairNMS.killChairArmorStand(armorStand);
-    }
 }

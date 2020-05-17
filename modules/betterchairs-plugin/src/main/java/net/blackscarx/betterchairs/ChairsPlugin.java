@@ -8,7 +8,6 @@ import net.blackscarx.betterchairs.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -30,7 +29,6 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -131,9 +129,9 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             }
         }
         //Check no item in hand
-        if (getConfig().getBoolean("No item in hand")) {
-            if (!hasEmptyHands(p)) return;
-        }
+//        if (getConfig().getBoolean("No item in hand")) {
+//            if (!hasEmptyHands(p)) return;
+//        }
         e.setCancelled(true);
         //Check if the plugin use permission for sit
         if (Config.getConfig().getBoolean("Use permission for sit", false)) {
@@ -155,22 +153,26 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         //Check if the world is valid
         if (!isValidWorld(p))
             return;
-        Location loc = b.getLocation().add(0.5, -1.2, 0.5);
         //Check the distance of the chairs
-        if (p.getLocation().distance(b.getLocation().add(0.5, 0, 0.5)) >= Config.getConfig().getDouble("Distance of the stairs", 2.0))
+        if (p.getLocation().distance(b.getLocation().add(0.5, 0, 0.5)) >= Config.getConfig().getDouble("Distance of the stairs", 2.0)) {
             return;
+        }
         //Check if the block is used by another player
         if (ChairsConf.isUsed(b.getState())) {
-            if (Config.getConfig().getBoolean("Send message if the chairs is already occupied", false))
+            if (Config.getConfig().getBoolean("Send message if the chairs is already occupied", false)) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.getConfig().getString("Message to send if the chairs is occupied")));
+            }
             return;
         }
         //Check if the player is already sit
-        if (ChairsConf.isSit(p))
+        if (ChairsConf.isSit(p)) {
             return;
+        }
 
         PlayerEnteringChairEvent event = new PlayerEnteringChairEvent(p, ChairType.STAIR, b);
         Bukkit.getPluginManager().callEvent(event);
+
+        Location loc = b.getLocation().add(0.5, -1.2, 0.5);
 
         if (!event.isCancelled()) {
             Location pLoc = p.getLocation();
@@ -252,9 +254,9 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
             return;
         if (p.isSneaking())
             return;
-        if (getConfig().getBoolean("No item in hand")) {
-            if (!hasEmptyHands(p)) return;
-        }
+//        if (getConfig().getBoolean("No item in hand")) {
+//            if (!hasEmptyHands(p)) return;
+//        }
         e.setCancelled(true);
         if (Config.getConfig().getBoolean("Use permission for sit", false)) {
             if (!p.hasPermission("betterchairs.use")) {
@@ -307,18 +309,6 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
                 }.runTaskLater(this, 2L);
             }
         }
-    }
-
-    private boolean hasEmptyHands(Player p) {
-        try {
-            ItemStack itemInHand = (ItemStack) p.getInventory().getClass().getMethod("getItemInMainHand").invoke(p.getInventory()),
-                    itemInOffHand = (ItemStack) p.getInventory().getClass().getMethod("getItemInOffHand").invoke(p.getInventory());
-
-            return itemInHand.getType() == Material.AIR && itemInOffHand.getType() == Material.AIR;
-        } catch (Throwable ignore) {
-        }
-
-        return p.getItemInHand().getType() == Material.AIR;
     }
 
     /**
