@@ -55,6 +55,14 @@
                 </executions>
 
                 <configuration>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <!-- TODO: Use maven vars again -->
+                            <mainClass>de.sprax2013.betterchairs.Main</mainClass>
+                        </transformer>
+                    </transformers>
+
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
@@ -69,13 +77,6 @@
                             </excludes>
                         </filter>
                     </filters>
-
-                    <transformers>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>${project.parent.groupId}.${project.parent.artifactId}.Panel</mainClass>
-                        </transformer>
-                    </transformers>
 
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                 </configuration>
