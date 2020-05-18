@@ -1,5 +1,8 @@
 package de.sprax2013.betterchairs;
 
+import de.sprax2013.betterchairs.events.PlayerEnterChairEvent;
+import de.sprax2013.betterchairs.events.PlayerLeaveChairEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
@@ -23,17 +26,44 @@ public class ChairManager {
         instance = this;
     }
 
-    public void create(Player p, Block b) {
-        if (!chairNMS.isStair(b) && !chairNMS.isSlab(b))
+    /**
+     * Check if a chair can be spawned and call an Event.
+     * If the event doesn't get cancelled,
+     * the player should now be able to sit.
+     *
+     * @param player The player that should sit
+     * @param block  The block the player should sit on
+     *
+     * @return true if player is now sitting on a chair, false otherwise
+     *
+     * @throws IllegalArgumentException When {@code block} is not a valid chair block
+     */
+    public boolean create(Player player, Block block) {
+        if (!chairNMS.isStair(block) && !chairNMS.isSlab(block))
             throw new IllegalArgumentException("The provided block is neither a stair nor a slab");
 
-        ArmorStand armorStand = instance.chairNMS.spawnChairArmorStand(b.getLocation().add(0.5, -1.2, 0.5));
+        if (isOccupied(block)) return false;
 
-        chairs.add(new Chair(b, armorStand, p));
-        armorStand.setPassenger(p);
+        ArmorStand armorStand = instance.chairNMS.spawnChairArmorStand(block.getLocation().add(0.5, -1.2, 0.5));
+
+        Chair chair = new Chair(block, armorStand, player);
+
+        PlayerEnterChairEvent event = new PlayerEnterChairEvent(player, chair);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            instance.chairNMS.killChairArmorStand(armorStand);
+            return false;
+        }
+
+        chairs.add(chair);
+        armorStand.setPassenger(player);
+        return true;
     }
 
     public void destroy(Chair chair) {
+        Bukkit.getPluginManager().callEvent(new PlayerLeaveChairEvent(chair.player, chair));
+
         chair.player.teleport(new Location(
                 chair.playerOriginalLoc.getWorld(), chair.playerOriginalLoc.getX(),
                 chair.playerOriginalLoc.getY(), chair.playerOriginalLoc.getZ()));
