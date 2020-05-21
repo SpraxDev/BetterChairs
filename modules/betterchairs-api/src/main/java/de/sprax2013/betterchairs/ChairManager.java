@@ -7,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,13 +18,11 @@ import java.util.Objects;
 public class ChairManager {
     protected static ChairManager instance;
 
-    private final JavaPlugin plugin;
     protected final ChairNMS chairNMS;
     protected final List<Chair> chairs = new ArrayList<>();
     protected final HashMap<Player, Chair> chairsAwaitTeleport = new HashMap<>();
 
-    protected ChairManager(@NotNull JavaPlugin plugin, @NotNull ChairNMS chairNMS) {
-        this.plugin = plugin;
+    protected ChairManager(@NotNull ChairNMS chairNMS) {
         this.chairNMS = Objects.requireNonNull(chairNMS);
 
         instance = this;

@@ -32,7 +32,7 @@ public class BetterChairsPlugin extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(chairNMS.getListener(), this);
         }
 
-        chairManager = new ChairManager(this, chairNMS);
+        chairManager = new ChairManager(chairNMS);
 
         // Load bStats
         //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
@@ -71,14 +71,19 @@ public class BetterChairsPlugin extends JavaPlugin {
         String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 
         try {
-            // Try loading NMS class
+            // Try loading NMS class (package is remapped by maven-shade-plugin)
             return (ChairNMS) Class.forName("nms." + version).newInstance();
-        } catch (Throwable th) {
-            System.out.println("[" + plugin.getName() + "] Your server version (" + version +
+        } catch (Throwable ignore) {
+            System.err.println("[" + plugin.getName() + "] Your server version (" + version +
                     ") is not fully supported - Loading fallback...");
 
             // Loading fallback when NMS not available
             return new ChairNMS() {
+                // Surrounding some code with try-catch because this is meant to be a fallback
+                // So in theory it should even work on 1.4.7 servers (please no >_<)
+
+                // TODO: Support regeneration effect without overwriting #tick()
+
                 @Override
                 protected @NotNull ArmorStand spawnChairArmorStand(Location loc) {
                     ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);

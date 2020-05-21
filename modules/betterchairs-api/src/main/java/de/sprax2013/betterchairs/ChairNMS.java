@@ -8,15 +8,25 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Provides abstraction to be used in maven modules with the specified spigot version<br><br>
+ * <b>Why not just use the Fallback-ChairNMS in {@code #onEnable()}?</b><br>
+ * <ul>
+ *     <li>Using the fallback in newer versions requires Spigot to enable old material support</li>
+ *     <li>NMS allows us to easily rotate the ArmorStand together with the player
+ *     (without using {@link org.bukkit.event.player.PlayerMoveEvent})</li>
+ * </ul>
+ */
 public abstract class ChairNMS {
     /**
-     * Spawns an ArmorStand with:
+     * Spawns an ArmorStand that is/has:
      * <ul>
      *     <li>Invisible</li>
      *     <li>Invincible</li>
      *     <li>NoGravity</li>
      *     <li>DisabledSlots</li>
      * </ul>
+     * The ArmorStand may fulfil the above with the help of {@link #getListener()}.
      */
     @NotNull
     protected abstract ArmorStand spawnChairArmorStand(Location loc);

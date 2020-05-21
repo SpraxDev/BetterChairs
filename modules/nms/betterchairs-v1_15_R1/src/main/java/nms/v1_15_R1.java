@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class v1_15_R1 extends ChairNMS {
     @Override
     public @NotNull ArmorStand spawnChairArmorStand(Location loc) {
