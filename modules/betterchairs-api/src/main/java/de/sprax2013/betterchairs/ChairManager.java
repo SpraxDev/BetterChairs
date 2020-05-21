@@ -7,20 +7,25 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class ChairManager {
     protected static ChairManager instance;
 
+    private final JavaPlugin plugin;
     protected final ChairNMS chairNMS;
     protected final List<Chair> chairs = new ArrayList<>();
+    protected final HashMap<Player, Chair> chairsAwaitTeleport = new HashMap<>();
 
-    protected ChairManager(@NotNull ChairNMS chairNMS) {
+    protected ChairManager(@NotNull JavaPlugin plugin, @NotNull ChairNMS chairNMS) {
+        this.plugin = plugin;
         this.chairNMS = Objects.requireNonNull(chairNMS);
 
         instance = this;
@@ -61,14 +66,30 @@ public class ChairManager {
         return true;
     }
 
-    public void destroy(Chair chair) {
+    /**
+     * @param chair    The {@link Chair} that should be destroyed
+     * @param teleport true, when <b>not</b> called without an {@link org.bukkit.event.player.PlayerTeleportEvent}
+     *                 being fired
+     */
+    public void destroy(Chair chair, boolean teleport) {
         Bukkit.getPluginManager().callEvent(new PlayerLeaveChairEvent(chair.player, chair));
 
-        chair.player.teleport(new Location(
-                chair.playerOriginalLoc.getWorld(), chair.playerOriginalLoc.getX(),
-                chair.playerOriginalLoc.getY(), chair.playerOriginalLoc.getZ()));
         chairNMS.killChairArmorStand(chair.armorStand);
         chairs.remove(chair);
+
+        if (!teleport) {
+            chairsAwaitTeleport.put(chair.player, chair);
+        } else {
+            //TODO: Extract teleport into own method as it is used in the onTeleport listener
+            Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
+
+            // Set the coordinates the player came from
+            loc.setX(chair.playerOriginalLoc.getX());
+            loc.setY(chair.playerOriginalLoc.getY());
+            loc.setZ(chair.playerOriginalLoc.getZ());
+
+            chair.player.teleport(loc);
+        }
     }
 
     /**

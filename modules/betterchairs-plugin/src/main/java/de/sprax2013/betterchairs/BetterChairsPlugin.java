@@ -7,19 +7,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.material.Stairs;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.ArrayList;
 
@@ -37,7 +32,7 @@ public class BetterChairsPlugin extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(chairNMS.getListener(), this);
         }
 
-        chairManager = new ChairManager(chairNMS);
+        chairManager = new ChairManager(this, chairNMS);
 
         // Load bStats
         //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
@@ -49,51 +44,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         //TODO: Check if enabled in config
         Bukkit.getPluginManager().registerEvents(new Updater(this), this);
 
-        //TODO: Move listener into own class
-        Bukkit.getPluginManager().registerEvents(new Listener() {
-            @EventHandler
-            private void onInteract(PlayerInteractEvent e) {
-                //TODO: Check if player has chairs disabled
-                //TODO: Check if world is disabled in config
-                //TODO: Check chair rotation (upside down?)
-                //TODO: Check if Chair has (and needs) signs on the sides
-                if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-                if (e.getPlayer().isSneaking()) return;
-                if (e.getPlayer().getVehicle() != null) return;
-                if (!getManager().chairNMS.isStair(e.getClickedBlock()) &&
-                        !getManager().chairNMS.isSlab(e.getClickedBlock())) return;
-                if (!getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;  //TODO: Check enabled in config?
-                if (getManager().isOccupied(e.getClickedBlock())) return;    //TODO: Send message to player? (config)
-
-                getManager().create(e.getPlayer(), e.getClickedBlock());
-            }
-
-            @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-            private void onDismount(EntityDismountEvent e) {
-                Entity armorStand = e.getDismounted();
-
-                if (armorStand instanceof ArmorStand) {
-                    Chair c = getManager().getChair((ArmorStand) armorStand);
-
-                    if (c != null) {
-                        getManager().destroy(c);
-                    }
-                }
-            }
-
-            @EventHandler(priority = EventPriority.MONITOR)
-            private void onQuit(PlayerQuitEvent e) {
-                Entity vehicle = e.getPlayer().getVehicle();
-
-                if (vehicle instanceof ArmorStand) {
-                    Chair c = getManager().getChair((ArmorStand) vehicle);
-
-                    if (c != null) {
-                        getManager().destroy(c);
-                    }
-                }
-            }
-        }, this);
+        Bukkit.getPluginManager().registerEvents(new EventListener(), this);
     }
 
     @Override
@@ -101,7 +52,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         // Remove all chairs
         if (getManager() != null) {
             for (Chair c : new ArrayList<>(getManager().chairs)) {
-                getManager().destroy(c);
+                getManager().destroy(c, true);
             }
             getManager().chairs.clear();
         }
