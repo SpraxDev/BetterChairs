@@ -85,7 +85,6 @@ public class Updater implements Listener {
                 System.out.println("[" + plugin.getName() + "] Found a newer version: " + versionTxt);
             } else {
                 this.newerVersion = null;
-                System.out.println("[" + plugin.getName() + "] You are using the latest version!");
             }
         }
     }
