@@ -6,6 +6,7 @@ import net.minecraft.server.v1_8_R3.EntityArmorStand;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.World;
+import net.minecraft.server.v1_8_R3.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,9 +29,9 @@ import java.util.Objects;
 public class v1_8_R3 extends ChairNMS {
     @Override
     public @NotNull ArmorStand spawnChairArmorStand(Location loc) {
-        CraftWorld nmsWorld = (CraftWorld) Objects.requireNonNull(loc.getWorld());
+        WorldServer nmsWorld = ((CraftWorld) Objects.requireNonNull(loc.getWorld())).getHandle();
         CustomArmorStand nmsArmorStand = new CustomArmorStand(
-                nmsWorld.getHandle(), loc.getX(), loc.getY(), loc.getZ(),
+                nmsWorld, loc.getX(), loc.getY(), loc.getZ(),
                 -1);  //TODO: Read regeneration effect from config and check permissions
         ArmorStand armorStand = (ArmorStand) nmsArmorStand.getBukkitEntity();
 
