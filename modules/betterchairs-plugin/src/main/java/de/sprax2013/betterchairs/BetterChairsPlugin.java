@@ -36,17 +36,22 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         chairManager = new ChairManager(chairNMS);
 
-        // Load bStats
-        //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
-        //  This Fork should be considered unofficial as long as it is not approved by the author (but I have maintainer rights,
-        //  so reporting to the original bStats page should be fine [hopefully ,_,])
-        new MetricsLite(this, 768);
-
         // Start Updater
         //TODO: Check if enabled in config
         Bukkit.getPluginManager().registerEvents(new Updater(this), this);
 
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
+
+        // Load bStats
+        //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
+        //  This Fork should be considered unofficial as long as it is not approved by the author (but I have maintainer rights,
+        //  so reporting to the original bStats page should be fine [hopefully ,_,])
+        try {
+            new MetricsLite(this, 768); // TODO: Does not work on Spigot 1.8.0? (Can't find gson)
+        } catch (Throwable th) {
+            System.err.println("[" + getName() + "] Could not load bStats (" + th.getClass().getSimpleName() + "): " +
+                    th.getMessage());
+        }
     }
 
     @Override
