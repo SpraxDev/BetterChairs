@@ -71,17 +71,17 @@ public class ChairManager {
     }
 
     /**
-     * @param chair    The {@link Chair} that should be destroyed
-     * @param teleport true, when <b>not</b> called without an {@link org.bukkit.event.player.PlayerTeleportEvent}
-     *                 being fired
+     * @param chair          The {@link Chair} that should be destroyed
+     * @param teleportPlayer true, when called without an {@link org.bukkit.event.player.PlayerTeleportEvent}
+     *                       being fired afterwards (e.g. {@link org.spigotmc.event.entity.EntityDismountEvent} does)
      */
-    public void destroy(Chair chair, boolean teleport) {
+    public void destroy(Chair chair, boolean teleportPlayer) {
         Bukkit.getPluginManager().callEvent(new PlayerLeaveChairEvent(chair.player, chair));
 
         chairNMS.killChairArmorStand(chair.armorStand);
         chairs.remove(chair);
 
-        if (!teleport) {
+        if (!teleportPlayer) {
             chairsAwaitTeleport.put(chair.player, chair);
         } else {
             //TODO: Extract teleport into own method as it is used in the onTeleport listener

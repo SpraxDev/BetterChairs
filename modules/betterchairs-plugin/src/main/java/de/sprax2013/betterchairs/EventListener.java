@@ -3,10 +3,12 @@ package de.sprax2013.betterchairs;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -90,6 +92,25 @@ public class EventListener implements Listener {
             if (c != null) {
                 getManager().destroy(c, true);
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    private void onTeleport(EntityTeleportEvent e) {
+        if (e.getEntity().getType() == EntityType.ARMOR_STAND &&
+                getManager().isChair((ArmorStand) e.getEntity())) {
+            // We don't want our ArmorStand used as a chair to be teleported by accident
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onTeleportMonitor(EntityTeleportEvent e) {
+        if (e.getEntity().getType() == EntityType.ARMOR_STAND &&
+                getManager().isChair((ArmorStand) e.getEntity())) {
+            // ArmorStand is still being teleported because another plugin is messing with it...
+
+            getManager().destroy(getManager().getChair((ArmorStand) e.getEntity()), true);
         }
     }
 }
