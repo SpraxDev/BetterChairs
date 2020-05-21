@@ -1,6 +1,5 @@
 package de.sprax2013.betterchairs;
 
-import net.blackscarx.betterchairs.xseries.XMaterial;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -11,8 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.material.Stairs;
+import org.bukkit.material.Step;
+import org.bukkit.material.WoodenStep;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -106,23 +108,26 @@ public class BetterChairsPlugin extends JavaPlugin {
                                 e.setCancelled(true);
                             }
                         }
+
+                        @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+                        private void onDamage(EntityDamageEvent e) {
+                            if (e.getEntity() instanceof ArmorStand &&
+                                    getManager().isChair((ArmorStand) e.getEntity())) {
+                                e.setCancelled(true);
+                            }
+                        }
                     };
                 }
 
                 @Override
                 protected boolean isStair(Block block) {
-                    return block.getState() instanceof Stairs;
+                    return block.getState().getData() instanceof Stairs;
                 }
 
                 @Override
                 protected boolean isStairUpsideDown(Block block) {
-                    return false;   // TODO
-                }
-
-                @Override
-                protected boolean isSlab(Block block) {
                     try {
-                        return XMaterial.matchXMaterial(block.getType()).name().endsWith("_SLAB");
+                        return ((Stairs) block.getState().getData()).isInverted();
                     } catch (Throwable ignore) {
                     }
 
@@ -130,13 +135,25 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
+                protected boolean isSlab(Block block) {
+                    return block.getState().getData() instanceof Step ||
+                            block.getState().getData() instanceof WoodenStep;
+                }
+
+                @Override
                 protected boolean isSlabTop(Block block) {
-                    return false;   // TODO
+                    if (block.getState().getData() instanceof Step) {
+                        return ((Step) block.getState().getData()).isInverted();
+                    } else if (block.getState().getData() instanceof WoodenStep) {
+                        return ((WoodenStep) block.getState().getData()).isInverted();
+                    }
+
+                    return false;
                 }
 
                 @Override
                 protected boolean hasEmptyHands(Player player) {
-                    return player.getItemInHand().getType() == Material.AIR;
+                    return player.getInventory().getItemInHand().getType() == Material.AIR;
                 }
             };
         }
