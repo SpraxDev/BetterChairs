@@ -19,16 +19,24 @@ public class EventListener implements Listener {
     private void onInteract(PlayerInteractEvent e) {
         //TODO: Check if player has chairs disabled
         //TODO: Check if world is disabled in config
-        //TODO: Check chair rotation (upside down?)
         //TODO: Check if Chair has (and needs) signs on the sides
+
+        // Check Player
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getPlayer().isSneaking()) return;
-        if (e.getPlayer().getVehicle() != null) return;
-        if (!getManager().chairNMS.isStair(e.getClickedBlock()) &&
-                !getManager().chairNMS.isSlab(e.getClickedBlock())) return;
+        if (e.getPlayer().getVehicle() != null) return; // Already sitting on something
         if (!getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;  //TODO: Check enabled in config?
+
+        // Check Block
+        if (!getManager().chairNMS.isStair(e.getClickedBlock()) &&
+                !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
+        if (getManager().chairNMS.isStair(e.getClickedBlock()) &&
+                getManager().chairNMS.isStairUpsideDown(e.getClickedBlock())) return;   // Stair but upside down
+
+        // Check Chair
         if (getManager().isOccupied(e.getClickedBlock())) return;    //TODO: Send message to player? (config)
 
+        // Spawn Chair
         getManager().create(e.getPlayer(), e.getClickedBlock());
     }
 
@@ -36,25 +44,26 @@ public class EventListener implements Listener {
     private void onTeleport(PlayerTeleportEvent e) {
         Chair chair = getManager().chairsAwaitTeleport.get(e.getPlayer());
 
-        if (chair != null) {
-            if (e.getFrom().getWorld() == e.getTo().getWorld() &&
-                    e.getFrom().getX() == e.getTo().getX() &&
-                    e.getFrom().getZ() == e.getTo().getZ() &&
-                    e.getFrom().getYaw() == e.getTo().getYaw() &&
-                    e.getFrom().getPitch() == e.getTo().getPitch()) {
-                if (Math.abs(e.getTo().getY() - e.getFrom().getY()) < 1) {
-                    getManager().chairsAwaitTeleport.remove(e.getPlayer());
+        if (chair == null) return;  // Player not sitting
 
-                    Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
+        // Check if only the y coordinates changed (= teleport probably caused by EntityDismountEvent)
+        if (e.getCause() == PlayerTeleportEvent.TeleportCause.UNKNOWN &&
+                e.getFrom().getWorld() == e.getTo().getWorld() &&
+                e.getFrom().getX() == e.getTo().getX() &&
+                e.getFrom().getZ() == e.getTo().getZ() &&
+                e.getFrom().getYaw() == e.getTo().getYaw() &&
+                e.getFrom().getPitch() == e.getTo().getPitch() &&
+                Math.abs(e.getTo().getY() - e.getFrom().getY()) < 1 /* Making sure y only change by +-1 */) {
+            getManager().chairsAwaitTeleport.remove(e.getPlayer());
 
-                    // Set the coordinates the player came from
-                    loc.setX(chair.playerOriginalLoc.getX());
-                    loc.setY(chair.playerOriginalLoc.getY());
-                    loc.setZ(chair.playerOriginalLoc.getZ());
+            Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
 
-                    e.setTo(loc);
-                }
-            }
+            // Set the coordinates the player came from
+            loc.setX(chair.playerOriginalLoc.getX());
+            loc.setY(chair.playerOriginalLoc.getY());
+            loc.setZ(chair.playerOriginalLoc.getZ());
+
+            e.setTo(loc);
         }
     }
 

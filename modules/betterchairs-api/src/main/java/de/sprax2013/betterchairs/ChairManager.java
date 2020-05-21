@@ -49,7 +49,11 @@ public class ChairManager {
 
         if (isOccupied(block)) return false;
 
-        ArmorStand armorStand = instance.chairNMS.spawnChairArmorStand(block.getLocation().add(0.5, -1.2, 0.5));
+        // Slabs that are placed in the upper half of an block need the player to sit 0.5 blocks higher
+        double yOffset = chairNMS.isSlab(block) && chairNMS.isSlabTop(block) ? 0.5 : 0;
+
+        ArmorStand armorStand = instance.chairNMS.spawnChairArmorStand(
+                block.getLocation().add(0.5, -1.2 + yOffset, 0.5));
 
         Chair chair = new Chair(block, armorStand, player);
 
@@ -81,6 +85,8 @@ public class ChairManager {
             chairsAwaitTeleport.put(chair.player, chair);
         } else {
             //TODO: Extract teleport into own method as it is used in the onTeleport listener
+            //TODO: Check if block on location is solid, increment y if it is
+            //TODO: Check in config if 'return to old location' is enabled and teleport player on-top of chair of not
             Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
 
             // Set the coordinates the player came from

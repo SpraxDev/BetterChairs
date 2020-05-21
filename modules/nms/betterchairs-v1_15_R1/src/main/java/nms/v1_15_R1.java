@@ -9,6 +9,7 @@ import net.minecraft.server.v1_15_R1.World;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Stairs;
 import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
@@ -53,19 +54,29 @@ public class v1_15_R1 extends ChairNMS {
     }
 
     @Override
-    protected boolean isStair(Block b) {
-        return b.getBlockData() instanceof Stairs;
+    protected boolean isStair(Block block) {
+        return block.getBlockData() instanceof Stairs;
     }
 
     @Override
-    protected boolean isSlab(Block b) {
-        return b.getBlockData() instanceof Slab;
+    protected boolean isStairUpsideDown(Block block) {
+        return ((Stairs) block.getBlockData()).getHalf() == Bisected.Half.TOP;
     }
 
     @Override
-    protected boolean hasEmptyHands(Player p) {
-        return p.getInventory().getItemInMainHand().getType() == Material.AIR &&
-                p.getInventory().getItemInOffHand().getType() == Material.AIR;
+    protected boolean isSlab(Block block) {
+        return block.getBlockData() instanceof Slab && ((Slab) block.getBlockData()).getType() != Slab.Type.DOUBLE;
+    }
+
+    @Override
+    protected boolean isSlabTop(Block block) {
+        return ((Slab) block.getBlockData()).getType() == Slab.Type.TOP;
+    }
+
+    @Override
+    protected boolean hasEmptyHands(Player player) {
+        return player.getInventory().getItemInMainHand().getType() == Material.AIR &&
+                player.getInventory().getItemInOffHand().getType() == Material.AIR;
     }
 
     public static class CustomArmorStand extends EntityArmorStand {

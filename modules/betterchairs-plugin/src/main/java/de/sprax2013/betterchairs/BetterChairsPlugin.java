@@ -105,14 +105,19 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                protected boolean isStair(Block b) {
-                    return b.getState() instanceof Stairs;
+                protected boolean isStair(Block block) {
+                    return block.getState() instanceof Stairs;
                 }
 
                 @Override
-                protected boolean isSlab(Block b) {
+                protected boolean isStairUpsideDown(Block block) {
+                    return false;   // TODO
+                }
+
+                @Override
+                protected boolean isSlab(Block block) {
                     try {
-                        return XMaterial.matchXMaterial(b.getType()).name().endsWith("_SLAB");
+                        return XMaterial.matchXMaterial(block.getType()).name().endsWith("_SLAB");
                     } catch (Throwable ignore) {
                     }
 
@@ -120,8 +125,13 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                protected boolean hasEmptyHands(Player p) {
-                    return p.getItemInHand().getType() == Material.AIR;
+                protected boolean isSlabTop(Block block) {
+                    return false;   // TODO
+                }
+
+                @Override
+                protected boolean hasEmptyHands(Player player) {
+                    return player.getItemInHand().getType() == Material.AIR;
                 }
             };
         }
