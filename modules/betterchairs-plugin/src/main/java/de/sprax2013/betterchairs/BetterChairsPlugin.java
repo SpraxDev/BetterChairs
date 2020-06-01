@@ -92,7 +92,8 @@ public class BetterChairsPlugin extends JavaPlugin {
                 // TODO: Support regeneration effect without overwriting #tick()
 
                 @Override
-                protected @NotNull ArmorStand spawnChairArmorStand(Location loc) {
+                @NotNull
+                public ArmorStand spawnChairArmorStand(@NotNull Location loc) {
                     ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
                     ChairUtils.applyBasicChairModifications(armorStand);
 
@@ -100,12 +101,12 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                protected void killChairArmorStand(ArmorStand armorStand) {
+                public void killChairArmorStand(@NotNull ArmorStand armorStand) {
                     armorStand.remove();
                 }
 
                 @Override
-                protected Listener getListener() {
+                public Listener getListener() {
                     return new Listener() {
                         @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
                         private void onManipulate(PlayerArmorStandManipulateEvent e) {
@@ -125,12 +126,12 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                protected boolean isStair(Block block) {
+                public boolean isStair(@NotNull Block block) {
                     return block.getState().getData() instanceof Stairs;
                 }
 
                 @Override
-                protected boolean isStairUpsideDown(Block block) {
+                public boolean isStairUpsideDown(@NotNull Block block) {
                     try {
                         return ((Stairs) block.getState().getData()).isInverted();
                     } catch (Throwable ignore) {
@@ -140,13 +141,13 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                protected boolean isSlab(Block block) {
+                public boolean isSlab(@NotNull Block block) {
                     return block.getState().getData() instanceof Step ||
                             block.getState().getData() instanceof WoodenStep;
                 }
 
                 @Override
-                protected boolean isSlabTop(Block block) {
+                public boolean isSlabTop(@NotNull Block block) {
                     if (block.getState().getData() instanceof Step) {
                         return ((Step) block.getState().getData()).isInverted();
                     } else if (block.getState().getData() instanceof WoodenStep) {
@@ -157,7 +158,7 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                protected boolean hasEmptyHands(Player player) {
+                public boolean hasEmptyHands(@NotNull Player player) {
                     return player.getInventory().getItemInHand().getType() == Material.AIR;
                 }
             };

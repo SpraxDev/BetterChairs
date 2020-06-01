@@ -27,7 +27,7 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class v1_8_R2 extends ChairNMS {
     @Override
-    public @NotNull ArmorStand spawnChairArmorStand(Location loc) {
+    public @NotNull ArmorStand spawnChairArmorStand(@NotNull Location loc) {
         WorldServer nmsWorld = ((CraftWorld) Objects.requireNonNull(loc.getWorld())).getHandle();
         CustomArmorStand nmsArmorStand = new CustomArmorStand(
                 nmsWorld, loc.getX(), loc.getY(), loc.getZ(),
@@ -52,7 +52,7 @@ public class v1_8_R2 extends ChairNMS {
     }
 
     @Override
-    public void killChairArmorStand(ArmorStand armorStand) {
+    public void killChairArmorStand(@NotNull ArmorStand armorStand) {
         EntityArmorStand nmsArmorStand = ((CraftArmorStand) armorStand).getHandle();
 
         if (!(nmsArmorStand instanceof CustomArmorStand))
@@ -64,17 +64,17 @@ public class v1_8_R2 extends ChairNMS {
     }
 
     @Override
-    protected boolean isStair(Block block) {
+    public boolean isStair(@NotNull Block block) {
         return block.getState().getData() instanceof Stairs;
     }
 
     @Override
-    protected boolean isStairUpsideDown(Block block) {
+    public boolean isStairUpsideDown(@NotNull Block block) {
         return ((Stairs) block.getState().getData()).isInverted();
     }
 
     @Override
-    protected boolean isSlab(Block block) {
+    public boolean isSlab(@NotNull Block block) {
         return (block.getState().getData() instanceof Step ||
                 block.getState().getData() instanceof WoodenStep) &&
                 block.getType() != Material.DOUBLE_STEP &&
@@ -82,7 +82,7 @@ public class v1_8_R2 extends ChairNMS {
     }
 
     @Override
-    protected boolean isSlabTop(Block block) {
+    public boolean isSlabTop(@NotNull Block block) {
         if (block.getState().getData() instanceof Step) {
             return ((Step) block.getState().getData()).isInverted();
         }
@@ -91,7 +91,7 @@ public class v1_8_R2 extends ChairNMS {
     }
 
     @Override
-    protected boolean hasEmptyHands(Player player) {
+    public boolean hasEmptyHands(@NotNull Player player) {
         return player.getInventory().getItemInHand().getType() == Material.AIR;
     }
 

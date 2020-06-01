@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
  * </ul>
  */
 public abstract class ChairNMS {
-    protected static final int regenerationEffectDuration = 60;    // In Ticks
+    public static final int regenerationEffectDuration = 60;    // In Ticks
 
     /**
      * Spawns an ArmorStand that is/has:
@@ -33,30 +33,30 @@ public abstract class ChairNMS {
      * The ArmorStand may fulfil the above with the help of {@link #getListener()}.
      */
     @NotNull
-    protected abstract ArmorStand spawnChairArmorStand(Location loc);
+    public abstract ArmorStand spawnChairArmorStand(@NotNull Location loc);
 
     /**
      * @throws IllegalArgumentException if {@code armorStand} is not an instance of CustomArmorStand
      */
-    protected abstract void killChairArmorStand(ArmorStand armorStand);
+    public abstract void killChairArmorStand(@NotNull ArmorStand armorStand);
 
-    protected abstract boolean isStair(Block block);
+    public abstract boolean isStair(@NotNull Block block);
 
-    protected abstract boolean isStairUpsideDown(Block block);
+    public abstract boolean isStairUpsideDown(@NotNull Block block);
 
     /**
      * @param block The {@link Block} to check
      *
      * @return true if the block is a half slab (not double slab!), false otherwise
      */
-    protected abstract boolean isSlab(Block block);
+    public abstract boolean isSlab(@NotNull Block block);
 
-    protected abstract boolean isSlabTop(Block block);
+    public abstract boolean isSlabTop(@NotNull Block block);
 
-    protected abstract boolean hasEmptyHands(Player player);
+    public abstract boolean hasEmptyHands(@NotNull Player player);
 
     @Nullable
-    protected Listener getListener() {
+    public Listener getListener() {
         return null;
     }
 
@@ -68,7 +68,7 @@ public abstract class ChairNMS {
      *                                not exist on {@code obj} or one of its superclasses
      * @throws IllegalAccessException May be thrown by {@link Field#set(Object, Object)}
      */
-    protected static void setValue(Object obj, String name, Object value) throws NoSuchFieldException, IllegalAccessException {
+    public static void setValue(@NotNull Object obj, @NotNull String name, @Nullable Object value) throws NoSuchFieldException, IllegalAccessException {
         Field field = null;
         Class<?> clazz = obj.getClass();
 
