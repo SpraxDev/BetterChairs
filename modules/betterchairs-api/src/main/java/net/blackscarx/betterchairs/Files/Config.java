@@ -1,7 +1,5 @@
 package net.blackscarx.betterchairs.Files;
 
-import net.blackscarx.betterchairs.SlabBlock;
-import net.blackscarx.betterchairs.StairsBlock;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -26,19 +24,18 @@ public class Config {
 
     private static void load() {
         List<String> stairs = new ArrayList<>();
-        for (StairsBlock stairsBlock : StairsBlock.values()) {
-            stairs.add(stairsBlock.getName());
-        }
+//        for (StairsBlock stairsBlock : StairsBlock.values())
+//            stairs.add(stairsBlock.getName());
         List<String> slab = new ArrayList<>();
-        for (SlabBlock slabBlock : SlabBlock.getList())
-            slab.add(slabBlock.getName());
+//        for (SlabBlock slabBlock : SlabBlock.getList())
+//            slab.add(slabBlock.getName());
         String header = "BlackScarx All right reserved\n";
         header = header.concat("The list of the stairs\n");
-        for (String s : stairs)
-            header = header.concat("    - " + s + "\n");
+//        for (String s : stairs)
+//            header = header.concat("    - " + s + "\n");
         header = header.concat("The list of the slabs\n");
-        for (SlabBlock s : SlabBlock.getList())
-            header = header.concat("    - " + s.getName() + "\n");
+//        for (SlabBlock s : SlabBlock.getList())
+//            header = header.concat("    - " + s.getName() + "\n");
         getConfig().options().header(header);
         getConfig().addDefault("Update Checker", true);
         getConfig().addDefault("Use permission for sit", false);
