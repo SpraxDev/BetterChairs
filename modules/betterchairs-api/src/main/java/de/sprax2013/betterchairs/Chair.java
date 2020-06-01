@@ -27,12 +27,31 @@ public class Chair {
      * This method checks if it is a stair block.<br>
      * Currently only Stairs and Slabs may be used for chairs.
      *
-     * @return true if the chair-block is a stair, false otherwise
+     * @return true if the chair's block is a stair, false otherwise
      */
     public boolean isStair() {
         if (ChairManager.getInstance() == null)
             throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
 
         return ChairManager.getInstance().chairNMS.isStair(block);
+    }
+
+    /**
+     * Sometimes the {@link org.spigotmc.event.entity.EntityDismountEvent}
+     * is not fired for ArmorStands (e.g. Fallback NMS)<br>
+     * This will check for passengers and destroy the {@link Chair} if there is none
+     *
+     * @return true if the chair is being destroyed, false otherwise
+     */
+    protected boolean destroyOnNoPassenger() {
+        if (this.armorStand.getPassenger() == null) {
+            if (ChairManager.getInstance() == null)
+                throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
+
+            ChairManager.getInstance().destroy(this, false);
+            return true;
+        }
+
+        return false;
     }
 }

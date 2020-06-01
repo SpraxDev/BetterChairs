@@ -29,9 +29,9 @@ public class ChairManager {
     }
 
     /**
-     * Check if a chair can be spawned and call an Event.
+     * Check if a chair can be spawned and call an Event.<br>
      * If the event doesn't get cancelled,
-     * the player should now be able to sit.
+     * the player should then be able to sit.
      *
      * @param player The player that should sit
      * @param block  The block the player should sit on
@@ -73,25 +73,30 @@ public class ChairManager {
      *                       being fired afterwards (e.g. {@link org.spigotmc.event.entity.EntityDismountEvent} does)
      */
     public void destroy(Chair chair, boolean teleportPlayer) {
-        Bukkit.getPluginManager().callEvent(new PlayerLeaveChairEvent(chair.player, chair));
+        boolean hasPassenger = chair.armorStand.getPassenger() != null;
+
+        if (hasPassenger)
+            Bukkit.getPluginManager().callEvent(new PlayerLeaveChairEvent(chair.player, chair));
 
         chairNMS.killChairArmorStand(chair.armorStand);
         chairs.remove(chair);
 
-        if (!teleportPlayer) {
-            chairsAwaitTeleport.put(chair.player, chair);
-        } else {
-            //TODO: Extract teleport into own method as it is used in the onTeleport listener
-            //TODO: Check if block on location is solid, increment y if it is
-            //TODO: Check in config if 'return to old location' is enabled and teleport player on-top of chair of not
-            Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
+        if (hasPassenger) {
+            if (!teleportPlayer) {
+                chairsAwaitTeleport.put(chair.player, chair);
+            } else {
+                //TODO: Extract teleport into own method as it is used in the onTeleport listener
+                //TODO: Check if block on location is solid, increment y if it is
+                //TODO: Check in config if 'return to old location' is enabled and teleport player on-top of chair of not
+                Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
 
-            // Set the coordinates the player came from
-            loc.setX(chair.playerOriginalLoc.getX());
-            loc.setY(chair.playerOriginalLoc.getY());
-            loc.setZ(chair.playerOriginalLoc.getZ());
+                // Set the coordinates the player came from
+                loc.setX(chair.playerOriginalLoc.getX());
+                loc.setY(chair.playerOriginalLoc.getY());
+                loc.setZ(chair.playerOriginalLoc.getZ());
 
-            chair.player.teleport(loc);
+                chair.player.teleport(loc);
+            }
         }
     }
 
@@ -103,7 +108,7 @@ public class ChairManager {
     public boolean isOccupied(@NotNull Block b) {
         for (Chair c : chairs) {
             if (b.equals(c.block)) {
-                return true;
+                return !c.destroyOnNoPassenger();
             }
         }
 
@@ -114,7 +119,18 @@ public class ChairManager {
     public Chair getChair(@NotNull Player p) {
         for (Chair c : chairs) {
             if (p == c.player) {
-                return c;
+                if (!c.destroyOnNoPassenger()) return c;
+            }
+        }
+
+        return null;
+    }
+
+    @Nullable
+    public Chair getChair(@NotNull Block b) {
+        for (Chair c : chairs) {
+            if (b == c.block) {
+                if (!c.destroyOnNoPassenger()) return c;
             }
         }
 
@@ -125,7 +141,7 @@ public class ChairManager {
     public Chair getChair(@NotNull ArmorStand armorStand) {
         for (Chair c : chairs) {
             if (armorStand == c.armorStand) {
-                return c;
+                if (!c.destroyOnNoPassenger()) return c;
             }
         }
 
@@ -133,16 +149,8 @@ public class ChairManager {
     }
 
     public boolean isChair(@NotNull ArmorStand armorStand) {
-        for (Chair c : chairs) {
-            if (armorStand.equals(c.armorStand)) {
-                return true;
-            }
-        }
-
-        return false;
+        return getChair(armorStand) != null;
     }
-
-    // TODO: Methods to create and destroy chairs (and automatically sit players on them)
 
     /**
      * May be null if BetterChairs is not enabled
