@@ -2,20 +2,20 @@ package nms;
 
 import de.sprax2013.betterchairs.ChairNMS;
 import de.sprax2013.betterchairs.ChairUtils;
-import net.minecraft.server.v1_15_R1.Entity;
-import net.minecraft.server.v1_15_R1.EntityArmorStand;
-import net.minecraft.server.v1_15_R1.EntityHuman;
-import net.minecraft.server.v1_15_R1.World;
-import net.minecraft.server.v1_15_R1.WorldServer;
+import net.minecraft.server.v1_13_R2.Entity;
+import net.minecraft.server.v1_13_R2.EntityArmorStand;
+import net.minecraft.server.v1_13_R2.EntityHuman;
+import net.minecraft.server.v1_13_R2.World;
+import net.minecraft.server.v1_13_R2.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Stairs;
-import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftHumanEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
-public class v1_15_R1 extends ChairNMS {
+public class v1_13_R2 extends ChairNMS {
     @Override
     public @NotNull ArmorStand spawnChairArmorStand(Location loc) {
         WorldServer nmsWorld = ((CraftWorld) Objects.requireNonNull(loc.getWorld())).getHandle();
@@ -36,7 +36,7 @@ public class v1_15_R1 extends ChairNMS {
         ArmorStand armorStand = (ArmorStand) nmsArmorStand.getBukkitEntity();
 
         try {
-            setValue(nmsArmorStand, "bB", 2031616);    // DisabledSlots
+            setValue(nmsArmorStand, "bH", 2031616);    // DisabledSlots
         } catch (NoSuchFieldException | IllegalAccessException ex) {
             // fail gracefully
             System.err.println("BetterChairs could not apply protections to a Chair at " +
@@ -118,7 +118,7 @@ public class v1_15_R1 extends ChairNMS {
 
             // Rotate the ArmorStand together with its passenger
             this.setYawPitch(passenger.yaw, passenger.pitch * .5F);
-            this.aK = this.yaw;
+            this.aS = this.yaw;
 
             if (this.regenerationAmplifier >= 0) {
                 CraftHumanEntity p = ((EntityHuman) passenger).getBukkitEntity();

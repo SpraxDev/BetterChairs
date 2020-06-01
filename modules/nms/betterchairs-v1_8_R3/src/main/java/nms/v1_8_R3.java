@@ -4,7 +4,6 @@ import de.sprax2013.betterchairs.ChairNMS;
 import de.sprax2013.betterchairs.ChairUtils;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
 import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.World;
 import net.minecraft.server.v1_8_R3.WorldServer;
 import org.bukkit.Location;
@@ -35,12 +34,15 @@ public class v1_8_R3 extends ChairNMS {
                 -1);  //TODO: Read regeneration effect from config and check permissions
         ArmorStand armorStand = (ArmorStand) nmsArmorStand.getBukkitEntity();
 
-        NBTTagCompound nbt = new NBTTagCompound();
-        nmsArmorStand.e(nbt);
-        nbt.setBoolean("Invulnerable", true);
-        nmsArmorStand.f(nbt);
-        nbt.setInt("DisabledSlots", 2031616);
-        nmsArmorStand.a(nbt);
+        try {
+            setValue(nmsArmorStand, "invulnerable", true);     // Invulnerable
+            setValue(nmsArmorStand, "bi", 2031616);            // DisabledSlots
+        } catch (NoSuchFieldException | IllegalAccessException ex) {
+            // fail gracefully
+            System.err.println("BetterChairs could not apply protections to a Chair at " +
+                    armorStand.getLocation().getBlock().getLocation() +
+                    " (" + ex.getClass().getName() + ": " + ex.getMessage() + ")");
+        }
 
         ChairUtils.applyBasicChairModifications(armorStand);
 
@@ -61,6 +63,7 @@ public class v1_8_R3 extends ChairNMS {
         armorStand.remove();
     }
 
+
     @Override
     protected boolean isStair(Block block) {
         return block.getState().getData() instanceof Stairs;
@@ -73,9 +76,10 @@ public class v1_8_R3 extends ChairNMS {
 
     @Override
     protected boolean isSlab(Block block) {
-        //TODO: Check if double slab?
-        return block.getState().getData() instanceof Step ||
-                block.getState().getData() instanceof WoodenStep;
+        return (block.getState().getData() instanceof Step ||
+                block.getState().getData() instanceof WoodenStep) &&
+                block.getType() != Material.DOUBLE_STEP &&
+                block.getType() != Material.WOOD_DOUBLE_STEP;
     }
 
     @Override
@@ -92,7 +96,7 @@ public class v1_8_R3 extends ChairNMS {
         return player.getInventory().getItemInHand().getType() == Material.AIR;
     }
 
-    public static class CustomArmorStand extends EntityArmorStand {
+    private static class CustomArmorStand extends EntityArmorStand {
         public boolean remove = false;
         private final int regenerationAmplifier;
 
@@ -108,9 +112,13 @@ public class v1_8_R3 extends ChairNMS {
         @Override
         public void g(float f, float f1) {
             if (remove) return; // If the ArmorStand is being removed, no need to bother
-            if (this.passenger == null) return;    // No one is sitting on it, no need to bother
-            if (!(this.passenger instanceof EntityHuman)) return;    // Not a player sitting, ignore
             if (this.ticksLived % 10 == 0) return;  // Only run every 10 ticks
+
+            if (!(this.passenger instanceof EntityHuman)) {
+                remove = true;
+                this.bukkitEntity.remove();
+                return;
+            }
 
             // Rotate the ArmorStand together with its passenger
             this.setYawPitch(this.passenger.yaw, this.passenger.pitch * .5F);
