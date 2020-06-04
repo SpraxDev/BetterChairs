@@ -3,8 +3,7 @@ name: ${pluginName}
 version: ${project.parent.version}
 api-version: '1.15'
 
-# TODO: Use maven variables again
-main: de.sprax2013.betterchairs.BetterChairsPlugin
+main: ${project.parent.groupId}.${project.parent.artifactId}.BetterChairsPlugin
 
 author: Sprax2013
 authors: [Sprax2013, BlackScarx]

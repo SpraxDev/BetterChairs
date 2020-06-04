@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>betterchairs</artifactId>
-        <groupId>net.blackscarx</groupId>
+        <groupId>de.sprax2013</groupId>
         <version>0.11.0</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
@@ -14,7 +14,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

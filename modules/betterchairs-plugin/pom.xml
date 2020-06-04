@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.blackscarx</groupId>
+        <groupId>de.sprax2013</groupId>
         <artifactId>betterchairs</artifactId>
         <version>0.11.0</version>
         <relativePath>../../pom.xml</relativePath>
@@ -58,8 +58,7 @@
                     <transformers>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <!-- TODO: Use maven vars again -->
-                            <mainClass>de.sprax2013.betterchairs.Main</mainClass>
+                            <mainClass>${project.parent.groupId}.${project.parent.artifactId}.Main</mainClass>
                         </transformer>
                     </transformers>
 
@@ -101,77 +100,77 @@
 
         <!-- Modules -->
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-api</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_15_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_14_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_13_R2</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_11_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_10_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_9_R2</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_9_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_8_R3</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_8_R2</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_8_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
