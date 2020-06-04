@@ -1,5 +1,10 @@
 package de.sprax2013.betterchairs;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -15,6 +20,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Updater implements Listener {
+    // TODO: register and unregister Updater when config is reloaded instead of having a timer running all the time
     // TODO: Use SpigotMC as DownloadURL
     public static final String DOWNLOAD_URL = "https://github.com/Sprax2013/BetterChairs/releases";
 
@@ -64,28 +70,13 @@ public class Updater implements Listener {
 
         String versionStr = versionTxt.toString().split("\n")[0];
 
-        if (!versionStr.equals(this.newerVersion)) {
-            String[] versionArgs = versionStr.split("\\.");
-            String[] currVersion = plugin.getDescription().getVersion().split("\\.");
+        if (isNewerVersion(plugin.getDescription().getVersion(), versionStr)) {
+            this.newerVersion = versionStr;
 
-            boolean newer = false;
-            for (int i = 0; i < 3; i++) {
-                try {
-                    if (!currVersion[i].equals(versionArgs[i]) &&
-                            Integer.parseInt(currVersion[i]) < Integer.parseInt(versionArgs[i])) {
-                        newer = true;
-                        break;
-                    }
-                } catch (Throwable ignore) {
-                }
-            }
-
-            if (newer) {
-                this.newerVersion = versionStr;
-                System.out.println("[" + plugin.getName() + "] Found a newer version: " + versionTxt);
-            } else {
-                this.newerVersion = null;
-            }
+            System.out.println("[" + plugin.getName() + "] Found a new update v" +
+                    plugin.getDescription().getVersion() + " -> v" + versionTxt + " (Download at: " + DOWNLOAD_URL + ")");
+        } else {
+            this.newerVersion = null;
         }
     }
 
@@ -94,9 +85,17 @@ public class Updater implements Listener {
         if (newerVersion == null) return;
         if (!e.getPlayer().hasPermission(plugin.getName() + ".update")) return;
 
-        // TODO: Fix colors and cleanup raw message
-        e.getPlayer().sendMessage("§a[" + plugin.getName() + "] Found new update! §6Version: " + newerVersion);
-        e.getPlayer().sendRawMessage("[\"\",{\"text\":\"[UPDATE]\",\"color\":\"aqua\",\"bold\":true,\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + DOWNLOAD_URL + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click for go on the plugin page\",\"color\":\"green\"}]}}}]");
+        e.getPlayer().spigot().sendMessage(
+                new ComponentBuilder("[").color(ChatColor.GRAY)
+                        .append(BetterChairsPlugin.getInstance().getName()).color(ChatColor.GOLD)
+                        .append("] ").color(ChatColor.GRAY)
+                        .append("Found a new update v" +
+                                plugin.getDescription().getVersion() + " -> v" + newerVersion).color(ChatColor.YELLOW)
+                        .append("[DOWNLOAD]")
+                        .color(ChatColor.GREEN)
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, DOWNLOAD_URL))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page")))
+                        .create());
     }
 
     @EventHandler
@@ -104,5 +103,39 @@ public class Updater implements Listener {
         if (e.getPlugin() == plugin) {
             timer.cancel();
         }
+    }
+
+    /**
+     * Check if {@code ver1} is newer that {@code ver2}.<br>
+     * Expects SemVer (https://semver.org/)
+     *
+     * @return true, if {@code ver1} is newer than {@code ver2}, false otherwise
+     */
+    public boolean isNewerVersion(String ver1, String ver2) {
+        int[] ver1Num, ver2Num;
+
+        String[] ver1Args = ver1.split("-")[0].split("\\."),
+                ver2Args = ver2.split("-")[0].split("\\.");
+
+        ver1Num = new int[ver1Args.length];
+        for (int i = 0; i < ver1Args.length; i++) {
+            ver1Num[i] = Integer.parseInt(ver1Args[i]);
+        }
+
+        ver2Num = new int[ver2Args.length];
+        for (int i = 0; i < ver2Args.length; i++) {
+            ver2Num[i] = Integer.parseInt(ver2Args[i]);
+        }
+
+        for (int i = 0; i < Math.max(ver1Num.length, ver2Num.length); i++) {
+            int left = i < ver1Num.length ? ver1Num[i] : 0;
+            int right = i < ver2Num.length ? ver2Num[i] : 0;
+
+            if (left != right) {
+                return left < right;
+            }
+        }
+
+        return false;   // Same version
     }
 }

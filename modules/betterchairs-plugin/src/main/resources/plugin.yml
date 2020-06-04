@@ -34,6 +34,5 @@ permissions:
     description: Use the stairs
   ${pluginName}.regen:
     description: Regen when you are sit on chairs
-  ${pluginName}.update:
+  ${pluginName}.updater:
     descritpion: Permission for betterchairs update
-    default: false
