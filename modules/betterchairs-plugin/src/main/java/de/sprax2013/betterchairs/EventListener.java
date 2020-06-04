@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,20 +30,33 @@ public class EventListener implements Listener {
      */
     @EventHandler
     private void onInteract(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+
         //TODO: Check if player has chairs disabled
-        //TODO: Check if world is disabled in config
         //TODO: Check if Chair has (and needs) signs on the sides
-        //TODO: Check if type of chair is disabled in config
 
         // Check Player
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getPlayer().isSneaking()) return;
         if (e.getPlayer().getVehicle() != null) return; // Already sitting on something
-        if (!getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;  //TODO: Check enabled in config?
+        if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
+        if (Settings.chairNeedsEmptyHands() &&
+                !getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;
 
-        // Check Block
+        // Is world disabled?
+        if (Settings.isWorldFilterEnabled()) {
+            boolean worldInFilter = Settings.getWorldFilter().contains(e.getPlayer().getWorld().getName());
+
+            if (worldInFilter == Settings.isWorldFilterBlacklist()) return; // World on Blacklist or not on Whitelist
+        }
+
+        /* Check Block */
         if (!getManager().chairNMS.isStair(e.getClickedBlock()) &&
                 !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
+
+        // Block disabled in config?
+        if (!Settings.useStairs() && getManager().chairNMS.isStair(e.getClickedBlock())) return;
+        else if (!Settings.useSlabs() && getManager().chairNMS.isSlab(e.getClickedBlock())) return;
+
         if (getManager().chairNMS.isStair(e.getClickedBlock()) &&
                 getManager().chairNMS.isStairUpsideDown(e.getClickedBlock())) return;   // Stair but upside down
 
@@ -50,6 +64,8 @@ public class EventListener implements Listener {
         if (getManager().isOccupied(e.getClickedBlock())) return;    //TODO: Send message to player? (config)
 
         // Spawn Chair
+        e.setUseItemInHand(Event.Result.DENY);
+        e.setUseInteractedBlock(Event.Result.DENY);
         getManager().create(e.getPlayer(), e.getClickedBlock());
     }
 

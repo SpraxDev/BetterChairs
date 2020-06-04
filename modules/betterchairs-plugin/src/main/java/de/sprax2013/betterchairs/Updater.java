@@ -41,6 +41,8 @@ public class Updater implements Listener {
                     return;
                 }
 
+                if (!Settings.checkForUpdates()) return;
+
                 try {
                     checkForUpdates();
                 } catch (Throwable th) {
@@ -83,7 +85,9 @@ public class Updater implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         if (newerVersion == null) return;
-        if (!e.getPlayer().hasPermission(plugin.getName() + ".update")) return;
+        if (!Settings.checkForUpdates()) return;
+        if (!Settings.updaterNotifyOnJoin()) return;
+        if (!e.getPlayer().hasPermission(plugin.getName() + ".updater")) return;
 
         e.getPlayer().spigot().sendMessage(
                 new ComponentBuilder("[").color(ChatColor.GRAY)

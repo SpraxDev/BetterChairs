@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,17 +16,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+
+/**
+ * This class should be instantiated as soon as possible inside
+ * {@link JavaPlugin#onEnable()} to ensure that other classes relying on it work as intended
+ */
 public class ChairManager {
+    protected static JavaPlugin plugin;
     protected static ChairManager instance;
 
     protected final ChairNMS chairNMS;
     protected final List<Chair> chairs = new ArrayList<>();
     protected final HashMap<Player, Chair> chairsAwaitTeleport = new HashMap<>();
 
-    protected ChairManager(@NotNull ChairNMS chairNMS) {
+    protected ChairManager(@NotNull JavaPlugin plugin, @NotNull ChairNMS chairNMS) {
         this.chairNMS = Objects.requireNonNull(chairNMS);
 
         instance = this;
+        ChairManager.plugin = Objects.requireNonNull(plugin);
     }
 
     /**
@@ -160,5 +168,15 @@ public class ChairManager {
     @Nullable
     public static ChairManager getInstance() {
         return instance;
+    }
+
+    /**
+     * May be null if BetterChairs is not enabled
+     *
+     * @return The {@link JavaPlugin} instance representing BetterChairs, or null
+     */
+    @Nullable
+    public static JavaPlugin getPlugin() {
+        return plugin;
     }
 }

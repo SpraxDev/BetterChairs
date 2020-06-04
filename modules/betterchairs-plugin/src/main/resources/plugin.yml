@@ -32,6 +32,7 @@ commands:
 permissions:
   ${pluginName}.use:
     description: Use the stairs
+    default: true
   ${pluginName}.regen:
     description: Regen when you are sit on chairs
   ${pluginName}.updater:

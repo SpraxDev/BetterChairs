@@ -34,10 +34,10 @@ public class BetterChairsPlugin extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(chairNMS.getListener(), this);
         }
 
-        chairManager = new ChairManager(chairNMS);
+        // Should be initiated as soon as possible (required in API submodule)
+        chairManager = new ChairManager(this, chairNMS);
 
         // Start Updater
-        //TODO: Check if enabled in config
         Bukkit.getPluginManager().registerEvents(new Updater(this), this);
 
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
@@ -66,6 +66,7 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         chairManager = null;
         ChairManager.instance = null;
+        ChairManager.plugin = null;
     }
 
     /**
