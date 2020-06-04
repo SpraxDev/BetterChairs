@@ -58,7 +58,7 @@ public class ChairManager {
         double yOffset = chairNMS.isSlab(block) && chairNMS.isSlabTop(block) ? 0.5 : 0;
 
         ArmorStand armorStand = instance.chairNMS.spawnChairArmorStand(
-                block.getLocation().add(0.5, -1.2 + yOffset, 0.5));
+                block.getLocation().add(0.5, -1.2 + yOffset, 0.5), ChairNMS.getRegenerationAmplifier(player));
 
         Chair chair = new Chair(block, armorStand, player);
 

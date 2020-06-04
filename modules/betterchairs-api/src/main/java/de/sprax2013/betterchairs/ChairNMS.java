@@ -33,7 +33,7 @@ public abstract class ChairNMS {
      * The ArmorStand may fulfil the above with the help of {@link #getListener()}.
      */
     @NotNull
-    public abstract ArmorStand spawnChairArmorStand(@NotNull Location loc);
+    public abstract ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier);
 
     /**
      * @throws IllegalArgumentException if {@code armorStand} is not an instance of CustomArmorStand
@@ -58,6 +58,14 @@ public abstract class ChairNMS {
     @Nullable
     public Listener getListener() {
         return null;
+    }
+
+    public static int getRegenerationAmplifier(Player p) {
+        if (!Settings.chairRegeneration() ||
+                Settings.chairRegenerationAmplifier() <= 0 ||
+                !p.hasPermission(ChairManager.plugin.getName() + ".regeneration")) return -1;
+
+        return Settings.chairRegenerationAmplifier() - 1;
     }
 
     /**

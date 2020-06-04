@@ -33,7 +33,7 @@ permissions:
   ${pluginName}.use:
     description: Use the stairs
     default: true
-  ${pluginName}.regen:
-    description: Regen when you are sit on chairs
+  ${pluginName}.regeneration:
+    description: Grants regeneration to a player when sitting
   ${pluginName}.updater:
     descritpion: Permission for betterchairs update

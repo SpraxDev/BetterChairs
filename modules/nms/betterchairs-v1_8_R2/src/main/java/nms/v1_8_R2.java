@@ -27,11 +27,10 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class v1_8_R2 extends ChairNMS {
     @Override
-    public @NotNull ArmorStand spawnChairArmorStand(@NotNull Location loc) {
+    public @NotNull ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier) {
         WorldServer nmsWorld = ((CraftWorld) Objects.requireNonNull(loc.getWorld())).getHandle();
         CustomArmorStand nmsArmorStand = new CustomArmorStand(
-                nmsWorld, loc.getX(), loc.getY(), loc.getZ(),
-                -1);  //TODO: Read regeneration effect from config and check permissions
+                nmsWorld, loc.getX(), loc.getY(), loc.getZ(), regenerationAmplifier);
         ArmorStand armorStand = (ArmorStand) nmsArmorStand.getBukkitEntity();
 
         try {

@@ -23,6 +23,14 @@ public class Settings {
         return getSettings().getCfg().getBoolean("Chairs.UseSlabs");
     }
 
+    public static boolean chairRegeneration() {
+        return getSettings().getCfg().getBoolean("Chairs.Regeneration.Enabled");
+    }
+
+    public static int chairRegenerationAmplifier() {
+        return getSettings().getCfg().getInt("Chairs.Regeneration.Amplifier");
+    }
+
     /* Filter: Worlds */
     public static boolean isWorldFilterEnabled() {
         return getSettings().getCfg().getBoolean("Filter.Worlds.Enabled");
@@ -99,6 +107,8 @@ public class Settings {
             yamlFile.addDefault("Chairs.NeedEmptyHands", true);
             yamlFile.addDefault("Chairs.UseStairs", true);
             yamlFile.addDefault("Chairs.UseSlabs", false);
+            yamlFile.addDefault("Chairs.Regeneration.Enabled", false);
+            yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);
 
             yamlFile.addDefault("Filter.Worlds.Enabled", false);
             yamlFile.addDefault("Filter.Worlds.UseAsBlacklist", true);

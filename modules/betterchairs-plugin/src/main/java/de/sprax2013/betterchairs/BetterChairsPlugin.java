@@ -90,13 +90,13 @@ public class BetterChairsPlugin extends JavaPlugin {
                 // Surrounding some code with try-catch because this is meant to be a fallback
                 // So in theory it should even work on 1.4.7 servers (please no >_<)
 
-                // TODO: Support regeneration effect without overwriting #tick()
-
                 @Override
                 @NotNull
-                public ArmorStand spawnChairArmorStand(@NotNull Location loc) {
+                public ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier) {
                     ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
                     ChairUtils.applyBasicChairModifications(armorStand);
+
+                    // TODO: Support regeneration effect without overwriting #tick()
 
                     return armorStand;
                 }
