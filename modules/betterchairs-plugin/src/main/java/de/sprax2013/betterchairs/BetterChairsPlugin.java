@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class BetterChairsPlugin extends JavaPlugin {
     private static BetterChairsPlugin plugin;
     private static ChairManager chairManager;
+    private static Updater updater;
 
     @Override
     public void onEnable() {
@@ -38,7 +39,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         chairManager = new ChairManager(this, chairNMS);
 
         // Start Updater
-        Bukkit.getPluginManager().registerEvents(new Updater(this), this);
+        updater = new Updater(this);
 
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
 
@@ -63,6 +64,8 @@ public class BetterChairsPlugin extends JavaPlugin {
             }
             getManager().chairs.clear();
         }
+
+        Settings.reset();
 
         chairManager = null;
         ChairManager.instance = null;
@@ -170,6 +173,10 @@ public class BetterChairsPlugin extends JavaPlugin {
 
     public static ChairManager getManager() {
         return chairManager;
+    }
+
+    public static Updater getUpdater() {
+        return updater;
     }
 
     public static BetterChairsPlugin getInstance() {

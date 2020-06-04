@@ -6,8 +6,8 @@ api-version: '1.15'
 # TODO: Use maven variables again
 main: de.sprax2013.betterchairs.BetterChairsPlugin
 
-author: BlackScarx
-authors: [BlackScarx, Sprax2013]
+author: Sprax2013
+authors: [Sprax2013, BlackScarx]
 website: https://github.com/Sprax2013/BetterChairs
 
 commands:
@@ -31,9 +31,9 @@ commands:
 
 permissions:
   ${pluginName}.use:
-    description: Use the stairs
+    description: Allows players to sit on stairs
     default: true
   ${pluginName}.regeneration:
     description: Grants regeneration to a player when sitting
   ${pluginName}.updater:
-    descritpion: Permission for betterchairs update
+    descritpion: Notifies players about updates when joining the server

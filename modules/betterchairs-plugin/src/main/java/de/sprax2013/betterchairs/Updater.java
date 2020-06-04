@@ -5,7 +5,9 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -20,41 +22,59 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Updater implements Listener {
-    // TODO: register and unregister Updater when config is reloaded instead of having a timer running all the time
     // TODO: Use SpigotMC as DownloadURL
     public static final String DOWNLOAD_URL = "https://github.com/Sprax2013/BetterChairs/releases";
 
     private final JavaPlugin plugin;
 
-    private final Timer timer;
+    private Timer timer;
     private String newerVersion;
 
     public Updater(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.timer = new Timer(true);
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (!plugin.isEnabled()) {
-                    timer.cancel();
-                    return;
-                }
+        Settings.addReloadListener(this::reInit);
 
-                if (!Settings.checkForUpdates()) return;
+        reInit();
+    }
 
-                try {
-                    checkForUpdates();
-                } catch (Throwable th) {
-                    System.err.println("[" + plugin.getName() + "] Could not check for updates" +
-                            (th.getMessage() == null ? "!" : ": " + th.getMessage()));
+    public void reInit() {
+        if (Settings.checkForUpdates()) {
+            if (this.timer != null) return;
 
-                    if (th.getMessage() == null) {
-                        th.printStackTrace();
+            this.timer = new Timer(true);
+
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    if (!plugin.isEnabled()) {
+                        timer.cancel();
+                        return;
+                    }
+
+                    if (!Settings.checkForUpdates()) return;
+
+                    try {
+                        checkForUpdates();
+                    } catch (Throwable th) {
+                        System.err.println("[" + plugin.getName() + "] Could not check for updates" +
+                                (th.getMessage() == null ? "!" : ": " + th.getMessage()));
+
+                        if (th.getMessage() == null) {
+                            th.printStackTrace();
+                        }
                     }
                 }
-            }
-        }, 2000, 1000 * 60 * 60 * 3);   // Check every 3h
+            }, 2000, 1000 * 60 * 60 * 3);   // Check every 3h
+
+            Bukkit.getPluginManager().registerEvents(this, this.plugin);
+        } else {
+            if (this.timer == null) return;
+
+            HandlerList.unregisterAll(this);
+            this.timer.cancel();
+            this.timer = null;
+        }
     }
 
     private void checkForUpdates() throws IOException {

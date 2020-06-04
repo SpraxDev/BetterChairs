@@ -4,11 +4,14 @@ import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFile;
 import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFileManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 // TODO: Comments inside config.yml
 public class Settings {
     private static final int CURR_VERSION = 1;
+
+    private static List<SettingsReloadListener> reloadListeners = new ArrayList<>();
 
     /* Chair-Settings */
     public static boolean chairNeedsEmptyHands() {
@@ -129,7 +132,28 @@ public class Settings {
 
     //TODO: Use for reload command
     protected static boolean reload() {
-        return getSettings().refresh();
+        boolean result = getSettings().refresh();
+
+        if (result) {
+            for (SettingsReloadListener listener : reloadListeners) {
+                try {
+                    listener.onReload();
+                } catch (Throwable th) {
+                    th.printStackTrace();
+                }
+            }
+        }
+
+        return result;
+    }
+
+    protected static void reset() {
+        reloadListeners.clear();
+        YAMLFileManager.removeFileFromCache(ChairManager.getPlugin(), getSettings());
+    }
+
+    protected static void addReloadListener(SettingsReloadListener reloadListener) {
+        reloadListeners.add(reloadListener);
     }
 
     private static void backupConfig(YAMLFile yamlFile) {
@@ -141,5 +165,9 @@ public class Settings {
         if (!file.renameTo(new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml")))
             System.err.println("[" + (ChairManager.getPlugin() != null ? ChairManager.getPlugin().getName() : "BetterChairs") +
                     "] Failed creating a copy of config.yml");
+    }
+
+    public interface SettingsReloadListener {
+        void onReload();
     }
 }
