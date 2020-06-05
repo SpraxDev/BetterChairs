@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Create messages.yml
 // TODO: Comments inside config.yml
 public class Settings {
     public static final String PREFIX = "§7[§2BetterChairs§7] ", // TODO: dynamically generate default value
