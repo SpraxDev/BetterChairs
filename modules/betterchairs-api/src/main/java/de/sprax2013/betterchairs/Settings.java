@@ -134,7 +134,6 @@ public class Settings {
         return yamlFile;
     }
 
-    //TODO: Use for reload command
     protected static boolean reload() {
         boolean result = getSettings().refresh();
 

@@ -93,7 +93,6 @@ public class ChairManager {
                 chairsAwaitTeleport.put(chair.player, chair);
             } else {
                 //TODO: Extract teleport into own method as it is used in the onTeleport listener
-                //TODO: Check if block on location is solid, increment y if it is
                 //TODO: Check in config if 'return to old location' is enabled and teleport player on-top of chair of not
                 Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
 
