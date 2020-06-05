@@ -162,9 +162,14 @@ public class Settings {
         YAMLFileManager.removeFileFromCache(ChairManager.getPlugin(), yamlFile);
 
         // Backup file
-        if (!file.renameTo(new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml")))
+        if (file.renameTo(new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml"))) {
+            // TODO: Store console prefix in Messages.java (static/final)
+            System.err.println("[" + (ChairManager.getPlugin() != null ? ChairManager.getPlugin().getName() : "BetterChairs") +
+                    "Your " + yamlFile.getFile().getName() + " is invalid! Created backup: " + file.getName());
+        } else {
             System.err.println("[" + (ChairManager.getPlugin() != null ? ChairManager.getPlugin().getName() : "BetterChairs") +
                     "] Failed creating a copy of config.yml");
+        }
     }
 
     public interface SettingsReloadListener {
