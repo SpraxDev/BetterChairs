@@ -18,8 +18,6 @@ import org.bukkit.material.WoodenStep;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 public class BetterChairsPlugin extends JavaPlugin {
     private static BetterChairsPlugin plugin;
     private static ChairManager chairManager;
@@ -41,7 +39,13 @@ public class BetterChairsPlugin extends JavaPlugin {
         // Start Updater
         updater = new Updater(this);
 
+        // Register Bukkit Event Listener
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
+
+        // Register CommandExecutor
+        BetterChairsCommand cmdExecutor = new BetterChairsCommand(this);
+        getCommand(getName()).setExecutor(cmdExecutor);
+        getCommand("toggleChairs").setExecutor(cmdExecutor);
 
         // Load bStats
         //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
@@ -50,19 +54,15 @@ public class BetterChairsPlugin extends JavaPlugin {
         try {
             new MetricsLite(this, 768); // TODO: Does not work on Spigot 1.8.0? (Can't find gson)
         } catch (Throwable th) {
-            System.err.println("[" + getName() + "] Could not load bStats (" + th.getClass().getSimpleName() + "): " +
+            System.err.println(Settings.PREFIX_CONSOLE + "Could not load bStats (" + th.getClass().getSimpleName() + "): " +
                     th.getMessage());
         }
     }
 
     @Override
     public void onDisable() {
-        // Remove all chairs
         if (getManager() != null) {
-            for (Chair c : new ArrayList<>(getManager().chairs)) {
-                getManager().destroy(c, true);
-            }
-            getManager().chairs.clear();
+            getManager().destroyAll(true);
         }
 
         Settings.reset();
@@ -85,7 +85,7 @@ public class BetterChairsPlugin extends JavaPlugin {
             // Try loading NMS class (package is remapped by maven-shade-plugin)
             return (ChairNMS) Class.forName("nms." + version).newInstance();
         } catch (Throwable ignore) {
-            System.err.println("[" + plugin.getName() + "] Your server version (" + version +
+            System.err.println(Settings.PREFIX_CONSOLE + "Your server version (" + version +
                     ") is not fully supported - Loading fallback...");
 
             // Loading fallback when NMS not available
@@ -171,13 +171,13 @@ public class BetterChairsPlugin extends JavaPlugin {
         }
     }
 
-    public static ChairManager getManager() {
+    protected static ChairManager getManager() {
         return chairManager;
     }
 
-    public static Updater getUpdater() {
-        return updater;
-    }
+//    protected static Updater getUpdater() {
+//        return updater;
+//    }
 
     public static BetterChairsPlugin getInstance() {
         return plugin;

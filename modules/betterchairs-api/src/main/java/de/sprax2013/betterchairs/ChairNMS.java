@@ -80,7 +80,6 @@ public abstract class ChairNMS {
         Field field = null;
         Class<?> clazz = obj.getClass();
 
-
         while (field == null && clazz != null) {
             try {
                 field = clazz.getDeclaredField(name);

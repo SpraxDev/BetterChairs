@@ -38,7 +38,7 @@ public class Updater implements Listener {
         reInit();
     }
 
-    public void reInit() {
+    private void reInit() {
         if (Settings.checkForUpdates()) {
             if (this.timer != null) return;
 
@@ -95,7 +95,7 @@ public class Updater implements Listener {
         if (isNewerVersion(plugin.getDescription().getVersion(), versionStr)) {
             this.newerVersion = versionStr;
 
-            System.out.println("[" + plugin.getName() + "] Found a new update v" +
+            System.out.println(Settings.PREFIX_CONSOLE + "Found a new update v" +
                     plugin.getDescription().getVersion() + " -> v" + versionTxt + " (Download at: " + DOWNLOAD_URL + ")");
         } else {
             this.newerVersion = null;

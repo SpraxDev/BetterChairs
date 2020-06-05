@@ -1,34 +1,23 @@
 package net.blackscarx.betterchairs;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class ChairsPlugin extends JavaPlugin implements Listener {
     public ChairsPlugin plugin;
     public List<UUID> disableList = new ArrayList<>();
-    public List<UUID> uuidList = new ArrayList<>();
 
     @Override
     public void onEnable() {
-        Objects.requireNonNull(getCommand("betterchairsreload")).setExecutor(new CmdReload());
-        Objects.requireNonNull(getCommand("betterchairstoggle")).setExecutor(new ChairsToggle());
-        Objects.requireNonNull(getCommand("betterchairsreset")).setExecutor(new ChairsReset());
         plugin = this;
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(this, this);
@@ -40,14 +29,8 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
     @EventHandler
     public void spawnStairs(PlayerInteractEvent e) {
         Player p = e.getPlayer();
-        //Check if the player have chairs disable
-        if (disableList.contains(p.getUniqueId()))
-            return;
-        //Check if the action is right click
-        if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK))
-            return;
         //Get the clicked block
-        Block b = e.getClickedBlock();
+//        Block b = e.getClickedBlock();
 
         //Check if the config use sign or stairs
 //        if (Config.getConfig().getBoolean("Need to sign or chair on each side")) {
@@ -96,72 +79,5 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
 //            }
 //        }
 //        }
-    }
-
-    /**
-     * Command for reload the config
-     */
-    public class CmdReload implements CommandExecutor {
-        @Override
-        public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-//            Config.reload();
-            reloadConfig();
-//            Messages.init(plugin);
-//            if (Config.getConfig().getBoolean("Update Checker", true)) {
-//                if (!isRegister) {
-//                    Bukkit.getPluginManager().registerEvents(um, plugin);
-//                    isRegister = true;
-//                }
-//            } else {
-//                if (isRegister) {
-//                    HandlerList.unregisterAll(um);
-//                    isRegister = false;
-//                }
-//            }
-            commandSender.sendMessage(ChatColor.GREEN + "[BC] Reload successful !");
-            return true;
-        }
-    }
-
-    /**
-     * Command for toggle chairs
-     */
-    public class ChairsToggle implements CommandExecutor {
-        @Override
-        public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-            if (!(commandSender instanceof Player))
-                return true;
-            Player p = (Player) commandSender;
-            if (disableList.contains(p.getUniqueId())) {
-                disableList.remove(p.getUniqueId());
-//                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.getConfig().getString("Message to send when player toggle chairs to on", "&aYou can sit now")));
-            } else {
-                disableList.add(p.getUniqueId());
-//                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Messages.getConfig().getString("Message to send when player toggle chairs to off", "&cYou can't sit now")));
-            }
-            return true;
-        }
-    }
-
-    /**
-     * Reset the chairs
-     */
-    private static class ChairsReset implements CommandExecutor {
-        @Override
-        public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-//            for (World world : Bukkit.getWorlds()) {
-//                for (Entity entity : world.getEntities()) {
-//                    if (entity instanceof ArmorStand) {
-//                        if (nms.check((ArmorStand) entity)) {
-//                            nms.kill((ArmorStand) entity);
-//                        }
-//                    }
-//                }
-//            }
-
-//            TempGlobal.list.clear();
-            sender.sendMessage("§aBetterChairs reset");
-            return true;
-        }
     }
 }

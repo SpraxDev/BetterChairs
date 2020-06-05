@@ -2,6 +2,7 @@ package de.sprax2013.betterchairs;
 
 import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFile;
 import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFileManager;
+import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,9 +10,11 @@ import java.util.List;
 
 // TODO: Comments inside config.yml
 public class Settings {
+    public static final String PREFIX = "§7[§2BetterChairs§7] ", // TODO: dynamically generate default value
+            PREFIX_CONSOLE = ChatColor.stripColor(PREFIX);  // TODO: Move to messages.yml (console one is hard-coded!)
     private static final int CURR_VERSION = 1;
 
-    private static List<SettingsReloadListener> reloadListeners = new ArrayList<>();
+    private static final List<SettingsReloadListener> reloadListeners = new ArrayList<>();
 
     /* Chair-Settings */
     public static boolean chairNeedsEmptyHands() {
@@ -164,11 +167,10 @@ public class Settings {
         // Backup file
         if (file.renameTo(new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml"))) {
             // TODO: Store console prefix in Messages.java (static/final)
-            System.err.println("[" + (ChairManager.getPlugin() != null ? ChairManager.getPlugin().getName() : "BetterChairs") +
+            System.err.println(Settings.PREFIX_CONSOLE +
                     "Your " + yamlFile.getFile().getName() + " is invalid! Created backup: " + file.getName());
         } else {
-            System.err.println("[" + (ChairManager.getPlugin() != null ? ChairManager.getPlugin().getName() : "BetterChairs") +
-                    "] Failed creating a copy of config.yml");
+            System.err.println(Settings.PREFIX_CONSOLE + "Could not create a copy of config.yml");
         }
     }
 

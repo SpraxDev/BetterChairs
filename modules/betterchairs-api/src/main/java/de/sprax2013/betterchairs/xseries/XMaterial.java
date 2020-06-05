@@ -1096,7 +1096,6 @@ public enum XMaterial {
     ZOMBIE_VILLAGER_SPAWN_EGG(27, "MONSTER_EGG"),
     ZOMBIE_WALL_HEAD(2, "SKULL", "SKULL_ITEM");
 
-
     /**
      * An immutable cached set of {@link XMaterial#values()} to avoid allocating memory for
      * calling the method every time.

@@ -10,23 +10,13 @@ authors: [Sprax2013, BlackScarx]
 website: https://github.com/Sprax2013/BetterChairs
 
 commands:
-  betterchairsreload:
-    description: Reload the config
+  ${pluginName}:
+    description: 'Toggle, Reload or Reset BetterChairs'
+  toggleChairs:
+    description: 'Allows individual players to disabled chairs for them'
     aliases:
-      - bcreload
-      - bcr
-    permission: ${pluginName}.reload
-  betterchairstoggle:
-    description: Command betterchairstoggle
-    aliases:
-      - bctoggle
       - bct
-    permission: ${pluginName}.toggle
-  betterchairsreset:
-    description: Command betterchairsreset
-    aliases:
-      - bcreset
-    permission: ${pluginName}.reset
+    permission: ${pluginName}.cmd.toggle
 
 permissions:
   ${pluginName}.use:
@@ -36,3 +26,10 @@ permissions:
     description: Grants regeneration to a player when sitting
   ${pluginName}.updater:
     descritpion: Notifies players about updates when joining the server
+  ${pluginName}.cmd.toggle:
+    description: Allows individual players to disabled chairs for them
+    default: true
+  ${pluginName}.cmd.reset:
+    description: Allows players to eject all players from their chairs
+  ${pluginName}.cmd.reload:
+    description: Allows players to reload the plugin's configuration files

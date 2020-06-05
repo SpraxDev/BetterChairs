@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-
 /**
  * This class should be instantiated as soon as possible inside
  * {@link JavaPlugin#onEnable()} to ensure that other classes relying on it work as intended
@@ -106,6 +105,19 @@ public class ChairManager {
                 chair.player.teleport(loc);
             }
         }
+    }
+
+    public int destroyAll(boolean teleportPlayer) {
+        int i = 0;
+
+        for (Chair c : new ArrayList<>(chairs)) {
+            destroy(c, teleportPlayer);
+            i++;
+        }
+
+        chairs.clear(); // Just to make sure
+
+        return i;
     }
 
     /**
