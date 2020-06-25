@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Holds a spawned chair<br>
@@ -14,7 +15,7 @@ public class Chair {
     public final Block block;
     public final ArmorStand armorStand;
     public final Player player;
-    public final Location playerOriginalLoc;
+    private final Location playerOriginalLoc;
 
     public Chair(Block block, ArmorStand armorStand, Player player) {
         this.block = block;
@@ -34,6 +35,23 @@ public class Chair {
             throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
 
         return ChairManager.getInstance().chairNMS.isStair(block);
+    }
+
+    public Location getOriginPlayerLocation() {
+        return playerOriginalLoc.clone();
+    }
+
+    @Nullable
+    public Location getPlayerLeavingLocation() {
+        if (!Settings.leavingChairTeleportPlayerToOldLocation()) return null;
+
+        Location loc = playerOriginalLoc.clone();
+
+        if (Settings.leavingChairKeepRotation()) {
+            loc.setDirection(player.getLocation().getDirection());
+        }
+
+        return loc;
     }
 
     /**

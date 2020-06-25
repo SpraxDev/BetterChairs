@@ -64,7 +64,7 @@ public class BetterChairsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         if (getManager() != null) {
-            getManager().destroyAll(true);
+            getManager().destroyAll(true, true);
         }
 
         Settings.reset();

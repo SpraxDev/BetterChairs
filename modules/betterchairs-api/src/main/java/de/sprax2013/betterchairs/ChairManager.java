@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +25,6 @@ public class ChairManager {
 
     protected final ChairNMS chairNMS;
     protected final List<Chair> chairs = new ArrayList<>();
-    protected final HashMap<Player, Chair> chairsAwaitTeleport = new HashMap<>();
 
     protected ChairManager(@NotNull JavaPlugin plugin, @NotNull ChairNMS chairNMS) {
         this.chairNMS = Objects.requireNonNull(chairNMS);
@@ -70,7 +68,7 @@ public class ChairManager {
             return false;
         }
 
-        if (Settings.autoRotate() && chairNMS.isStair(block)) {
+        if (Settings.autoRotate() && chair.isStair()) {
             Location loc = player.getLocation();
             loc.setPitch(0);
 
@@ -101,11 +99,26 @@ public class ChairManager {
     }
 
     /**
+     * Calls {@link #destroy(Chair, boolean, boolean)} with {@code sameTickTeleport = false}
+     *
      * @param chair          The {@link Chair} that should be destroyed
      * @param teleportPlayer true, when called without an {@link org.bukkit.event.player.PlayerTeleportEvent}
      *                       being fired afterwards (e.g. {@link org.spigotmc.event.entity.EntityDismountEvent} does)
+     *
+     * @see #destroy(Chair, boolean, boolean)
      */
     public void destroy(Chair chair, boolean teleportPlayer) {
+        destroy(chair, teleportPlayer, false);
+    }
+
+    /**
+     * @param chair            The {@link Chair} that should be destroyed
+     * @param teleportPlayer   true, when called without an {@link org.bukkit.event.player.PlayerTeleportEvent}
+     *                         being fired afterwards (e.g. {@link org.spigotmc.event.entity.EntityDismountEvent} does)
+     * @param sameTickTeleport For compatibility reasons the player is teleported on the next server tick.
+     *                         This may not be possible in some situations
+     */
+    public void destroy(Chair chair, boolean teleportPlayer, boolean sameTickTeleport) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
 
         boolean hasPassenger = chair.armorStand.getPassenger() != null;
@@ -116,29 +129,26 @@ public class ChairManager {
         chairNMS.killChairArmorStand(chair.armorStand);
         chairs.remove(chair);
 
-        if (hasPassenger) {
-            if (!teleportPlayer) {
-                chairsAwaitTeleport.put(chair.player, chair);
+        if (hasPassenger && teleportPlayer && Settings.leavingChairTeleportPlayerToOldLocation()) {
+            Runnable task = () -> chair.player.teleport(chair.getPlayerLeavingLocation());
+
+            if (sameTickTeleport) {
+                task.run();
             } else {
-                //TODO: Extract teleport into own method as it is used in the onTeleport listener
-                //TODO: Check in config if 'return to old location' is enabled and teleport player on-top of chair of not
-                Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
-
-                // Set the coordinates the player came from
-                loc.setX(chair.playerOriginalLoc.getX());
-                loc.setY(chair.playerOriginalLoc.getY());
-                loc.setZ(chair.playerOriginalLoc.getZ());
-
-                chair.player.teleport(loc);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), task);
             }
         }
     }
 
     public int destroyAll(boolean teleportPlayer) {
+        return destroyAll(teleportPlayer, false);
+    }
+
+    public int destroyAll(boolean teleportPlayer, boolean sameTickTeleport) {
         int i = 0;
 
         for (Chair c : new ArrayList<>(chairs)) {
-            destroy(c, teleportPlayer);
+            destroy(c, teleportPlayer, sameTickTeleport);
             i++;
         }
 
@@ -153,7 +163,9 @@ public class ChairManager {
      * @return true if a player is sitting on it, false otherwise
      */
     public boolean isOccupied(@NotNull Block b) {
-        for (Chair c : chairs) {
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+
+        for (Chair c : new ArrayList<>(chairs)) {
             if (b.equals(c.block)) {
                 return !c.destroyOnNoPassenger();
             }
@@ -164,7 +176,9 @@ public class ChairManager {
 
     @Nullable
     public Chair getChair(@NotNull Player p) {
-        for (Chair c : chairs) {
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+
+        for (Chair c : new ArrayList<>(chairs)) {
             if (p == c.player) {
                 if (!c.destroyOnNoPassenger()) return c;
             }
@@ -175,7 +189,9 @@ public class ChairManager {
 
     @Nullable
     public Chair getChair(@NotNull Block b) {
-        for (Chair c : chairs) {
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+
+        for (Chair c : new ArrayList<>(chairs)) {
             if (b == c.block) {
                 if (!c.destroyOnNoPassenger()) return c;
             }
@@ -186,7 +202,9 @@ public class ChairManager {
 
     @Nullable
     public Chair getChair(@NotNull ArmorStand armorStand) {
-        for (Chair c : chairs) {
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+
+        for (Chair c : new ArrayList<>(chairs)) {
             if (armorStand == c.armorStand) {
                 if (!c.destroyOnNoPassenger()) return c;
             }

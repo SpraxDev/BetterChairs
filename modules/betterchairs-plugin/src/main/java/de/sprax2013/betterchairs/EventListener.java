@@ -16,7 +16,6 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
@@ -37,6 +36,7 @@ public class EventListener implements Listener {
 
         // Check Player
         if (e.getPlayer().isSneaking()) return;
+        if (getManager().getChair(e.getPlayer()) != null) return;   // Destroy zombie chair on old spigot versions
         if (e.getPlayer().getVehicle() != null) return; // Already sitting on something
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
         if (Settings.needsEmptyHands() &&
@@ -66,13 +66,12 @@ public class EventListener implements Listener {
         // Spawn Chair
         e.setUseItemInHand(Event.Result.DENY);
         e.setUseInteractedBlock(Event.Result.DENY);
+        e.setCancelled(true);
         getManager().create(e.getPlayer(), e.getClickedBlock());
     }
 
     /**
-     * Found out this Event exists used this instead of some other method...
-     * Turns out the event is not fired in all versions equally (not every version fires for ArmorStand)... *sight*<br>
-     * TODO: Check if this event is still required with the new workaround is in place (+ {@link #onTeleport(PlayerTeleportEvent)}
+     * This Event only works in latest spigot-1.8.8 and newer
      */
     @EventHandler(priority = EventPriority.MONITOR)
     private void onDismount(EntityDismountEvent e) {
@@ -82,40 +81,8 @@ public class EventListener implements Listener {
             Chair c = getManager().getChair((ArmorStand) armorStand);
 
             if (c != null) {
-                getManager().destroy(c, false);
+                getManager().destroy(c, true);
             }
-        }
-    }
-
-    /**
-     * Correct player teleport after {@link EntityDismountEvent} when required<br>
-     * Leaving the ArmorStand sometimes overwrites our teleport causing the ejection
-     * so the server teleports the player because of the ejection on the next tick
-     */
-    @EventHandler(priority = EventPriority.LOW)
-    private void onTeleport(PlayerTeleportEvent e) {
-        Chair chair = getManager().chairsAwaitTeleport.get(e.getPlayer());
-
-        if (chair == null) return;  // Player not sitting
-
-        // Check if only the y coordinates changed (= teleport probably caused by EntityDismountEvent)
-        if (e.getCause() == PlayerTeleportEvent.TeleportCause.UNKNOWN &&
-                e.getFrom().getWorld() == e.getTo().getWorld() &&
-                e.getFrom().getX() == e.getTo().getX() &&
-                e.getFrom().getZ() == e.getTo().getZ() &&
-                e.getFrom().getYaw() == e.getTo().getYaw() &&
-                e.getFrom().getPitch() == e.getTo().getPitch() &&
-                Math.abs(e.getTo().getY() - e.getFrom().getY()) < 1 /* Making sure y only change by +-1 */) {
-            getManager().chairsAwaitTeleport.remove(e.getPlayer());
-
-            Location loc = chair.player.getLocation();  // Keep Yaw/Pitch and only clone Location once for it
-
-            // Set the coordinates the player came from
-            loc.setX(chair.playerOriginalLoc.getX());
-            loc.setY(chair.playerOriginalLoc.getY());
-            loc.setZ(chair.playerOriginalLoc.getZ());
-
-            e.setTo(loc);
         }
     }
 
@@ -132,7 +99,7 @@ public class EventListener implements Listener {
             Chair c = getManager().getChair((ArmorStand) vehicle);
 
             if (c != null) {
-                getManager().destroy(c, true);
+                getManager().destroy(c, true, true);
             }
         }
     }

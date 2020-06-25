@@ -34,6 +34,14 @@ public class Settings {
         return getSettings().getCfg().getBoolean("Chairs.UseStairs");
     }
 
+    public static boolean leavingChairTeleportPlayerToOldLocation() {
+        return getSettings().getCfg().getBoolean("Chairs.LeavingChair.TeleportPlayerToOldLocation");
+    }
+
+    public static boolean leavingChairKeepRotation() {
+        return getSettings().getCfg().getBoolean("Chairs.LeavingChair.KeepRotation");
+    }
+
     public static int chairRegenerationAmplifier() {
         return getSettings().getCfg().getInt("Chairs.Regeneration.Amplifier");
     }
@@ -119,6 +127,9 @@ public class Settings {
             yamlFile.addDefault("Chairs.NeedEmptyHands", true);
             yamlFile.addDefault("Chairs.UseSlabs", false);
             yamlFile.addDefault("Chairs.UseStairs", true);
+
+            yamlFile.addDefault("Chairs.LeavingChair.TeleportPlayerToOldLocation", true);
+            yamlFile.addDefault("Chairs.LeavingChair.KeepRotation", true);
 
             yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);
             yamlFile.addDefault("Chairs.Regeneration.Enabled", false);
