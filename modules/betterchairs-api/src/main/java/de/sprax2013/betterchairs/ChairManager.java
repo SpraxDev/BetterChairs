@@ -48,6 +48,7 @@ public class ChairManager {
      * @throws IllegalArgumentException When {@code block} is not a valid chair block
      */
     public boolean create(Player player, Block block) {
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
         if (!chairNMS.isStair(block) && !chairNMS.isSlab(block))
             throw new IllegalArgumentException("The provided block is neither a stair nor a slab");
 
@@ -69,8 +70,33 @@ public class ChairManager {
             return false;
         }
 
+        if (Settings.autoTurn() && chairNMS.isStair(block)) {
+            Location loc = player.getLocation();
+            loc.setPitch(0);
+
+            switch (chairNMS.getStairRotation(block)) {
+                case NORTH:
+                    loc.setYaw(0);
+                    break;
+                case EAST:
+                    loc.setYaw(90);
+                    break;
+                case SOUTH:
+                    loc.setYaw(180);
+                    break;
+                case WEST:
+                    loc.setYaw(-90);
+                    break;
+                default:
+                    break;
+            }
+
+            player.teleport(loc);
+        }
+
         chairs.add(chair);
         armorStand.setPassenger(player);
+
         return true;
     }
 
@@ -80,6 +106,8 @@ public class ChairManager {
      *                       being fired afterwards (e.g. {@link org.spigotmc.event.entity.EntityDismountEvent} does)
      */
     public void destroy(Chair chair, boolean teleportPlayer) {
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+
         boolean hasPassenger = chair.armorStand.getPassenger() != null;
 
         if (hasPassenger)

@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,6 +53,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         //  This Fork should be considered unofficial as long as it is not approved by the author (but I have maintainer rights,
         //  so reporting to the original bStats page should be fine [hopefully ,_,])
         try {
+            // TODO: Add Custom ServerVersion-Pie that shows NMS-Versions when clicked
             new MetricsLite(this, 768); // TODO: Does not work on Spigot 1.8.0? (Can't find gson)
         } catch (Throwable th) {
             System.err.println(Settings.PREFIX_CONSOLE + "Could not load bStats (" + th.getClass().getSimpleName() + "): " +
@@ -142,6 +144,25 @@ public class BetterChairsPlugin extends JavaPlugin {
                     }
 
                     return false;
+                }
+
+                @Override
+                @NotNull
+                public BlockFace getStairRotation(@NotNull Block block) {
+                    try {
+                        // TODO: deduplicate code
+                        BlockFace blockFace = ((Stairs) block.getState().getData()).getFacing();
+
+                        if (blockFace == BlockFace.NORTH) return BlockFace.SOUTH;
+                        if (blockFace == BlockFace.SOUTH) return BlockFace.NORTH;
+                        if (blockFace == BlockFace.WEST) return BlockFace.EAST;
+                        if (blockFace == BlockFace.EAST) return BlockFace.WEST;
+
+                        return blockFace;
+                    } catch (Throwable ignore) {
+                    }
+
+                    return BlockFace.SELF;
                 }
 
                 @Override

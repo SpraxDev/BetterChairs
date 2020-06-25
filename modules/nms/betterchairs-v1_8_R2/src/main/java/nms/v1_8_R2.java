@@ -9,6 +9,7 @@ import net.minecraft.server.v1_8_R2.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftHumanEntity;
@@ -70,6 +71,18 @@ public class v1_8_R2 extends ChairNMS {
     @Override
     public boolean isStairUpsideDown(@NotNull Block block) {
         return ((Stairs) block.getState().getData()).isInverted();
+    }
+
+    @Override
+    public @NotNull BlockFace getStairRotation(@NotNull Block block) {
+        BlockFace blockFace = ((Stairs) block.getState().getData()).getFacing();
+
+        if (blockFace == BlockFace.NORTH) return BlockFace.SOUTH;
+        if (blockFace == BlockFace.SOUTH) return BlockFace.NORTH;
+        if (blockFace == BlockFace.WEST) return BlockFace.EAST;
+        if (blockFace == BlockFace.EAST) return BlockFace.WEST;
+
+        return blockFace;
     }
 
     @Override

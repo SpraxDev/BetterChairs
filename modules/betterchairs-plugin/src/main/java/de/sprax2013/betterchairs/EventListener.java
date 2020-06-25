@@ -39,7 +39,7 @@ public class EventListener implements Listener {
         if (e.getPlayer().isSneaking()) return;
         if (e.getPlayer().getVehicle() != null) return; // Already sitting on something
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
-        if (Settings.chairNeedsEmptyHands() &&
+        if (Settings.needsEmptyHands() &&
                 !getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;
 
         // Is world disabled?

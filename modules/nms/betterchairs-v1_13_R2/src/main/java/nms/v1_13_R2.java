@@ -10,6 +10,7 @@ import net.minecraft.server.v1_13_R2.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Stairs;
@@ -71,6 +72,11 @@ public class v1_13_R2 extends ChairNMS {
     @Override
     public boolean isStairUpsideDown(@NotNull Block block) {
         return ((Stairs) block.getBlockData()).getHalf() == Bisected.Half.TOP;
+    }
+
+    @Override
+    public @NotNull BlockFace getStairRotation(@NotNull Block block) {
+        return ((Stairs) block.getBlockData()).getFacing();
     }
 
     @Override

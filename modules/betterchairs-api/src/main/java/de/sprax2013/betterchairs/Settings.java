@@ -18,24 +18,28 @@ public class Settings {
     private static final List<SettingsReloadListener> reloadListeners = new ArrayList<>();
 
     /* Chair-Settings */
-    public static boolean chairNeedsEmptyHands() {
-        return getSettings().getCfg().getBoolean("Chairs.NeedEmptyHands");
+    public static boolean autoTurn() {
+        return getSettings().getCfg().getBoolean("Chairs.AutoTurn");
     }
 
-    public static boolean useStairs() {
-        return getSettings().getCfg().getBoolean("Chairs.UseStairs");
+    public static boolean needsEmptyHands() {
+        return getSettings().getCfg().getBoolean("Chairs.NeedEmptyHands");
     }
 
     public static boolean useSlabs() {
         return getSettings().getCfg().getBoolean("Chairs.UseSlabs");
     }
 
-    public static boolean chairRegeneration() {
-        return getSettings().getCfg().getBoolean("Chairs.Regeneration.Enabled");
+    public static boolean useStairs() {
+        return getSettings().getCfg().getBoolean("Chairs.UseStairs");
     }
 
     public static int chairRegenerationAmplifier() {
         return getSettings().getCfg().getInt("Chairs.Regeneration.Amplifier");
+    }
+
+    public static boolean chairRegeneration() {
+        return getSettings().getCfg().getBoolean("Chairs.Regeneration.Enabled");
     }
 
     /* Filter: Worlds */
@@ -111,11 +115,13 @@ public class Settings {
         if (yamlFile.getCountOfDefaultValues() == 0) {
             yamlFile.addDefault("version", CURR_VERSION);
 
+            yamlFile.addDefault("Chairs.AutoTurn", true);
             yamlFile.addDefault("Chairs.NeedEmptyHands", true);
-            yamlFile.addDefault("Chairs.UseStairs", true);
             yamlFile.addDefault("Chairs.UseSlabs", false);
-            yamlFile.addDefault("Chairs.Regeneration.Enabled", false);
+            yamlFile.addDefault("Chairs.UseStairs", true);
+
             yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);
+            yamlFile.addDefault("Chairs.Regeneration.Enabled", false);
 
             yamlFile.addDefault("Filter.Worlds.Enabled", false);
             yamlFile.addDefault("Filter.Worlds.UseAsBlacklist", true);

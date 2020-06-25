@@ -2,6 +2,7 @@ package de.sprax2013.betterchairs;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -20,7 +21,7 @@ import java.lang.reflect.Field;
  * </ul>
  */
 public abstract class ChairNMS {
-    public static final int regenerationEffectDuration = 60;    // In Ticks
+    public static final int regenerationEffectDuration = 3 * 20;    // In Ticks
 
     /**
      * Spawns an ArmorStand that is/has:
@@ -43,6 +44,9 @@ public abstract class ChairNMS {
     public abstract boolean isStair(@NotNull Block block);
 
     public abstract boolean isStairUpsideDown(@NotNull Block block);
+
+    @NotNull
+    public abstract BlockFace getStairRotation(@NotNull Block block);
 
     /**
      * @param block The {@link Block} to check
