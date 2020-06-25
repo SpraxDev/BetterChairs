@@ -70,7 +70,7 @@ public class ChairManager {
             return false;
         }
 
-        if (Settings.autoTurn() && chairNMS.isStair(block)) {
+        if (Settings.autoRotate() && chairNMS.isStair(block)) {
             Location loc = player.getLocation();
             loc.setPitch(0);
 

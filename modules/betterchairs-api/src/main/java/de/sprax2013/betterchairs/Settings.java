@@ -18,8 +18,8 @@ public class Settings {
     private static final List<SettingsReloadListener> reloadListeners = new ArrayList<>();
 
     /* Chair-Settings */
-    public static boolean autoTurn() {
-        return getSettings().getCfg().getBoolean("Chairs.AutoTurn");
+    public static boolean autoRotate() {
+        return getSettings().getCfg().getBoolean("Chairs.AutoRotate");
     }
 
     public static boolean needsEmptyHands() {
@@ -115,7 +115,7 @@ public class Settings {
         if (yamlFile.getCountOfDefaultValues() == 0) {
             yamlFile.addDefault("version", CURR_VERSION);
 
-            yamlFile.addDefault("Chairs.AutoTurn", true);
+            yamlFile.addDefault("Chairs.AutoRotate", true);
             yamlFile.addDefault("Chairs.NeedEmptyHands", true);
             yamlFile.addDefault("Chairs.UseSlabs", false);
             yamlFile.addDefault("Chairs.UseStairs", true);
