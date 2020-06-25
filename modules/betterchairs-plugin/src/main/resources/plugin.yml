@@ -7,7 +7,7 @@ main: ${project.parent.groupId}.${project.parent.artifactId}.BetterChairsPlugin
 
 author: Sprax2013
 authors: [Sprax2013, BlackScarx]
-website: https://github.com/Sprax2013/BetterChairs
+website: https://github.com/SpraxDev/BetterChairs
 
 commands:
   ${pluginName}:

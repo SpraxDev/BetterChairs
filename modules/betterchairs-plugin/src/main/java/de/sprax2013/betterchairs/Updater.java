@@ -23,7 +23,7 @@ import java.util.TimerTask;
 
 public class Updater implements Listener {
     // TODO: Use SpigotMC as DownloadURL
-    public static final String DOWNLOAD_URL = "https://github.com/Sprax2013/BetterChairs/releases";
+    public static final String DOWNLOAD_URL = "https://github.com/SpraxDev/BetterChairs/releases";
 
     private final JavaPlugin plugin;
 
@@ -78,7 +78,7 @@ public class Updater implements Listener {
     }
 
     private void checkForUpdates() throws IOException {
-        URL website = new URL("https://sprax2013.github.io/BetterChairs/version.txt");
+        URL website = new URL("https://spraxdev.github.io/BetterChairs/version.txt");
         URLConnection connection = website.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
