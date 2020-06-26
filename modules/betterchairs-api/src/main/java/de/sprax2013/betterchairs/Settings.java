@@ -50,6 +50,14 @@ public class Settings {
         return getSettings().getCfg().getBoolean("Chairs.LeavingChair.KeepHeadRotation");
     }
 
+    public static boolean sendMessageWhenOccupied() {
+        return getSettings().getCfg().getBoolean("Chairs.Messages.AlreadyOccupied");
+    }
+
+    public static boolean sendMessageWhenNeedsSignsOnBothSides() {
+        return getSettings().getCfg().getBoolean("Chairs.Messages.NeedsSignsOnBothSides");
+    }
+
     public static int chairRegenerationAmplifier() {
         return getSettings().getCfg().getInt("Chairs.Regeneration.Amplifier");
     }
@@ -140,6 +148,9 @@ public class Settings {
 
             yamlFile.addDefault("Chairs.LeavingChair.TeleportPlayerToOldLocation", true);
             yamlFile.addDefault("Chairs.LeavingChair.KeepHeadRotation", true);
+
+            yamlFile.addDefault("Chairs.Messages.AlreadyOccupied", false);
+            yamlFile.addDefault("Chairs.Messages.NeedsSignsOnBothSides", false);
 
             yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);
             yamlFile.addDefault("Chairs.Regeneration.Enabled", false);

@@ -70,7 +70,13 @@ public class EventListener implements Listener {
                 getManager().chairNMS.isStairUpsideDown(e.getClickedBlock())) return;   // Stair but upside down
 
         // Check Chair
-        if (getManager().isOccupied(e.getClickedBlock())) return;    //TODO: Send message to player? (config)
+        if (getManager().isOccupied(e.getClickedBlock())) {
+            if (Settings.sendMessageWhenOccupied()) {
+                e.getPlayer().sendMessage(Settings.PREFIX + "This chair is already occupied!");
+            }
+
+            return;
+        }
 
         // Check if Chair needs Signs
         if (Settings.needsSignsOnBothSides()) {
@@ -85,12 +91,20 @@ public class EventListener implements Listener {
             // Are WALL_SIGNs placed?
             if (!WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block1.getType())) ||
                     !WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block2.getType()))) {
+                if (Settings.sendMessageWhenNeedsSignsOnBothSides()) {
+                    e.getPlayer().sendMessage(Settings.PREFIX + "§2A chair needs a sign attached to it on both sides");
+                }
+
                 return; // No
             }
 
             // Are they attached to the chair?
             if (side1 != getManager().chairNMS.getBlockRotation(block1).getOppositeFace() ||
                     side2 != getManager().chairNMS.getBlockRotation(block2).getOppositeFace()) {
+                if (Settings.sendMessageWhenNeedsSignsOnBothSides()) {
+                    e.getPlayer().sendMessage(Settings.PREFIX + "§2A chair needs a sign attached to it on both sides");
+                }
+
                 return; // No
             }
         }
