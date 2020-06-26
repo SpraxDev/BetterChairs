@@ -18,6 +18,10 @@ public class Settings {
     private static final List<SettingsReloadListener> reloadListeners = new ArrayList<>();
 
     /* Chair-Settings */
+    public static int allowedDistance() {
+        return getSettings().getCfg().getInt("Chairs.AllowedDistanceToChair");
+    }
+
     public static boolean autoRotate() {
         return getSettings().getCfg().getBoolean("Chairs.AutoRotatePlayer");
     }
@@ -127,6 +131,7 @@ public class Settings {
         if (yamlFile.getCountOfDefaultValues() == 0) {
             yamlFile.addDefault("version", CURR_VERSION);
 
+            yamlFile.addDefault("Chairs.AllowedDistanceToChair", -1);
             yamlFile.addDefault("Chairs.AutoRotatePlayer", true);
             yamlFile.addDefault("Chairs.NeedEmptyHands", true);
             yamlFile.addDefault("Chairs.NeedsSignsOnBothSides", false);

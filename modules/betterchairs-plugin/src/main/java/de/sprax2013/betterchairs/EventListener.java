@@ -43,10 +43,13 @@ public class EventListener implements Listener {
         if (e.getPlayer().isSneaking()) return;
         if (getManager().hasChairsDisabled(e.getPlayer())) return;
         if (getManager().getChair(e.getPlayer()) != null) return;   // Destroy zombie chair on old spigot versions
-        if (e.getPlayer().getVehicle() != null) return; // Already sitting on something
+        if (e.getPlayer().getVehicle() != null) return; // Already sitting on something else
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
         if (Settings.needsEmptyHands() &&
                 !getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;
+        if (Settings.allowedDistance() > 0 &&
+                e.getPlayer().getLocation()  // TODO: Use center of Block for distance
+                        .distance(e.getClickedBlock().getLocation()) > Settings.allowedDistance()) return;
 
         // Is world disabled?
         if (Settings.isWorldFilterEnabled()) {
