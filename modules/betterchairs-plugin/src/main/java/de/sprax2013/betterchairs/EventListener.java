@@ -31,11 +31,11 @@ public class EventListener implements Listener {
     private void onInteract(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
-        //TODO: Check if player has chairs disabled
         //TODO: Check if Chair has (and needs) signs on the sides
 
         // Check Player
         if (e.getPlayer().isSneaking()) return;
+        if (getManager().hasChairsDisabled(e.getPlayer())) return;
         if (getManager().getChair(e.getPlayer()) != null) return;   // Destroy zombie chair on old spigot versions
         if (e.getPlayer().getVehicle() != null) return; // Already sitting on something
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
@@ -100,6 +100,7 @@ public class EventListener implements Listener {
 
             if (c != null) {
                 getManager().destroy(c, true, true);
+                getManager().setChairsDisabled(e.getPlayer(), false);
             }
         }
     }

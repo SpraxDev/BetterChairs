@@ -25,6 +25,7 @@ public class ChairManager {
 
     protected final ChairNMS chairNMS;
     protected final List<Chair> chairs = new ArrayList<>();
+    protected final List<Player> disabled = new ArrayList<>();
 
     protected ChairManager(@NotNull JavaPlugin plugin, @NotNull ChairNMS chairNMS) {
         this.chairNMS = Objects.requireNonNull(chairNMS);
@@ -36,7 +37,8 @@ public class ChairManager {
     /**
      * Check if a chair can be spawned and call an Event.<br>
      * If the event doesn't get cancelled,
-     * the player should then be able to sit.
+     * the player should then be able to sit.<br>
+     * <b>Ignores {@link #hasChairsDisabled(Player)}</b>
      *
      * @param player The player that should sit
      * @param block  The block the player should sit on
@@ -215,6 +217,20 @@ public class ChairManager {
 
     public boolean isChair(@NotNull ArmorStand armorStand) {
         return getChair(armorStand) != null;
+    }
+
+    public boolean hasChairsDisabled(Player player) {
+        return disabled.contains(player);
+    }
+
+    public void setChairsDisabled(Player player, boolean areDisabled) {
+        if (areDisabled) {
+            if (!disabled.contains(player)) {
+                disabled.add(player);
+            }
+        } else {
+            disabled.remove(player);
+        }
     }
 
     /**

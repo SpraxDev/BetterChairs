@@ -104,7 +104,15 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     private void handleToggleChairs(CommandSender sender) {
         if (sender.hasPermission(PERMS_TOGGLE)) {
             if (sender instanceof Player) {
-                sender.sendMessage("§4Sorry - This feature is not yet available!");
+                boolean nowDisabled = !getManager().hasChairsDisabled((Player) sender);
+                getManager().setChairsDisabled((Player) sender, nowDisabled);
+
+                if (nowDisabled) {
+                    sender.sendMessage(Settings.PREFIX + "§eChairs are now disabled until you leave the " +
+                            "server or run the command again");
+                } else {
+                    sender.sendMessage(Settings.PREFIX + "§eYou can now use Chairs again");
+                }
             } else {
                 sender.sendMessage(Settings.PREFIX + "§cOnly players may toggle chairs");
             }
