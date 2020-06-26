@@ -19,7 +19,7 @@ public class Settings {
 
     /* Chair-Settings */
     public static boolean autoRotate() {
-        return getSettings().getCfg().getBoolean("Chairs.AutoRotate");
+        return getSettings().getCfg().getBoolean("Chairs.AutoRotatePlayer");
     }
 
     public static boolean needsEmptyHands() {
@@ -42,8 +42,8 @@ public class Settings {
         return getSettings().getCfg().getBoolean("Chairs.LeavingChair.TeleportPlayerToOldLocation");
     }
 
-    public static boolean leavingChairKeepRotation() {
-        return getSettings().getCfg().getBoolean("Chairs.LeavingChair.KeepRotation");
+    public static boolean leavingChairKeepHeadRotation() {
+        return getSettings().getCfg().getBoolean("Chairs.LeavingChair.KeepHeadRotation");
     }
 
     public static int chairRegenerationAmplifier() {
@@ -127,14 +127,14 @@ public class Settings {
         if (yamlFile.getCountOfDefaultValues() == 0) {
             yamlFile.addDefault("version", CURR_VERSION);
 
-            yamlFile.addDefault("Chairs.AutoRotate", true);
+            yamlFile.addDefault("Chairs.AutoRotatePlayer", true);
             yamlFile.addDefault("Chairs.NeedEmptyHands", true);
             yamlFile.addDefault("Chairs.NeedsSignsOnBothSides", false);
             yamlFile.addDefault("Chairs.UseSlabs", false);
             yamlFile.addDefault("Chairs.UseStairs", true);
 
             yamlFile.addDefault("Chairs.LeavingChair.TeleportPlayerToOldLocation", true);
-            yamlFile.addDefault("Chairs.LeavingChair.KeepRotation", true);
+            yamlFile.addDefault("Chairs.LeavingChair.KeepHeadRotation", true);
 
             yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);
             yamlFile.addDefault("Chairs.Regeneration.Enabled", false);

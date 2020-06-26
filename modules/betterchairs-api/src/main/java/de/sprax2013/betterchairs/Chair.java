@@ -47,7 +47,7 @@ public class Chair {
 
         Location loc = playerOriginalLoc.clone();
 
-        if (Settings.leavingChairKeepRotation()) {
+        if (Settings.leavingChairKeepHeadRotation()) {
             loc.setDirection(player.getLocation().getDirection());
         }
 
