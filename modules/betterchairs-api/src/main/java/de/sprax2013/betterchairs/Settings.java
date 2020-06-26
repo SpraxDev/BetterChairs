@@ -26,6 +26,10 @@ public class Settings {
         return getSettings().getCfg().getBoolean("Chairs.NeedEmptyHands");
     }
 
+    public static boolean needsSignsOnBothSides() {
+        return getSettings().getCfg().getBoolean("Chairs.NeedsSignsOnBothSides");
+    }
+
     public static boolean useSlabs() {
         return getSettings().getCfg().getBoolean("Chairs.UseSlabs");
     }
@@ -125,6 +129,7 @@ public class Settings {
 
             yamlFile.addDefault("Chairs.AutoRotate", true);
             yamlFile.addDefault("Chairs.NeedEmptyHands", true);
+            yamlFile.addDefault("Chairs.NeedsSignsOnBothSides", false);
             yamlFile.addDefault("Chairs.UseSlabs", false);
             yamlFile.addDefault("Chairs.UseStairs", true);
 

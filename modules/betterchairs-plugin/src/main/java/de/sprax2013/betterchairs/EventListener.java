@@ -1,7 +1,9 @@
 package de.sprax2013.betterchairs;
 
+import de.sprax2013.betterchairs.xseries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -18,9 +20,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
 public class EventListener implements Listener {
+    private static final List<XMaterial> WALL_SIGN_MATERIAL = Arrays.asList(XMaterial.ACACIA_WALL_SIGN,
+            XMaterial.BIRCH_WALL_SIGN, XMaterial.DARK_OAK_WALL_SIGN, XMaterial.JUNGLE_WALL_SIGN,
+            XMaterial.OAK_WALL_SIGN, XMaterial.SPRUCE_WALL_SIGN);
     /* Spawn and Destroy Chairs */
 
     /**
@@ -30,8 +38,6 @@ public class EventListener implements Listener {
     @EventHandler
     private void onInteract(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-
-        //TODO: Check if Chair has (and needs) signs on the sides
 
         // Check Player
         if (e.getPlayer().isSneaking()) return;
@@ -62,6 +68,29 @@ public class EventListener implements Listener {
 
         // Check Chair
         if (getManager().isOccupied(e.getClickedBlock())) return;    //TODO: Send message to player? (config)
+
+        // Check if Chair needs Signs
+        if (Settings.needsSignsOnBothSides()) {
+            BlockFace rotation = getManager().chairNMS.getBlockRotation(e.getClickedBlock());
+
+            BlockFace side1 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.WEST : BlockFace.NORTH,
+                    side2 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.EAST : BlockFace.SOUTH;
+
+            Block block1 = e.getClickedBlock().getRelative(side1),
+                    block2 = e.getClickedBlock().getRelative(side2);
+
+            // Are WALL_SIGNs placed?
+            if (!WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block1.getType())) ||
+                    !WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block2.getType()))) {
+                return; // No
+            }
+
+            // Are they attached to the chair?
+            if (side1 != getManager().chairNMS.getBlockRotation(block1).getOppositeFace() ||
+                    side2 != getManager().chairNMS.getBlockRotation(block2).getOppositeFace()) {
+                return; // No
+            }
+        }
 
         // Spawn Chair
         e.setUseItemInHand(Event.Result.DENY);
