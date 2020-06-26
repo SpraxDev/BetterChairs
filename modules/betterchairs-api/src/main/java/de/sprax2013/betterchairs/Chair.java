@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -12,9 +13,9 @@ import org.jetbrains.annotations.Nullable;
  * as soon the the player leaves the chair
  */
 public class Chair {
-    public final Block block;
-    public final ArmorStand armorStand;
-    public final Player player;
+    protected final Block block;
+    protected final ArmorStand armorStand;
+    protected final Player player;
     private final Location playerOriginalLoc;
 
     public Chair(Block block, ArmorStand armorStand, Player player) {
@@ -37,8 +38,24 @@ public class Chair {
         return ChairManager.getInstance().chairNMS.isStair(block);
     }
 
+    @NotNull
     public Location getOriginPlayerLocation() {
         return playerOriginalLoc.clone();
+    }
+
+    @NotNull
+    public Block getBlock() {
+        return block;
+    }
+
+    @NotNull
+    public ArmorStand getArmorStand() {
+        return armorStand;
+    }
+
+    @NotNull
+    public Player getPlayer() {
+        return player;
     }
 
     @Nullable
