@@ -46,7 +46,7 @@ public abstract class ChairNMS {
     public abstract boolean isStairUpsideDown(@NotNull Block block);
 
     @NotNull
-    public abstract BlockFace getStairRotation(@NotNull Block block);
+    public abstract BlockFace getBlockRotation(@NotNull Block block);
 
     /**
      * @param block The {@link Block} to check

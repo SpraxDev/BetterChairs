@@ -17,6 +17,7 @@ import org.bukkit.craftbukkit.v1_9_R1.entity.CraftHumanEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.material.Directional;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Step;
 import org.bukkit.material.WoodenStep;
@@ -75,8 +76,8 @@ public class v1_9_R1 extends ChairNMS {
     }
 
     @Override
-    public @NotNull BlockFace getStairRotation(@NotNull Block block) {
-        BlockFace blockFace = ((Stairs) block.getState().getData()).getFacing();
+    public @NotNull BlockFace getBlockRotation(@NotNull Block block) {
+        BlockFace blockFace = ((Directional) block.getState().getData()).getFacing();
 
         if (blockFace == BlockFace.NORTH) return BlockFace.SOUTH;
         if (blockFace == BlockFace.SOUTH) return BlockFace.NORTH;

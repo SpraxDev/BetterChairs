@@ -20,6 +20,7 @@ import org.bukkit.craftbukkit.v1_15_R1.entity.CraftHumanEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.material.Directional;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -75,8 +76,8 @@ public class v1_15_R1 extends ChairNMS {
     }
 
     @Override
-    public @NotNull BlockFace getStairRotation(@NotNull Block block) {
-        return ((Stairs) block.getBlockData()).getFacing();
+    public @NotNull BlockFace getBlockRotation(@NotNull Block block) {
+        return ((Directional) block.getBlockData()).getFacing();
     }
 
     @Override

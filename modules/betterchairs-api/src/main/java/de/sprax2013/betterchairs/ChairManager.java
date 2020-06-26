@@ -74,7 +74,7 @@ public class ChairManager {
             Location loc = player.getLocation();
             loc.setPitch(0);
 
-            switch (chairNMS.getStairRotation(block)) {
+            switch (chairNMS.getBlockRotation(block)) {
                 case NORTH:
                     loc.setYaw(0);
                     break;

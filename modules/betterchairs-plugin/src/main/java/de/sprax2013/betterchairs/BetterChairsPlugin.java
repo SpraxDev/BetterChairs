@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
+import org.bukkit.material.Directional;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Step;
 import org.bukkit.material.WoodenStep;
@@ -148,10 +149,10 @@ public class BetterChairsPlugin extends JavaPlugin {
 
                 @Override
                 @NotNull
-                public BlockFace getStairRotation(@NotNull Block block) {
+                public BlockFace getBlockRotation(@NotNull Block block) {
                     try {
                         // TODO: deduplicate code
-                        BlockFace blockFace = ((Stairs) block.getState().getData()).getFacing();
+                        BlockFace blockFace = ((Directional) block.getState().getData()).getFacing();
 
                         if (blockFace == BlockFace.NORTH) return BlockFace.SOUTH;
                         if (blockFace == BlockFace.SOUTH) return BlockFace.NORTH;
