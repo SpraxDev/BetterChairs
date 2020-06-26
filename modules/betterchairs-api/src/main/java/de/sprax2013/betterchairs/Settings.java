@@ -11,7 +11,7 @@ import java.util.List;
 // TODO: Create messages.yml
 // TODO: Comments inside config.yml
 public class Settings {
-    public static final String PREFIX = "§7[§2BetterChairs§7] ", // TODO: dynamically generate default value
+    public static final String PREFIX = "§7[§2BetterChairs§7] ",    // TODO: read plugin name from plugin.yml
             PREFIX_CONSOLE = ChatColor.stripColor(PREFIX);  // TODO: Move to messages.yml (console one is hard-coded!)
     private static final int CURR_VERSION = 1;
 
@@ -93,30 +93,83 @@ public class Settings {
 
         boolean save = false;
 
+        // Convert from old config or delete when invalid version
         if (yamlFile.getCfg().getKeys(false).size() > 0) {
             if (!yamlFile.getCfg().contains("version")) {
-                // TODO: Keys that still need to be converted:
-                // Use slab (Boolean)
-                // Send message when player sit (Boolean)
-                // Update Checker (Boolean)
-                // Send message if the chairs is already occupied (Boolean)
-                // Send message if the word is disable (Boolean)
-                // Disable world (StringList)
-                // AutoTurn (Boolean)
-                // Distance of the stairs (Int)
-                // Need to sign or chair on each side (Boolean)
-                // Send message if the Chairs need sign or chair (Boolean)
-                // No item in hand (Boolean)
-                // Regen need permission (Boolean)
-                // Regen when sit (Boolean)
-                // Amplifier (Int)
+                System.out.println(PREFIX_CONSOLE + "Found old BetterChairs config. Converting into new format...");
+
+                Object autoRotatePlayer = yamlFile.getCfg().get("AutoTurn"), /* boolean */
+                        checkForUpdate = yamlFile.getCfg().get("Update Checker"), /* boolean */
+                        needsEmptyHands = yamlFile.getCfg().get("No item in hand"), /* boolean */
+                        needsSignsOnBothSides = yamlFile.getCfg().get("Need to sign or chair on each side"), /* boolean */
+                        useSlabs = yamlFile.getCfg().get("Use slab"), /* boolean */
+
+                        sendMsgWhenChairNeedsSigns = yamlFile.getCfg().get("Send message if the Chairs need sign or chair"), /* boolean */
+                        sendMsgWhenChairOccupied = yamlFile.getCfg().get("Send message if the chairs is already occupied"), /* boolean */
+
+                        regenerationAmplifier = yamlFile.getCfg().get("Amplifier"), /* int */
+                        regenerationWhenSitting = yamlFile.getCfg().get("Regen when sit"), /* boolean */
+
+                        allowedDistanceToStairs = yamlFile.getCfg().get("Distance of the stairs"), /* int */
+                        disabledWorlds = yamlFile.getCfg().get("Disable world"); /* List<String> */
 
                 backupConfig(yamlFile);
 
                 // Generate new file
                 yamlFile = YAMLFileManager.getFile(ChairManager.getPlugin(), "config.yml");
 
-                // TODO: Convert original BetterChairs config into new one
+                yamlFile.getCfg().set("version", CURR_VERSION);
+
+                // Chairs.*
+                if (allowedDistanceToStairs instanceof Integer) {
+                    yamlFile.getCfg().set("Chairs.AllowedDistanceToChair", allowedDistanceToStairs);
+                }
+                if (autoRotatePlayer instanceof Boolean) {
+                    yamlFile.getCfg().set("Chairs.AutoRotatePlayer", autoRotatePlayer);
+                }
+                if (needsEmptyHands instanceof Boolean) {
+                    yamlFile.getCfg().set("Chairs.NeedEmptyHands", needsEmptyHands);
+                }
+                if (needsSignsOnBothSides instanceof Boolean) {
+                    yamlFile.getCfg().set("Chairs.NeedsSignsOnBothSides", needsSignsOnBothSides);
+                }
+                if (useSlabs instanceof Boolean) {
+                    yamlFile.getCfg().set("Chairs.UseSlabs", useSlabs);
+                }
+
+                // Chairs.Messages.*
+                if (sendMsgWhenChairOccupied instanceof Boolean) {
+                    yamlFile.getCfg().set("Chairs.Messages.AlreadyOccupied", sendMsgWhenChairOccupied);
+                }
+                if (sendMsgWhenChairNeedsSigns instanceof Boolean) {
+                    yamlFile.getCfg().set("Chairs.Messages.NeedsSignsOnBothSides", sendMsgWhenChairNeedsSigns);
+                }
+
+                // Chairs.Regeneration.*
+                if (regenerationAmplifier instanceof Integer) {
+                    yamlFile.getCfg().set("Chairs.Regeneration.Amplifier", regenerationAmplifier);
+                }
+                if (regenerationWhenSitting instanceof Boolean) {
+                    yamlFile.getCfg().set("Chairs.Regeneration.Enabled", regenerationWhenSitting);
+                }
+
+                // Filter.Worlds.Names
+                if (disabledWorlds instanceof List) {
+                    List<String> newDisabledWorlds = new ArrayList<>();
+
+                    //noinspection rawtypes
+                    for (Object obj : (List) disabledWorlds) {
+                        newDisabledWorlds.add(obj.toString());
+                    }
+
+                    yamlFile.getCfg().set("Filter.Worlds.Names", newDisabledWorlds);
+                }
+
+                // Updater.CheckForUpdates
+                if (checkForUpdate instanceof Boolean) {
+                    yamlFile.getCfg().set("Updater.CheckForUpdates", checkForUpdate);
+                }
+
                 save = true;
             } else {
                 String verStr = yamlFile.getCfg().getString("version");
@@ -136,6 +189,7 @@ public class Settings {
             }
         }
 
+        // Insert default values
         if (yamlFile.getCountOfDefaultValues() == 0) {
             yamlFile.addDefault("version", CURR_VERSION);
 
@@ -203,12 +257,13 @@ public class Settings {
         YAMLFileManager.removeFileFromCache(ChairManager.getPlugin(), yamlFile);
 
         // Backup file
-        if (file.renameTo(new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml"))) {
+        File newFile = new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml");
+        if (file.renameTo(newFile)) {
             // TODO: Store console prefix in Messages.java (static/final)
-            System.err.println(Settings.PREFIX_CONSOLE +
-                    "Your " + yamlFile.getFile().getName() + " is invalid! Created backup: " + file.getName());
+            System.out.println(Settings.PREFIX_CONSOLE +
+                    "Created backup of " + file.getName() + ": " + newFile.getName());
         } else {
-            System.err.println(Settings.PREFIX_CONSOLE + "Could not create a copy of config.yml");
+            System.err.println(Settings.PREFIX_CONSOLE + "Could not create a backup of " + file.getName());
         }
     }
 
