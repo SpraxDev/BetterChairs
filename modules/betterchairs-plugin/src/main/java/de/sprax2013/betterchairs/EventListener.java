@@ -72,7 +72,7 @@ public class EventListener implements Listener {
         // Check Chair
         if (getManager().isOccupied(e.getClickedBlock())) {
             if (Settings.sendMessageWhenOccupied()) {
-                e.getPlayer().sendMessage(Settings.PREFIX + "This chair is already occupied!");
+                e.getPlayer().sendMessage(Messages.chairUseOccupied());
             }
 
             return;
@@ -92,7 +92,7 @@ public class EventListener implements Listener {
             if (!WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block1.getType())) ||
                     !WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block2.getType()))) {
                 if (Settings.sendMessageWhenNeedsSignsOnBothSides()) {
-                    e.getPlayer().sendMessage(Settings.PREFIX + "§2A chair needs a sign attached to it on both sides");
+                    e.getPlayer().sendMessage(Messages.chairUseNeedsSigns());
                 }
 
                 return; // No
@@ -102,7 +102,7 @@ public class EventListener implements Listener {
             if (side1 != getManager().chairNMS.getBlockRotation(block1).getOppositeFace() ||
                     side2 != getManager().chairNMS.getBlockRotation(block2).getOppositeFace()) {
                 if (Settings.sendMessageWhenNeedsSignsOnBothSides()) {
-                    e.getPlayer().sendMessage(Settings.PREFIX + "§2A chair needs a sign attached to it on both sides");
+                    e.getPlayer().sendMessage(Messages.chairUseNeedsSigns());
                 }
 
                 return; // No

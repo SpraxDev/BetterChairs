@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 public class BetterChairsPlugin extends JavaPlugin {
     private static BetterChairsPlugin plugin;
     private static ChairManager chairManager;
-    private static Updater updater;
 
     @Override
     public void onEnable() {
@@ -38,8 +37,12 @@ public class BetterChairsPlugin extends JavaPlugin {
         // Should be initiated as soon as possible (required in API submodule)
         chairManager = new ChairManager(this, chairNMS);
 
+        // Init configuration files
+        Settings.reload();
+        Messages.reload();
+
         // Start Updater
-        updater = new Updater(this);
+        new Updater(this);
 
         // Register Bukkit Event Listener
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
@@ -57,7 +60,7 @@ public class BetterChairsPlugin extends JavaPlugin {
             // TODO: Add Custom ServerVersion-Pie that shows NMS-Versions when clicked
             new MetricsLite(this, 768); // TODO: Does not work on Spigot 1.8.0? (Can't find gson)
         } catch (Throwable th) {
-            System.err.println(Settings.PREFIX_CONSOLE + "Could not load bStats (" + th.getClass().getSimpleName() + "): " +
+            System.err.println(Messages.PREFIX_CONSOLE + "Could not load bStats (" + th.getClass().getSimpleName() + "): " +
                     th.getMessage());
         }
     }
@@ -69,6 +72,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         }
 
         Settings.reset();
+        Messages.reset();
 
         chairManager = null;
         ChairManager.instance = null;
@@ -88,7 +92,7 @@ public class BetterChairsPlugin extends JavaPlugin {
             // Try loading NMS class (package is remapped by maven-shade-plugin)
             return (ChairNMS) Class.forName("nms." + version).newInstance();
         } catch (Throwable ignore) {
-            System.err.println(Settings.PREFIX_CONSOLE + "Your server version (" + version +
+            System.err.println(Messages.PREFIX_CONSOLE + "Your server version (" + version +
                     ") is not fully supported - Loading fallback...");
 
             // Loading fallback when NMS not available

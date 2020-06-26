@@ -13,8 +13,6 @@ import java.util.List;
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
 public class BetterChairsCommand implements CommandExecutor, TabCompleter {
-    private static final String NO_PERMISSIONS = Settings.PREFIX + "§cYou do not have permission to use this command!";
-
     private final String PERMS_TOGGLE, PERMS_RELOAD, PERMS_RESET;
 
     protected BetterChairsCommand(JavaPlugin plugin) {
@@ -28,7 +26,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
         if (!sender.hasPermission(PERMS_TOGGLE) &&
                 !sender.hasPermission(PERMS_RELOAD) &&
                 !sender.hasPermission(PERMS_RESET)) {
-            sender.sendMessage(NO_PERMISSIONS);
+            sender.sendMessage(Messages.noPermission());
         }
 
         boolean showHelp = false;
@@ -41,24 +39,30 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
             } else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
                 if (sender.hasPermission(PERMS_RELOAD)) {
                     if (Settings.reload()) {
-                        sender.sendMessage(Settings.PREFIX + "§aSuccessfully reloaded §6config.yml§a!");
+                        sender.sendMessage(Messages.getPrefix() + "§aSuccessfully reloaded §6config.yml§a!");
                     } else {
-                        sender.sendMessage(Settings.PREFIX + "§cCould not reload §6config.yml §7- §cCheck server logs for more information");
+                        sender.sendMessage(Messages.getPrefix() + "§cCould not reload §6config.yml §7- §cCheck server logs for more information");
+                    }
+
+                    if (Messages.reload()) {
+                        sender.sendMessage(Messages.getPrefix() + "§aSuccessfully reloaded §6messages.yml§a!");
+                    } else {
+                        sender.sendMessage(Messages.getPrefix() + "§cCould not reload §6messages.yml §7- §cCheck server logs for more information");
                     }
                 } else {
-                    sender.sendMessage(NO_PERMISSIONS);
+                    sender.sendMessage(Messages.noPermission());
                 }
             } else if (args[0].equalsIgnoreCase("reset")) {
                 if (sender.hasPermission(PERMS_RESET)) {
                     int chairCount = getManager().destroyAll(true);
 
                     if (chairCount > 0) {
-                        sender.sendMessage(Settings.PREFIX + "§aSuccessfully removed §6" + chairCount + " players§a from their chairs");
+                        sender.sendMessage(Messages.getPrefix() + "§aSuccessfully removed §6" + chairCount + " players§a from their chairs");
                     } else {
-                        sender.sendMessage(Settings.PREFIX + "§4There are no chairs that could be removed");
+                        sender.sendMessage(Messages.getPrefix() + "§4There are no chairs that could be removed");
                     }
                 } else {
-                    sender.sendMessage(NO_PERMISSIONS);
+                    sender.sendMessage(Messages.noPermission());
                 }
             } else {
                 showHelp = true;
@@ -68,9 +72,9 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
         }
 
         if (showHelp) {
-            sender.sendMessage(Settings.PREFIX + "§3/" + cmd.getName() + " toggle §7(§eor §3/bct§7, §3/toggleChairs§7)");   // TODO: allow player(+ @a,@r,@p) as arg
-            sender.sendMessage(Settings.PREFIX + "§3/" + cmd.getName() + " reload§7/§3rl");
-            sender.sendMessage(Settings.PREFIX + "§3/" + cmd.getName() + " reset"); // TODO: allow player(+ @a,@r,@p) as arg
+            sender.sendMessage(Messages.getPrefix() + "§3/" + cmd.getName() + " toggle §7(§eor §3/bct§7, §3/toggleChairs§7)");   // TODO: allow player(+ @a,@r,@p) as arg
+            sender.sendMessage(Messages.getPrefix() + "§3/" + cmd.getName() + " reload§7/§3rl");
+            sender.sendMessage(Messages.getPrefix() + "§3/" + cmd.getName() + " reset"); // TODO: allow player(+ @a,@r,@p) as arg
         }
 
         return true;
@@ -102,22 +106,19 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleToggleChairs(CommandSender sender) {
-        if (sender.hasPermission(PERMS_TOGGLE)) {
-            if (sender instanceof Player) {
-                boolean nowDisabled = !getManager().hasChairsDisabled((Player) sender);
-                getManager().setChairsDisabled((Player) sender, nowDisabled);
-
-                if (nowDisabled) {
-                    sender.sendMessage(Settings.PREFIX + "§eChairs are now disabled until you leave the " +
-                            "server or run the command again");
-                } else {
-                    sender.sendMessage(Settings.PREFIX + "§eYou can now use Chairs again");
-                }
-            } else {
-                sender.sendMessage(Settings.PREFIX + "§cOnly players may toggle chairs");
-            }
-        } else {
-            sender.sendMessage(NO_PERMISSIONS);
+        if (!sender.hasPermission(PERMS_TOGGLE)) {
+            sender.sendMessage(Messages.noPermission());
+            return;
         }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Messages.getPrefix() + "§cOnly players may toggle chairs");
+            return;
+        }
+
+        boolean nowDisabled = !getManager().hasChairsDisabled((Player) sender);
+        getManager().setChairsDisabled((Player) sender, nowDisabled);
+
+        sender.sendMessage(nowDisabled ? Messages.toggleChairsDisabled() : Messages.toggleChairsEnabled());
     }
 }

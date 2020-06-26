@@ -95,7 +95,7 @@ public class Updater implements Listener {
         if (isNewerVersion(plugin.getDescription().getVersion(), versionStr)) {
             this.newerVersion = versionStr;
 
-            System.out.println(Settings.PREFIX_CONSOLE + "Found a new update v" +
+            System.out.println(Messages.PREFIX_CONSOLE + "Found a new update v" +
                     plugin.getDescription().getVersion() + " -> v" + versionTxt + " (Download at: " + DOWNLOAD_URL + ")");
         } else {
             this.newerVersion = null;
