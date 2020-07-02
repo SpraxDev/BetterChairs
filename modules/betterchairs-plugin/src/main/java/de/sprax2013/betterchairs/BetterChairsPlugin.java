@@ -174,8 +174,8 @@ public class BetterChairsPlugin extends JavaPlugin {
                 public boolean isSlab(@NotNull Block block) {
                     return (block.getState().getData() instanceof Step ||
                             block.getState().getData() instanceof WoodenStep) &&
-                            block.getType() != Material.DOUBLE_STEP &&
-                            block.getType() != Material.WOOD_DOUBLE_STEP;
+                            !block.getType().name().equals("DOUBLE_STEP") &&
+                            !block.getType().name().equals("WOOD_DOUBLE_STEP");
                 }
 
                 @Override
