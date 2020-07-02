@@ -60,6 +60,7 @@ jobs:
           test -f ${SPIGOT_M2}/1.9.4-R0.1-SNAPSHOT/spigot-1.9.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.9.4
           test -f ${SPIGOT_M2}/1.10.2-R0.1-SNAPSHOT/spigot-1.10.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.10.2
           test -f ${SPIGOT_M2}/1.11-R0.1-SNAPSHOT/spigot-1.11-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.11
+          test -f ${SPIGOT_M2}/1.12.2-R0.1-SNAPSHOT/spigot-1.12.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.12.2
           test -f ${SPIGOT_M2}/1.13.2-R0.1-SNAPSHOT/spigot-1.13.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.13.2
           test -f ${SPIGOT_M2}/1.14.4-R0.1-SNAPSHOT/spigot-1.14.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.14.4
           test -f ${SPIGOT_M2}/1.15.2-R0.1-SNAPSHOT/spigot-1.15.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.15.2
