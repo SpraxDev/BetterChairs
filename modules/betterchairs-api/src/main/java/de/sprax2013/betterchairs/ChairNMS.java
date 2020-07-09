@@ -59,6 +59,19 @@ public abstract class ChairNMS {
 
     public abstract boolean hasEmptyHands(@NotNull Player player);
 
+    /**
+     * Checks if an ArmorStand is or will be used as {@link Chair} with NMS.<br>
+     * This method should be used to identify a {@link Chair} before it has been spawned into the world.<br>
+     * This can for example be used to un-cancel an {@link org.bukkit.event.entity.EntitySpawnEvent}
+     *
+     * @param armorStand {@link ArmorStand} to check
+     *
+     * @return true if ArmorStand is or will be used as Chair, false otherwise
+     *
+     * @see ChairManager#isChair(ArmorStand)
+     */
+    public abstract boolean isChair(@NotNull ArmorStand armorStand);
+
     @Nullable
     public Listener getListener() {
         return null;

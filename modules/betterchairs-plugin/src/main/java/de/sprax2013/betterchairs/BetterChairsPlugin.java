@@ -193,6 +193,14 @@ public class BetterChairsPlugin extends JavaPlugin {
                 public boolean hasEmptyHands(@NotNull Player player) {
                     return player.getInventory().getItemInHand().getType() == Material.AIR;
                 }
+
+                @Override
+                public boolean isChair(@NotNull ArmorStand armorStand) {
+                    // We cannot check using NMS when fallback NMS does not use NMS to spawn an ArmorStand
+                    // Other plugins preventing our ArmorStand from spawning can thus not be prevented from such behavior
+
+                    return false;
+                }
             };
         }
     }

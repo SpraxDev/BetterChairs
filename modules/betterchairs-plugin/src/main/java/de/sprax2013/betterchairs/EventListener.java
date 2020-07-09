@@ -15,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -35,7 +36,7 @@ public class EventListener implements Listener {
      * If a player is interacting with a valid block to be used as a Chair,
      * we spawn a Chair and sit the player on it
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onInteract(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
@@ -111,8 +112,7 @@ public class EventListener implements Listener {
 
         // Spawn Chair
         e.setUseItemInHand(Event.Result.DENY);
-        e.setUseInteractedBlock(Event.Result.DENY);
-        e.setCancelled(true);
+
         getManager().create(e.getPlayer(), e.getClickedBlock());
     }
 
@@ -152,6 +152,16 @@ public class EventListener implements Listener {
     }
 
     /* Protect Chairs */
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntitySpawn(EntitySpawnEvent e) {
+        if (!e.isCancelled()) return;
+        if (!(e.getEntity() instanceof ArmorStand)) return;
+
+        if (getManager().isChair((ArmorStand) e.getEntity())) {
+            e.setCancelled(false);
+        }
+    }
 
     /**
      * Prevent a chair's ArmorStand to be teleported by accident

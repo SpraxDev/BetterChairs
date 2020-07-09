@@ -41,15 +41,19 @@ public class v1_16_R1 extends ChairNMS {
             setValue(nmsArmorStand, "bA", 2031616);    // DisabledSlots
         } catch (NoSuchFieldException | IllegalAccessException ex) {
             // fail gracefully
+            // TODO: Use Plugin-Prefix
             System.err.println("BetterChairs could not apply protections to a Chair at " +
                     armorStand.getLocation().getBlock().getLocation() +
-                    " (" + ex.getClass().getName() + ": " + ex.getMessage() + ")");
+                    " (" + ex.getClass().getName() + ": " + ex.getMessage() + ")"); // TODO: deduplicate
         }
 
         nmsArmorStand.setInvulnerable(true);
         ChairUtils.applyBasicChairModifications(armorStand);
 
-        nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        if (!nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM)) {
+            // TODO: Use Plugin-Prefix
+            System.err.println("Looks like a plugin is preventing BetterChairs from spawning chairs"); // TODO: deduplicate
+        }
 
         return armorStand;
     }
@@ -96,6 +100,11 @@ public class v1_16_R1 extends ChairNMS {
     public boolean hasEmptyHands(@NotNull Player player) {
         return player.getInventory().getItemInMainHand().getType() == Material.AIR &&
                 player.getInventory().getItemInOffHand().getType() == Material.AIR;
+    }
+
+    @Override
+    public boolean isChair(@NotNull ArmorStand armorStand) {
+        return ((CraftArmorStand) armorStand).getHandle() instanceof CustomArmorStand;
     }
 
     private static class CustomArmorStand extends EntityArmorStand {

@@ -215,8 +215,16 @@ public class ChairManager {
         return null;
     }
 
+    /**
+     * This does not yet guarantee that {@link #getChair(ArmorStand)} is not {@code null}<br>
+     * This may return true for ArmorStand not yet spawned and thus not yet a {@link Chair} that is ready
+     *
+     * @param armorStand The {@link ArmorStand} to check
+     *
+     * @return true if the {@link ArmorStand} is used or may be used as {@link Chair}
+     */
     public boolean isChair(@NotNull ArmorStand armorStand) {
-        return getChair(armorStand) != null;
+        return getChair(armorStand) != null || chairNMS.isChair(armorStand);
     }
 
     public boolean hasChairsDisabled(Player player) {

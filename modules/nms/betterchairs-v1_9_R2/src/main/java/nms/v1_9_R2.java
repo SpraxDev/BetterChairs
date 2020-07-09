@@ -48,7 +48,9 @@ public class v1_9_R2 extends ChairNMS {
 
         ChairUtils.applyBasicChairModifications(armorStand);
 
-        nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        if (!nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM)) {
+            System.err.println("Looks like a plugin is preventing BetterChairs from spawning chairs");
+        }
 
         return armorStand;
     }
@@ -108,6 +110,11 @@ public class v1_9_R2 extends ChairNMS {
     public boolean hasEmptyHands(@NotNull Player player) {
         return player.getInventory().getItemInMainHand().getType() == Material.AIR &&
                 player.getInventory().getItemInOffHand().getType() == Material.AIR;
+    }
+
+    @Override
+    public boolean isChair(@NotNull ArmorStand armorStand) {
+        return ((CraftArmorStand) armorStand).getHandle() instanceof CustomArmorStand;
     }
 
     private static class CustomArmorStand extends EntityArmorStand {
