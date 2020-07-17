@@ -30,12 +30,12 @@ public class Settings {
         return getSettings().getCfg().getBoolean("Chairs.NeedsSignsOnBothSides");
     }
 
-    public static boolean useSlabs() {
-        return getSettings().getCfg().getBoolean("Chairs.UseSlabs");
-    }
-
     public static boolean useStairs() {
         return getSettings().getCfg().getBoolean("Chairs.UseStairs");
+    }
+
+    public static boolean useSlabs() {
+        return getSettings().getCfg().getBoolean("Chairs.UseSlabs");
     }
 
     public static boolean leavingChairTeleportPlayerToOldLocation() {
@@ -54,12 +54,12 @@ public class Settings {
         return getSettings().getCfg().getBoolean("Chairs.Messages.NeedsSignsOnBothSides");
     }
 
-    public static int chairRegenerationAmplifier() {
-        return getSettings().getCfg().getInt("Chairs.Regeneration.Amplifier");
-    }
-
     public static boolean chairRegeneration() {
         return getSettings().getCfg().getBoolean("Chairs.Regeneration.Enabled");
+    }
+
+    public static int chairRegenerationAmplifier() {
+        return getSettings().getCfg().getInt("Chairs.Regeneration.Amplifier");
     }
 
     /* Filter: Worlds */
@@ -142,11 +142,11 @@ public class Settings {
                 }
 
                 // Chairs.Regeneration.*
-                if (regenerationAmplifier instanceof Integer) {
-                    yamlFile.getCfg().set("Chairs.Regeneration.Amplifier", regenerationAmplifier);
-                }
                 if (regenerationWhenSitting instanceof Boolean) {
                     yamlFile.getCfg().set("Chairs.Regeneration.Enabled", regenerationWhenSitting);
+                }
+                if (regenerationAmplifier instanceof Integer) {
+                    yamlFile.getCfg().set("Chairs.Regeneration.Amplifier", regenerationAmplifier);
                 }
 
                 // Filter.Worlds.Names
@@ -180,7 +180,7 @@ public class Settings {
                     backupConfig(yamlFile);
 
                     // Generate new file
-                    yamlFile = YAMLFileManager.getFile(ChairManager.getPlugin(), "config.yml");
+                    return getSettings();
                 }
             }
         }
@@ -193,8 +193,8 @@ public class Settings {
             yamlFile.addDefault("Chairs.AutoRotatePlayer", true);
             yamlFile.addDefault("Chairs.NeedEmptyHands", true);
             yamlFile.addDefault("Chairs.NeedsSignsOnBothSides", false);
-            yamlFile.addDefault("Chairs.UseSlabs", false);
             yamlFile.addDefault("Chairs.UseStairs", true);
+            yamlFile.addDefault("Chairs.UseSlabs", false);
 
             yamlFile.addDefault("Chairs.LeavingChair.TeleportPlayerToOldLocation", true);
             yamlFile.addDefault("Chairs.LeavingChair.KeepHeadRotation", true);
@@ -202,8 +202,8 @@ public class Settings {
             yamlFile.addDefault("Chairs.Messages.AlreadyOccupied", false);
             yamlFile.addDefault("Chairs.Messages.NeedsSignsOnBothSides", false);
 
-            yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);
             yamlFile.addDefault("Chairs.Regeneration.Enabled", false);
+            yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);
 
             yamlFile.addDefault("Filter.Worlds.Enabled", false);
             yamlFile.addDefault("Filter.Worlds.UseAsBlacklist", true);
@@ -255,7 +255,6 @@ public class Settings {
         // Backup file
         File newFile = new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml");
         if (file.renameTo(newFile)) {
-            // TODO: Store console prefix in Messages.java (static/final)
             System.out.println(Messages.PREFIX_CONSOLE +
                     "Created backup of " + file.getName() + ": " + newFile.getName());
         } else {

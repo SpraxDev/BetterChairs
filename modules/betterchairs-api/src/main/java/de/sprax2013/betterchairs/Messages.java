@@ -101,7 +101,7 @@ public class Messages {
                     backupConfig(yamlFile);
 
                     // Generate new file
-                    yamlFile = YAMLFileManager.getFile(ChairManager.getPlugin(), "messages.yml");
+                    return getMessages();
                 }
             }
         }
@@ -146,7 +146,6 @@ public class Messages {
         // Backup file
         File newFile = new File(file.getParentFile(), "messages-" + System.currentTimeMillis() + ".yml");
         if (file.renameTo(newFile)) {
-            // TODO: Store console prefix in Messages.java (static/final)
             System.out.println(Messages.PREFIX_CONSOLE +
                     "Created backup of " + file.getName() + ": " + newFile.getName());
         } else {
