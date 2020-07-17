@@ -54,11 +54,9 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         // Load bStats
         //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
-        //  This Fork should be considered unofficial as long as it is not approved by the author (but I have maintainer rights,
-        //  so reporting to the original bStats page should be fine [hopefully ,_,])
         try {
             // TODO: Add Custom ServerVersion-Pie that shows NMS-Versions when clicked
-            new MetricsLite(this, 768); // TODO: Does not work on Spigot 1.8.0? (Can't find gson)
+            new MetricsLite(this, 8214); // TODO: Does not work on Spigot 1.8.0? (Can't find gson)
         } catch (Throwable th) {
             System.err.println(Messages.PREFIX_CONSOLE + "Could not load bStats (" + th.getClass().getSimpleName() + "): " +
                     th.getMessage());
