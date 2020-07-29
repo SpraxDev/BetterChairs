@@ -4,18 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.blackscarx</groupId>
+    <groupId>de.sprax2013</groupId>
     <artifactId>betterchairs</artifactId>
     <packaging>pom</packaging>
-    <version>0.11.0</version>
+    <version>0.11.5</version>
     <!-- Run 'mvn versions:update-parent -DgenerateBackupPoms=false' to update parent-version in modules -->
 
     <modules>
         <module>modules/betterchairs-api</module>
         <module>modules/betterchairs-plugin</module>
+        <module>modules/nms/betterchairs-v1_16_R1</module>
         <module>modules/nms/betterchairs-v1_15_R1</module>
         <module>modules/nms/betterchairs-v1_14_R1</module>
         <module>modules/nms/betterchairs-v1_13_R2</module>
+        <module>modules/nms/betterchairs-v1_12_R1</module>
         <module>modules/nms/betterchairs-v1_11_R1</module>
         <module>modules/nms/betterchairs-v1_10_R1</module>
         <module>modules/nms/betterchairs-v1_9_R2</module>
@@ -32,15 +34,32 @@
         <maven.compiler.source>1.8</maven.compiler.source>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Used for static code analysis on https://sonarcloud.io/dashboard?id=SpraxDev_BetterChairs -->
+        <sonar.projectKey>SpraxDev_BetterChairs</sonar.projectKey>
+        <sonar.organization>sprax2013</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>GitHub-SpraxDev</id>
+            <url>https://maven.pkg.github.com/SpraxDev/BetterChairs</url>
+        </repository>
+    </distributionManagement>
 
     <repositories>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-    </repositories>
 
+        <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>

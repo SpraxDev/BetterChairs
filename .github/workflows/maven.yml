@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Extract version from pom.xml and compare to docs/version.txt
-        id: version_diff
+        id: version_diff  # Outputs 'same' or 'diff'
         run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "##[set-output name=result;]same" || echo "##[set-output name=result;]diff"
       - name: Check if extracted version matches docs/version.txt
         if: ${{ steps.version_diff.outputs.result == 'diff' }}
@@ -30,9 +30,23 @@ jobs:
           check_for_duplicate_msg: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check if version from docs/version.txt is inside CHANGELOG.md
+        id: inside_changelog  # Outputs 'yes' or 'no'
+        run: verTxt=$(cat docs/version.txt) && grep -q "## Version ${verTxt}" CHANGELOG.md && echo "##[set-output name=result;]yes" || echo "##[set-output name=result;]no"
+      - name: Check if extracted version matches docs/version.txt
+        if: ${{ steps.inside_changelog.outputs.result == 'no' }}
+        uses: unsplash/comment-on-pr@master
+        with:
+          msg: "`CHANGELOG.md` is missing changes for version in `docs/version.txt`!"
+          check_for_duplicate_msg: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Fail Action when versions (from above) are not the same
         if: ${{ steps.version_diff.outputs.result == 'diff' }}
         run: echo "Versions in pom.xml and docs/version.txt are not the same!" && exit -1
+      - name: Fail Action when docs/version.txt not inside CHANGELOG.md
+        if: ${{ steps.inside_changelog.outputs.result == 'no' }}
+        run: echo "CHANGELOG.md is missing changes for version in docs/version.txt!" && exit -1
 
   build:
     runs-on: ubuntu-latest
@@ -44,7 +58,7 @@ jobs:
         with:
           java-version: 1.8
       - name: 'init Cache: Maven-Repository'
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-v1
@@ -60,9 +74,11 @@ jobs:
           test -f ${SPIGOT_M2}/1.9.4-R0.1-SNAPSHOT/spigot-1.9.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.9.4
           test -f ${SPIGOT_M2}/1.10.2-R0.1-SNAPSHOT/spigot-1.10.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.10.2
           test -f ${SPIGOT_M2}/1.11-R0.1-SNAPSHOT/spigot-1.11-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.11
+          test -f ${SPIGOT_M2}/1.12.2-R0.1-SNAPSHOT/spigot-1.12.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.12.2
           test -f ${SPIGOT_M2}/1.13.2-R0.1-SNAPSHOT/spigot-1.13.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.13.2
           test -f ${SPIGOT_M2}/1.14.4-R0.1-SNAPSHOT/spigot-1.14.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.14.4
           test -f ${SPIGOT_M2}/1.15.2-R0.1-SNAPSHOT/spigot-1.15.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.15.2
+          test -f ${SPIGOT_M2}/1.16.1-R0.1-SNAPSHOT/spigot-1.16.1-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.1
         env:
           SPIGOT_M2: /home/runner/.m2/repository/org/spigotmc/spigot
       - name: Build with Maven
@@ -72,3 +88,7 @@ jobs:
         with:
           name: BetterChairs.jar
           path: ./target/BetterChairs.jar
+      - name: 'SonarCloud.io (static code analysis)'
+        run: 'mvn -B verify sonar:sonar -Dsonar.branch.name=$GITHUB_REF -Dsonar.login=$SONARCLOUD_TOKEN'
+        env:
+          SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}

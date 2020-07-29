@@ -5,12 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.blackscarx</groupId>
+        <groupId>de.sprax2013</groupId>
         <artifactId>betterchairs</artifactId>
-        <version>0.11.0</version>
+        <version>0.11.5</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-
     <artifactId>betterchairs-plugin</artifactId>
 
     <build>
@@ -42,7 +41,17 @@
                             <relocations>
                                 <relocation>
                                     <pattern>nms</pattern>
-                                    <shadedPattern>net.blackscarx.betterchairs.NMSManager</shadedPattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.nms</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>org.bstats.bukkit</pattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.bstats</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>com.cryptomorin.xseries</pattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.xseries</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -50,7 +59,12 @@
                 </executions>
 
                 <configuration>
-                    <!--                    <minimizeJar>true</minimizeJar>-->
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>${project.parent.groupId}.${project.parent.artifactId}.Main</mainClass>
+                        </transformer>
+                    </transformers>
 
                     <filters>
                         <filter>
@@ -65,16 +79,24 @@
                                 <exclude>**</exclude>
                             </excludes>
                         </filter>
+                        <filter>
+                            <artifact>com.github.cryptomorin:XSeries</artifact>
+                            <includes>
+                                <include>com/cryptomorin/xseries/XMaterial**</include>
+                            </includes>
+                        </filter>
                     </filters>
 
-                    <transformers>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>${project.parent.groupId}.${project.parent.artifactId}.Panel</mainClass>
-                        </transformer>
-                    </transformers>
-
                     <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
@@ -88,79 +110,100 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit-lite</artifactId>
+            <version>1.7</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- Modules -->
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-api</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
+            <artifactId>betterchairs-v1_16_R1</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_15_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_14_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_13_R2</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
+            <artifactId>betterchairs-v1_12_R1</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_11_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_10_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_9_R2</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_9_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_8_R3</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_8_R2</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.blackscarx</groupId>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_8_R1</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
