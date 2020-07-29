@@ -54,6 +54,10 @@ public class Settings {
         return getSettings().getCfg().getBoolean("Chairs.Messages.NeedsSignsOnBothSides");
     }
 
+    public static boolean sendMessageWhenNowSitting() {
+        return getSettings().getCfg().getBoolean("Chairs.Messages.NowSitting");
+    }
+
     public static boolean chairRegeneration() {
         return getSettings().getCfg().getBoolean("Chairs.Regeneration.Enabled");
     }
@@ -102,6 +106,7 @@ public class Settings {
 
                         sendMsgWhenChairNeedsSigns = yamlFile.getCfg().get("Send message if the Chairs need sign or chair"), /* boolean */
                         sendMsgWhenChairOccupied = yamlFile.getCfg().get("Send message if the chairs is already occupied"), /* boolean */
+                        sendMsgWhenPlayerSit = yamlFile.getCfg().get("Send message when player sit"), /* boolean */
 
                         regenerationAmplifier = yamlFile.getCfg().get("Amplifier"), /* int */
                         regenerationWhenSitting = yamlFile.getCfg().get("Regen when sit"), /* boolean */
@@ -139,6 +144,9 @@ public class Settings {
                 }
                 if (sendMsgWhenChairNeedsSigns instanceof Boolean) {
                     yamlFile.getCfg().set("Chairs.Messages.NeedsSignsOnBothSides", sendMsgWhenChairNeedsSigns);
+                }
+                if (sendMsgWhenPlayerSit instanceof Boolean) {
+                    yamlFile.getCfg().set("Chairs.Messages.NowSitting", sendMsgWhenPlayerSit);
                 }
 
                 // Chairs.Regeneration.*
@@ -201,6 +209,7 @@ public class Settings {
 
             yamlFile.addDefault("Chairs.Messages.AlreadyOccupied", false);
             yamlFile.addDefault("Chairs.Messages.NeedsSignsOnBothSides", false);
+            yamlFile.addDefault("Chairs.Messages.NowSitting", false);
 
             yamlFile.addDefault("Chairs.Regeneration.Enabled", false);
             yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);

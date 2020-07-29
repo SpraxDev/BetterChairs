@@ -113,7 +113,9 @@ public class EventListener implements Listener {
         // Spawn Chair
         e.setUseItemInHand(Event.Result.DENY);
 
-        getManager().create(e.getPlayer(), e.getClickedBlock());
+        if (getManager().create(e.getPlayer(), e.getClickedBlock()) && Settings.sendMessageWhenNowSitting()) {
+            e.getPlayer().sendMessage(Messages.playerNowSitting());
+        }
     }
 
     /**

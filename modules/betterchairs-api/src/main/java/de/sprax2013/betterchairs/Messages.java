@@ -37,6 +37,10 @@ public class Messages {
         return getString("ChairUse.NeedsSignsOnBothSides");
     }
 
+    public static String playerNowSitting() {
+        return getString("ChairUse.NowSitting");
+    }
+
     private static String getString(String key) {
         return ChatColor.translateAlternateColorCodes('&',
                 getMessages().getCfg().getString(key))
@@ -118,6 +122,7 @@ public class Messages {
 
             yamlFile.addDefault("ChairUse.AlreadyOccupied", "${Prefix} &cThis chair is already occupied");
             yamlFile.addDefault("ChairUse.NeedsSignsOnBothSides", "${Prefix} &cA chair needs a sign attached to it on both sides");
+            yamlFile.addDefault("ChairUse.NowSitting", "${Prefix} &cYou are taking a break now");
 
             save = true;
         }
