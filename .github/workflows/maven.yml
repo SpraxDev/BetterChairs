@@ -31,8 +31,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check if version from docs/version.txt is inside CHANGELOG.md
-          id: inside_changelog  # Outputs 'yes' or 'no'
-          run: verTxt=$(cat docs/version.txt) && grep -q "## Version ${verTxt}" CHANGELOG.md && echo "##[set-output name=result;]yes" || echo "##[set-output name=result;]no"
+        id: inside_changelog  # Outputs 'yes' or 'no'
+        run: verTxt=$(cat docs/version.txt) && grep -q "## Version ${verTxt}" CHANGELOG.md && echo "##[set-output name=result;]yes" || echo "##[set-output name=result;]no"
       - name: Check if extracted version matches docs/version.txt
         if: ${{ steps.inside_changelog.outputs.result == 'no' }}
         uses: unsplash/comment-on-pr@master
