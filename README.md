@@ -37,6 +37,6 @@ My fork quickly made some big changes, and decided to fully recode and redesign 
 I started with moving to Maven and deleting all those `spigot.jar`s from the repository.
 
 Because of that I rewrote the commit history and detached my Fork on GitHub to be no longer displayed as one
-(always said *'29 commits behind'* because the commit hashes changed).
+(always said *'27 commits behind BlackScarx:master'* because the commit hashes changed).
 
 Today, I unofficially took over the project as soon as BlackScarx got inactive and maintain this repository.
