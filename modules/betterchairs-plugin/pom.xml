@@ -48,6 +48,11 @@
                                     <pattern>org.bstats.bukkit</pattern>
                                     <shadedPattern>de.sprax2013.betterchairs.bstats</shadedPattern>
                                 </relocation>
+
+                                <relocation>
+                                    <pattern>com.cryptomorin.xseries</pattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.xseries</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -73,6 +78,12 @@
                             <excludes>
                                 <exclude>**</exclude>
                             </excludes>
+                        </filter>
+                        <filter>
+                            <artifact>com.github.cryptomorin:XSeries</artifact>
+                            <includes>
+                                <include>com/cryptomorin/xseries/XMaterial**</include>
+                            </includes>
                         </filter>
                     </filters>
 

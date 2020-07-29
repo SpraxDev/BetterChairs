@@ -1,6 +1,6 @@
 package de.sprax2013.betterchairs;
 
-import de.sprax2013.betterchairs.xseries.XMaterial;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
