@@ -5,9 +5,9 @@ name: Build with Maven
 
 on:
   push:
-    branches: [ master, recode ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, recode ]
+    branches: [ master ]
 
 jobs:
   check-version:
