@@ -88,3 +88,7 @@ jobs:
         with:
           name: BetterChairs.jar
           path: ./target/BetterChairs.jar
+      - name: 'SonarCloud.io (static code analysis)'
+        run: 'mvn -B verify sonar:sonar -Dsonar.branch.name=$GITHUB_REF -Dsonar.login=$SONARCLOUD_TOKEN'
+        env:
+          SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}

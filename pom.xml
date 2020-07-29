@@ -34,6 +34,12 @@
         <maven.compiler.source>1.8</maven.compiler.source>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Used for static code analysis on https://sonarcloud.io/dashboard?id=SpraxDev_BetterChairs -->
+        <sonar.projectKey>SpraxDev_BetterChairs</sonar.projectKey>
+        <sonar.organization>sprax2013</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
     </properties>
 
     <distributionManagement>
