@@ -116,7 +116,7 @@ public class v1_8_R2 extends ChairNMS {
     }
 
     private static class CustomArmorStand extends EntityArmorStand {
-        public boolean remove = false;
+        private boolean remove = false;
         private final int regenerationAmplifier;
 
         /**
