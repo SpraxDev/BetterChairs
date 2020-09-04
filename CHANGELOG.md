@@ -11,6 +11,12 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/pre
 * Line 2
 -->
 
+## Version 0.11.6
+_2020-09-05_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.5...v0.11.6)
+
+### Added
+* Full 1.16.2 support (#33)
+
 ## Version 0.11.5
 _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.4...v0.11.5)
 
