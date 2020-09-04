@@ -7,12 +7,13 @@
     <groupId>de.sprax2013</groupId>
     <artifactId>betterchairs</artifactId>
     <packaging>pom</packaging>
-    <version>0.11.5</version>
+    <version>0.11.6</version>
     <!-- Run 'mvn versions:update-parent -DgenerateBackupPoms=false' to update parent-version in modules -->
 
     <modules>
         <module>modules/betterchairs-api</module>
         <module>modules/betterchairs-plugin</module>
+        <module>modules/nms/betterchairs-v1_16_R2</module>
         <module>modules/nms/betterchairs-v1_16_R1</module>
         <module>modules/nms/betterchairs-v1_15_R1</module>
         <module>modules/nms/betterchairs-v1_14_R1</module>

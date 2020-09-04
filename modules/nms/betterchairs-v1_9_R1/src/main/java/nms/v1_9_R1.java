@@ -118,7 +118,7 @@ public class v1_9_R1 extends ChairNMS {
     }
 
     private static class CustomArmorStand extends EntityArmorStand {
-        public boolean remove = false;
+        private boolean remove = false;
         private final int regenerationAmplifier;
 
         /**
@@ -135,7 +135,7 @@ public class v1_9_R1 extends ChairNMS {
             if (remove) return; // If the ArmorStand is being removed, no need to bother
             if (this.ticksLived % 10 == 0) return;  // Only run every 10 ticks
 
-            Entity passenger = this.passengers.size() != 0 ? this.passengers.get(0) : null;
+            Entity passenger = this.passengers.isEmpty() ? null : this.passengers.get(0);
 
             if (!(passenger instanceof EntityHuman)) {
                 remove = true;
@@ -165,7 +165,7 @@ public class v1_9_R1 extends ChairNMS {
         }
 
         private boolean shouldDie() {
-            return remove || this.passengers.size() == 0 || !(this.passengers.get(0) instanceof EntityHuman);
+            return remove || this.passengers.isEmpty() || !(this.passengers.get(0) instanceof EntityHuman);
         }
     }
 }

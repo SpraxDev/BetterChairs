@@ -2,25 +2,25 @@ package nms;
 
 import de.sprax2013.betterchairs.ChairNMS;
 import de.sprax2013.betterchairs.ChairUtils;
-import net.minecraft.server.v1_10_R1.Entity;
-import net.minecraft.server.v1_10_R1.EntityArmorStand;
-import net.minecraft.server.v1_10_R1.EntityHuman;
-import net.minecraft.server.v1_10_R1.World;
-import net.minecraft.server.v1_10_R1.WorldServer;
+import net.minecraft.server.v1_16_R2.Entity;
+import net.minecraft.server.v1_16_R2.EntityArmorStand;
+import net.minecraft.server.v1_16_R2.EntityHuman;
+import net.minecraft.server.v1_16_R2.World;
+import net.minecraft.server.v1_16_R2.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftHumanEntity;
+import org.bukkit.block.data.Bisected;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Stairs;
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftHumanEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.material.Directional;
-import org.bukkit.material.Stairs;
-import org.bukkit.material.Step;
-import org.bukkit.material.WoodenStep;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -28,28 +28,31 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
-public class v1_10_R1 extends ChairNMS {
+public class v1_16_R2 extends ChairNMS {
     @Override
-    public @NotNull ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier) {
+    public @NotNull
+    ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier) {
         WorldServer nmsWorld = ((CraftWorld) Objects.requireNonNull(loc.getWorld())).getHandle();
         CustomArmorStand nmsArmorStand = new CustomArmorStand(
                 nmsWorld, loc.getX(), loc.getY(), loc.getZ(), regenerationAmplifier);
         ArmorStand armorStand = (ArmorStand) nmsArmorStand.getBukkitEntity();
 
         try {
-            setValue(nmsArmorStand, "bB", 2031616);    // DisabledSlots
+            setValue(nmsArmorStand, "bv", 2031616);    // DisabledSlots
         } catch (NoSuchFieldException | IllegalAccessException ex) {
             // fail gracefully
+            // TODO: Use Plugin-Prefix in all nms classes
             System.err.println("BetterChairs could not apply protections to a Chair at " +
                     armorStand.getLocation().getBlock().getLocation() +
-                    " (" + ex.getClass().getName() + ": " + ex.getMessage() + ")");
+                    " (" + ex.getClass().getName() + ": " + ex.getMessage() + ")"); // TODO: deduplicate in all nms classes
         }
 
         nmsArmorStand.setInvulnerable(true);
         ChairUtils.applyBasicChairModifications(armorStand);
 
         if (!nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM)) {
-            System.err.println("Looks like a plugin is preventing BetterChairs from spawning chairs");
+            // TODO: Use Plugin-Prefix in all nms classes
+            System.err.println("Looks like a plugin is preventing BetterChairs from spawning chairs"); // TODO: deduplicate in all nms classes
         }
 
         return armorStand;
@@ -69,41 +72,28 @@ public class v1_10_R1 extends ChairNMS {
 
     @Override
     public boolean isStair(@NotNull Block block) {
-        return block.getState().getData() instanceof Stairs;
+        return block.getBlockData() instanceof Stairs;
     }
 
     @Override
     public boolean isStairUpsideDown(@NotNull Block block) {
-        return ((Stairs) block.getState().getData()).isInverted();
+        return ((Stairs) block.getBlockData()).getHalf() == Bisected.Half.TOP;
     }
 
     @Override
-    public @NotNull BlockFace getBlockRotation(@NotNull Block block) {
-        BlockFace blockFace = ((Directional) block.getState().getData()).getFacing();
-
-        if (blockFace == BlockFace.NORTH) return BlockFace.SOUTH;
-        if (blockFace == BlockFace.SOUTH) return BlockFace.NORTH;
-        if (blockFace == BlockFace.WEST) return BlockFace.EAST;
-        if (blockFace == BlockFace.EAST) return BlockFace.WEST;
-
-        return blockFace;
+    public @NotNull
+    BlockFace getBlockRotation(@NotNull Block block) {
+        return ((Directional) block.getBlockData()).getFacing();
     }
 
     @Override
     public boolean isSlab(@NotNull Block block) {
-        return (block.getState().getData() instanceof Step ||
-                block.getState().getData() instanceof WoodenStep) &&
-                block.getType() != Material.DOUBLE_STEP &&
-                block.getType() != Material.WOOD_DOUBLE_STEP;
+        return block.getBlockData() instanceof Slab && ((Slab) block.getBlockData()).getType() != Slab.Type.DOUBLE;
     }
 
     @Override
     public boolean isSlabTop(@NotNull Block block) {
-        if (block.getState().getData() instanceof Step) {
-            return ((Step) block.getState().getData()).isInverted();
-        }
-
-        return ((WoodenStep) block.getState().getData()).isInverted();
+        return ((Slab) block.getBlockData()).getType() == Slab.Type.TOP;
     }
 
     @Override
@@ -131,7 +121,7 @@ public class v1_10_R1 extends ChairNMS {
         }
 
         @Override
-        public void g(float f, float f2) {
+        public void tick() {
             if (remove) return; // If the ArmorStand is being removed, no need to bother
             if (this.ticksLived % 10 == 0) return;  // Only run every 10 ticks
 
@@ -145,7 +135,7 @@ public class v1_10_R1 extends ChairNMS {
 
             // Rotate the ArmorStand together with its passenger
             this.setYawPitch(passenger.yaw, passenger.pitch * .5F);
-            this.aQ = this.yaw;
+            this.aK = this.yaw;
 
             if (this.regenerationAmplifier >= 0) {
                 CraftHumanEntity p = ((EntityHuman) passenger).getBukkitEntity();
@@ -156,6 +146,12 @@ public class v1_10_R1 extends ChairNMS {
                             false, false), true);
                 }
             }
+        }
+
+        @Override
+        public void killEntity() {
+            // Prevents the ArmorStand from getting killed unexpectedly
+            if (shouldDie()) super.killEntity();
         }
 
         @Override
