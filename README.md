@@ -1,6 +1,7 @@
 # BetterChairs (Remastered)
 ![Build with Maven](https://github.com/Sprax2013/BetterChairs/workflows/Build%20with%20Maven/badge.svg)
 [![Discord](https://img.shields.io/discord/344982818863972352.svg?label=Get%20Support&logo=Discord&color=blue)](https://sprax.me/discord)
+[![Patreon](https://img.shields.io/badge/-Support%20me%20on%20Patreon-%23FF424D?logo=patreon&logoColor=white)](https://www.patreon.com/sprax)
 
 BetterChairs allows you and your players to sit on chairs. It's that simple!
 Every stair and every half block can be a chair if you want it to!
