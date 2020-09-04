@@ -61,7 +61,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-v1
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
       - name: Run Spigot-BuildTools
         run: |
           mkdir -p .spigot-buildtools
