@@ -35,16 +35,6 @@ public class v1_8_R2 extends ChairNMS {
                 nmsWorld, loc.getX(), loc.getY(), loc.getZ(), regenerationAmplifier);
         ArmorStand armorStand = (ArmorStand) nmsArmorStand.getBukkitEntity();
 
-        try {
-            setValue(nmsArmorStand, "invulnerable", true);     // Invulnerable
-            setValue(nmsArmorStand, "bi", 2031616);            // DisabledSlots
-        } catch (NoSuchFieldException | IllegalAccessException ex) {
-            // fail gracefully
-            System.err.println("BetterChairs could not apply protections to a Chair at " +
-                    armorStand.getLocation().getBlock().getLocation() +
-                    " (" + ex.getClass().getName() + ": " + ex.getMessage() + ")");
-        }
-
         ChairUtils.applyBasicChairModifications(armorStand);
 
         if (!nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM)) {

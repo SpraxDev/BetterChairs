@@ -9,8 +9,6 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
-
 /**
  * Provides abstraction to be used in maven modules with the specified spigot version<br><br>
  * <b>Why not just use the Fallback-ChairNMS in {@code #onEnable()}?</b><br>
@@ -83,33 +81,5 @@ public abstract class ChairNMS {
                 !p.hasPermission(ChairManager.plugin.getName() + ".regeneration")) return -1;
 
         return Settings.chairRegenerationAmplifier() - 1;
-    }
-
-    /**
-     * Uses reflections to change the value of a specific field of an object.<br>
-     * This method recursively searches for the first {@link Field} through all Superclasses
-     *
-     * @throws NoSuchFieldException   If a {@link Field} with the given {@code name} does
-     *                                not exist on {@code obj} or one of its superclasses
-     * @throws IllegalAccessException May be thrown by {@link Field#set(Object, Object)}
-     */
-    public static void setValue(@NotNull Object obj, @NotNull String name, @Nullable Object value) throws NoSuchFieldException, IllegalAccessException {
-        Field field = null;
-        Class<?> clazz = obj.getClass();
-
-        while (field == null && clazz != null) {
-            try {
-                field = clazz.getDeclaredField(name);
-            } catch (NoSuchFieldException ignore) {
-                clazz = clazz.getSuperclass();
-            }
-        }
-
-        if (field == null) throw new NoSuchFieldException(name);
-
-        boolean isAccessible = field.isAccessible();
-        field.setAccessible(true);
-        field.set(obj, value);
-        field.setAccessible(isAccessible);
     }
 }

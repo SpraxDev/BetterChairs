@@ -53,6 +53,11 @@
                                     <pattern>com.cryptomorin.xseries</pattern>
                                     <shadedPattern>de.sprax2013.betterchairs.xseries</shadedPattern>
                                 </relocation>
+
+                                <relocation>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.tr7zw.nbtapi</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -70,7 +75,8 @@
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
-                                <exclude>META-INF/*</exclude>
+                                <exclude>META-INF/**</exclude>
+                                <exclude>LICENSE</exclude>
                             </excludes>
                         </filter>
                         <filter>
