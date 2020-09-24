@@ -14,7 +14,6 @@
 
     <build>
         <finalName>${pluginName}</finalName>
-        <directory>../../target</directory>
 
         <resources>
             <resource>
@@ -51,7 +50,7 @@
 
                                 <relocation>
                                     <pattern>com.cryptomorin.xseries</pattern>
-                                    <shadedPattern>de.sprax2013.betterchairs.xseries</shadedPattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.cryptomorin.xseries</shadedPattern>
                                 </relocation>
 
                                 <relocation>
@@ -64,6 +63,9 @@
                 </executions>
 
                 <configuration>
+                    <minimizeJar>true</minimizeJar>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+
                     <transformers>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -86,14 +88,12 @@
                             </excludes>
                         </filter>
                         <filter>
-                            <artifact>com.github.cryptomorin:XSeries</artifact>
+                            <artifact>de.sprax2013:betterchairs-v*</artifact>
                             <includes>
-                                <include>com/cryptomorin/xseries/XMaterial**</include>
+                                <include>**</include>
                             </includes>
                         </filter>
                     </filters>
-
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
                 </configuration>
             </plugin>
 

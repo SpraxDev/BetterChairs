@@ -61,7 +61,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('./docs/version.txt') }}
       - name: Run Spigot-BuildTools
         run: |
           mkdir -p .spigot-buildtools
@@ -79,7 +79,7 @@ jobs:
           test -f ${SPIGOT_M2}/1.14.4-R0.1-SNAPSHOT/spigot-1.14.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.14.4
           test -f ${SPIGOT_M2}/1.15.2-R0.1-SNAPSHOT/spigot-1.15.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.15.2
           test -f ${SPIGOT_M2}/1.16.1-R0.1-SNAPSHOT/spigot-1.16.1-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.1
-          test -f ${SPIGOT_M2}/1.16.2-R0.1-SNAPSHOT/spigot-1.16.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.2
+          test -f ${SPIGOT_M2}/1.16.3-R0.1-SNAPSHOT/spigot-1.16.3-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.3
         env:
           SPIGOT_M2: /home/runner/.m2/repository/org/spigotmc/spigot
       - name: Build with Maven
@@ -88,7 +88,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: BetterChairs.jar
-          path: ./target/BetterChairs.jar
+          path: ./modules/betterchairs-plugin/target/BetterChairs.jar
       - name: 'SonarCloud.io (static code analysis)'
         run: 'mvn -B verify sonar:sonar -Dsonar.branch.name=$GITHUB_REF -Dsonar.login=$SONARCLOUD_TOKEN'
         env:
