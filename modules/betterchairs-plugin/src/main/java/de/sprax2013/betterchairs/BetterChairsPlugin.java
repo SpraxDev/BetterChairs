@@ -20,6 +20,9 @@ import org.bukkit.material.WoodenStep;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class BetterChairsPlugin extends JavaPlugin {
     private static BetterChairsPlugin plugin;
     private static ChairManager chairManager;
@@ -51,6 +54,8 @@ public class BetterChairsPlugin extends JavaPlugin {
         BetterChairsCommand cmdExecutor = new BetterChairsCommand(this);
         getCommand(getName()).setExecutor(cmdExecutor);
         getCommand("toggleChairs").setExecutor(cmdExecutor);
+
+        Logger.getLogger("NBTAPI").setLevel(Level.WARNING); // Hide info messages from NBT-API
 
         // Load bStats
         //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
