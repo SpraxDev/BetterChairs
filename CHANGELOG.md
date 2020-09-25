@@ -11,11 +11,27 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/pre
 * Line 2
 -->
 
+## Version 0.12.0
+_2020-09-24_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.6...v0.12.0)
+
+### Breaking Changes
+* Using Maven default target/output directory
+
+### Changed
+* GitHub Actions: Improved caching
+* Updated dependency XSeries from 7.2.1.1 to 7.3.1
+* Updated README.md
+
+### Added
+* Using `ItemNBTAPI` by @tr7zw to protect ArmorStands across versions (#36)
+
+
 ## Version 0.11.6
 _2020-09-05_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.5...v0.11.6)
 
 ### Added
 * Full 1.16.2 support (#33)
+
 
 ## Version 0.11.5
 _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.4...v0.11.5)
@@ -26,6 +42,7 @@ _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.
   ([https://bstats.org/plugin/bukkit/BetterChairs%20Remastered/8214](https://bstats.org/plugin/bukkit/BetterChairs%20Remastered/8214))
 * Made some changes to GitHub Actions
 * Only deploy betterchairs-api as other modules are not relevant
+
 
 ## Version 0.11.4
 _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.3...v0.11.4)
@@ -52,6 +69,7 @@ _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.
 * Full Spigot 1.16 support
 * Deploy to GitHub packages (pom.xml)
 
+
 ## Version 0.11.1
 _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.0...v0.11.1)
 
@@ -76,6 +94,7 @@ I did my best to make sure the resulting .jar-file keeps its class and package s
 * CHANGELOG.md (#9)
 * LICENCE (#9)
 * docs/version.txt to be used for the Updater ([BlackScarx/BetterChairs #13](https://github.com/BlackScarx/BetterChairs/pull/13))
+
 
 ## Version 0.10.2
 This is the starting point of this repository as this is a fork of [BlackScarx/BetterChairs](https://github.com/BlackScarx/BetterChairs).
