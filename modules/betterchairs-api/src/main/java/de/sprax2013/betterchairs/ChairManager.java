@@ -48,7 +48,7 @@ public class ChairManager {
      * @throws IllegalArgumentException When {@code block} is not a valid chair block
      */
     public boolean create(Player player, Block block) {
-        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
         if (!chairNMS.isStair(block) && !chairNMS.isSlab(block))
             throw new IllegalArgumentException("The provided block is neither a stair nor a slab");
 
@@ -121,7 +121,7 @@ public class ChairManager {
      *                         This may not be possible in some situations
      */
     public void destroy(Chair chair, boolean teleportPlayer, boolean sameTickTeleport) {
-        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
         boolean hasPassenger = chair.armorStand.getPassenger() != null;
 
@@ -165,7 +165,7 @@ public class ChairManager {
      * @return true if a player is sitting on it, false otherwise
      */
     public boolean isOccupied(@NotNull Block b) {
-        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
         for (Chair c : new ArrayList<>(chairs)) {
             if (b.equals(c.block)) {
@@ -178,11 +178,11 @@ public class ChairManager {
 
     @Nullable
     public Chair getChair(@NotNull Player p) {
-        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
         for (Chair c : new ArrayList<>(chairs)) {
-            if (p == c.player) {
-                if (!c.destroyOnNoPassenger()) return c;
+            if (p == c.player && !c.destroyOnNoPassenger()) {
+                return c;
             }
         }
 
@@ -191,11 +191,11 @@ public class ChairManager {
 
     @Nullable
     public Chair getChair(@NotNull Block b) {
-        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
         for (Chair c : new ArrayList<>(chairs)) {
-            if (b == c.block) {
-                if (!c.destroyOnNoPassenger()) return c;
+            if (b == c.block && !c.destroyOnNoPassenger()) {
+                return c;
             }
         }
 
@@ -204,11 +204,11 @@ public class ChairManager {
 
     @Nullable
     public Chair getChair(@NotNull ArmorStand armorStand) {
-        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException("Async API call");
+        if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
         for (Chair c : new ArrayList<>(chairs)) {
-            if (armorStand == c.armorStand) {
-                if (!c.destroyOnNoPassenger()) return c;
+            if (armorStand == c.armorStand && !c.destroyOnNoPassenger()) {
+                return c;
             }
         }
 

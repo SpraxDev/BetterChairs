@@ -10,6 +10,7 @@ import java.util.Objects;
 // TODO: Comments inside messages.yml
 public class Messages {
     public static final String PREFIX_CONSOLE = ChatColor.stripColor("[BetterChairs] ");
+    public static final String ERR_ASYNC_API_CALL = "Async API call";
     private static final int CURR_VERSION = 1;
 
     public static String getPrefix() {

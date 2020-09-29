@@ -83,11 +83,11 @@ public class EventListener implements Listener {
         if (Settings.needsSignsOnBothSides()) {
             BlockFace rotation = getManager().chairNMS.getBlockRotation(e.getClickedBlock());
 
-            BlockFace side1 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.WEST : BlockFace.NORTH,
-                    side2 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.EAST : BlockFace.SOUTH;
+            BlockFace side1 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.WEST : BlockFace.NORTH;
+            BlockFace side2 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.EAST : BlockFace.SOUTH;
 
-            Block block1 = e.getClickedBlock().getRelative(side1),
-                    block2 = e.getClickedBlock().getRelative(side2);
+            Block block1 = e.getClickedBlock().getRelative(side1);
+            Block block2 = e.getClickedBlock().getRelative(side2);
 
             // Are WALL_SIGNs placed?
             if (!WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block1.getType())) ||

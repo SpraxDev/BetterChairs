@@ -4,6 +4,10 @@ import de.tr7zw.changeme.nbtapi.NBTEntity;
 import org.bukkit.entity.ArmorStand;
 
 public class ChairUtils {
+    private ChairUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * <ul>
      *  <li>{@link ArmorStand#hasGravity()} = {@code false}</li>
@@ -11,7 +15,7 @@ public class ChairUtils {
      *  <li>{@link ArmorStand#getRemoveWhenFarAway()} = {@code true}</li>
      * </ul>
      */
-    public static void applyBasicChairModifications(ArmorStand armorStand) {
+    public static void applyChairProtections(ArmorStand armorStand) {
         armorStand.setGravity(false);
         armorStand.setVisible(false);
 

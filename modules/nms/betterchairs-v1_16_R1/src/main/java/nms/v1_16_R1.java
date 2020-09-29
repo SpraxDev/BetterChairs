@@ -37,7 +37,7 @@ public class v1_16_R1 extends ChairNMS {
                 nmsWorld, loc.getX(), loc.getY(), loc.getZ(), regenerationAmplifier);
         ArmorStand armorStand = (ArmorStand) nmsArmorStand.getBukkitEntity();
 
-        ChairUtils.applyBasicChairModifications(armorStand);
+        ChairUtils.applyChairProtections(armorStand);
 
         if (!nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM)) {
             // TODO: Use Plugin-Prefix in all nms classes
@@ -131,7 +131,7 @@ public class v1_16_R1 extends ChairNMS {
 
                 if (!p.hasPotionEffect(PotionEffectType.REGENERATION)) {
                     p.addPotionEffect(new PotionEffect(
-                            PotionEffectType.REGENERATION, ChairNMS.regenerationEffectDuration, this.regenerationAmplifier,
+                            PotionEffectType.REGENERATION, ChairNMS.REGENERATION_EFFECT_DURATION, this.regenerationAmplifier,
                             false, false), true);
                 }
             }
