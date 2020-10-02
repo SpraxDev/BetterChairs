@@ -92,13 +92,13 @@ public class Updater implements Listener {
         in.close();
 
         String versionStr = versionTxt.toString().split("\n")[0];
+        String currVersion = plugin.getDescription().getVersion();
 
-        if (isNewerVersion(plugin.getDescription().getVersion(), versionStr)) {
+        if (isNewerVersion(currVersion, versionStr)) {
             this.newerVersion = versionStr;
 
             Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                    .info("Found a new update v" +
-                            plugin.getDescription().getVersion() + " -> v" + versionTxt +
+                    .info("Found a new update v" + currVersion + " -> v" + versionTxt +
                             " (Download at: " + DOWNLOAD_URL + ")");
         } else {
             this.newerVersion = null;

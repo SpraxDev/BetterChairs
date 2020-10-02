@@ -69,12 +69,10 @@ public class ChairUtils {
     }
 
     public static void applyRegeneration(HumanEntity p, int regenerationAmplifier) {
-        if (regenerationAmplifier >= 0) {
-            if (!p.hasPotionEffect(PotionEffectType.REGENERATION)) {
-                p.addPotionEffect(new PotionEffect(
-                        PotionEffectType.REGENERATION, ChairNMS.REGENERATION_EFFECT_DURATION, regenerationAmplifier,
-                        false, false), true);
-            }
+        if (regenerationAmplifier >= 0 && !p.hasPotionEffect(PotionEffectType.REGENERATION)) {
+            p.addPotionEffect(new PotionEffect(
+                    PotionEffectType.REGENERATION, ChairNMS.REGENERATION_EFFECT_DURATION, regenerationAmplifier,
+                    false, false), true);
         }
     }
 
