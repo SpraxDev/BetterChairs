@@ -98,8 +98,8 @@ public class Updater implements Listener {
             this.newerVersion = versionStr;
 
             Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                    .info("Found a new update v" + currVersion + " -> v" + versionTxt +
-                            " (Download at: " + DOWNLOAD_URL + ")");
+                    .info(() -> String.format("Found a new update v%s -> v%s (Download at: %s)",
+                            currVersion, versionTxt, DOWNLOAD_URL));
         } else {
             this.newerVersion = null;
         }
