@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * </ul>
  */
 public abstract class ChairNMS {
-    public static final int regenerationEffectDuration = 3 * 20;    // In Ticks
+    public static final int REGENERATION_EFFECT_DURATION = 3 * 20;    // In Ticks
 
     /**
      * Spawns an ArmorStand that is/has:

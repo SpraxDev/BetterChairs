@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -57,8 +58,9 @@ public class Updater implements Listener {
                     try {
                         checkForUpdates();
                     } catch (Throwable th) {
-                        System.err.println("[" + plugin.getName() + "] Could not check for updates" +
-                                (th.getMessage() == null ? "!" : ": " + th.getMessage()));
+                        Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                                .warning("Could not check for updates" +
+                                        (th.getMessage() == null ? "!" : ": " + th.getMessage()));
 
                         if (th.getMessage() == null) {
                             th.printStackTrace();
@@ -91,12 +93,14 @@ public class Updater implements Listener {
         in.close();
 
         String versionStr = versionTxt.toString().split("\n")[0];
+        String currVersion = plugin.getDescription().getVersion();
 
-        if (isNewerVersion(plugin.getDescription().getVersion(), versionStr)) {
+        if (isNewerVersion(currVersion, versionStr)) {
             this.newerVersion = versionStr;
 
-            System.out.println(Messages.PREFIX_CONSOLE + "Found a new update v" +
-                    plugin.getDescription().getVersion() + " -> v" + versionTxt + " (Download at: " + DOWNLOAD_URL + ")");
+            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                    .info(() -> String.format("Found a new update v%s -> v%s (Download at: %s)",
+                            currVersion, versionTxt, DOWNLOAD_URL));
         } else {
             this.newerVersion = null;
         }

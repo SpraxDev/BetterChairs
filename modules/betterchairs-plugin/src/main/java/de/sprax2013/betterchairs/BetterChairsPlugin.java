@@ -13,7 +13,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
-import org.bukkit.material.Directional;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Step;
 import org.bukkit.material.WoodenStep;
@@ -62,9 +61,8 @@ public class BetterChairsPlugin extends JavaPlugin {
         try {
             // TODO: Add Custom ServerVersion-Pie that shows NMS-Versions when clicked
             new MetricsLite(this, 8214); // TODO: Does not work on Spigot 1.8.0? (Can't find gson)
-        } catch (Throwable th) {
-            System.err.println(Messages.PREFIX_CONSOLE + "Could not load bStats (" + th.getClass().getSimpleName() + "): " +
-                    th.getMessage());
+        } catch (Exception ex) {
+            getLogger().warning("Could not load bStats (" + ex.getClass().getSimpleName() + "): " + ex.getMessage());
         }
     }
 
@@ -94,9 +92,8 @@ public class BetterChairsPlugin extends JavaPlugin {
         try {
             // Try loading NMS class (package is remapped by maven-shade-plugin)
             return (ChairNMS) Class.forName("nms." + version).newInstance();
-        } catch (Throwable ignore) {
-            System.err.println(Messages.PREFIX_CONSOLE + "Your server version (" + version +
-                    ") is not fully supported - Loading fallback...");
+        } catch (Exception ignore) {
+            getLogger().warning("Your server version (" + version + ") is not fully supported - Loading fallback...");
 
             // Loading fallback when NMS not available
             return new ChairNMS() {
@@ -107,7 +104,7 @@ public class BetterChairsPlugin extends JavaPlugin {
                 @NotNull
                 public ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier) {
                     ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
-                    ChairUtils.applyBasicChairModifications(armorStand);
+                    ChairUtils.applyChairProtections(armorStand);
 
                     // TODO: Support regeneration effect without overwriting #tick()
 
@@ -148,7 +145,8 @@ public class BetterChairsPlugin extends JavaPlugin {
                 public boolean isStairUpsideDown(@NotNull Block block) {
                     try {
                         return ((Stairs) block.getState().getData()).isInverted();
-                    } catch (Throwable ignore) {
+                    } catch (Exception ignore) {
+                        // Feature not supported on this version of the Bukkit-api
                     }
 
                     return false;
@@ -157,20 +155,7 @@ public class BetterChairsPlugin extends JavaPlugin {
                 @Override
                 @NotNull
                 public BlockFace getBlockRotation(@NotNull Block block) {
-                    try {
-                        // TODO: deduplicate code
-                        BlockFace blockFace = ((Directional) block.getState().getData()).getFacing();
-
-                        if (blockFace == BlockFace.NORTH) return BlockFace.SOUTH;
-                        if (blockFace == BlockFace.SOUTH) return BlockFace.NORTH;
-                        if (blockFace == BlockFace.WEST) return BlockFace.EAST;
-                        if (blockFace == BlockFace.EAST) return BlockFace.WEST;
-
-                        return blockFace;
-                    } catch (Throwable ignore) {
-                    }
-
-                    return BlockFace.SELF;
+                    return ChairUtils.getBlockRotationLegacy(block);
                 }
 
                 @Override
@@ -211,10 +196,6 @@ public class BetterChairsPlugin extends JavaPlugin {
     protected static ChairManager getManager() {
         return chairManager;
     }
-
-//    protected static Updater getUpdater() {
-//        return updater;
-//    }
 
     public static BetterChairsPlugin getInstance() {
         return plugin;

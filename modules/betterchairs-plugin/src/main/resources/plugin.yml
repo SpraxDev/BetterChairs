@@ -6,7 +6,7 @@ api-version: '1.13'
 main: ${project.parent.groupId}.${project.parent.artifactId}.BetterChairsPlugin
 
 author: Sprax2013
-authors: [Sprax2013, BlackScarx]
+authors: [ Sprax2013, BlackScarx ]
 website: https://github.com/SpraxDev/BetterChairs
 
 commands:

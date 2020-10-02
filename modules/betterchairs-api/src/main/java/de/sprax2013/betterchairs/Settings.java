@@ -6,6 +6,7 @@ import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFileManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // TODO: Comments inside config.yml
 public class Settings {
@@ -96,7 +97,8 @@ public class Settings {
         // Convert from old config or delete when invalid version
         if (yamlFile.getCfg().getKeys(false).size() > 0) {
             if (!yamlFile.getCfg().contains("version")) {
-                System.out.println(Messages.PREFIX_CONSOLE + "Found old BetterChairs config.yml - Converting into new format...");
+                Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                        .info("Found old BetterChairs config.yml - Converting into new format...");
 
                 Object autoRotatePlayer = yamlFile.getCfg().get("AutoTurn"), /* boolean */
                         checkForUpdate = yamlFile.getCfg().get("Update Checker"), /* boolean */
@@ -264,10 +266,11 @@ public class Settings {
         // Backup file
         File newFile = new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml");
         if (file.renameTo(newFile)) {
-            System.out.println(Messages.PREFIX_CONSOLE +
-                    "Created backup of " + file.getName() + ": " + newFile.getName());
+            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                    .info("Created backup of " + file.getName() + ": " + newFile.getName());
         } else {
-            System.err.println(Messages.PREFIX_CONSOLE + "Could not create a backup of " + file.getName());
+            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                    .warning("Could not create a backup of " + file.getName());
         }
     }
 
