@@ -9,8 +9,10 @@ import java.util.Objects;
 
 // TODO: Comments inside messages.yml
 public class Messages {
-    public static final String PREFIX_CONSOLE = ChatColor.stripColor("[BetterChairs] ");
     public static final String ERR_ASYNC_API_CALL = "Async API call";
+    public static final String ERR_ANOTHER_PLUGIN_PREVENTING_SPAWN = "Looks like another plugin is preventing BetterChairs from spawning chairs";
+    public static final String ERR_NOT_CUSTOM_ARMOR_STAND = "The provided ArmorStand is not an instance of '%s'";
+
     private static final int CURR_VERSION = 1;
 
     public static String getPrefix() {
@@ -56,7 +58,8 @@ public class Messages {
         // Convert from old format or delete when invalid version
         if (yamlFile.getCfg().getKeys(false).size() > 0) {
             if (!yamlFile.getCfg().contains("version")) {
-                System.out.println(PREFIX_CONSOLE + "Found old BetterChairs messages.yml - Converting into new format...");
+                Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                        .info("Found old BetterChairs messages.yml - Converting into new format...");
 
                 Object noPermission = yamlFile.getCfg().get("Cant use message"),
                         toggleChairsDisabled = yamlFile.getCfg().get("Message to send when player toggle chairs to off"),
@@ -152,10 +155,11 @@ public class Messages {
         // Backup file
         File newFile = new File(file.getParentFile(), "messages-" + System.currentTimeMillis() + ".yml");
         if (file.renameTo(newFile)) {
-            System.out.println(Messages.PREFIX_CONSOLE +
-                    "Created backup of " + file.getName() + ": " + newFile.getName());
+            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                    .info("Created backup of " + file.getName() + ": " + newFile.getName());
         } else {
-            System.err.println(Messages.PREFIX_CONSOLE + "Could not create a backup of " + file.getName());
+            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                    .warning("Could not create a backup of " + file.getName());
         }
     }
 }

@@ -13,7 +13,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
-import org.bukkit.material.Directional;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Step;
 import org.bukkit.material.WoodenStep;
@@ -147,6 +146,7 @@ public class BetterChairsPlugin extends JavaPlugin {
                     try {
                         return ((Stairs) block.getState().getData()).isInverted();
                     } catch (Exception ignore) {
+                        // Feature not supported on this version of the Bukkit-api
                     }
 
                     return false;
@@ -155,20 +155,7 @@ public class BetterChairsPlugin extends JavaPlugin {
                 @Override
                 @NotNull
                 public BlockFace getBlockRotation(@NotNull Block block) {
-                    try {
-                        // TODO: deduplicate code
-                        BlockFace blockFace = ((Directional) block.getState().getData()).getFacing();
-
-                        if (blockFace == BlockFace.NORTH) return BlockFace.SOUTH;
-                        if (blockFace == BlockFace.SOUTH) return BlockFace.NORTH;
-                        if (blockFace == BlockFace.WEST) return BlockFace.EAST;
-                        if (blockFace == BlockFace.EAST) return BlockFace.WEST;
-
-                        return blockFace;
-                    } catch (Exception ignore) {
-                    }
-
-                    return BlockFace.SELF;
+                    return ChairUtils.getBlockRotationLegacy(block);
                 }
 
                 @Override

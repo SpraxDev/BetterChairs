@@ -2,6 +2,7 @@ package nms;
 
 import de.sprax2013.betterchairs.ChairNMS;
 import de.sprax2013.betterchairs.ChairUtils;
+import de.sprax2013.betterchairs.Messages;
 import net.minecraft.server.v1_11_R1.Entity;
 import net.minecraft.server.v1_11_R1.EntityArmorStand;
 import net.minecraft.server.v1_11_R1.EntityHuman;
@@ -13,16 +14,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftHumanEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.material.Directional;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Step;
 import org.bukkit.material.WoodenStep;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -39,7 +36,7 @@ public class v1_11_R1 extends ChairNMS {
         ChairUtils.applyChairProtections(armorStand);
 
         if (!nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM)) {
-            System.err.println("Looks like a plugin is preventing BetterChairs from spawning chairs");
+            ChairUtils.logNmsErr(Messages.ERR_ANOTHER_PLUGIN_PREVENTING_SPAWN);
         }
 
         return armorStand;
@@ -50,8 +47,8 @@ public class v1_11_R1 extends ChairNMS {
         EntityArmorStand nmsArmorStand = ((CraftArmorStand) armorStand).getHandle();
 
         if (!(nmsArmorStand instanceof CustomArmorStand))
-            throw new IllegalArgumentException("The provided ArmorStand is not an instance of " +
-                    CustomArmorStand.class.getName());
+            throw new IllegalArgumentException(String.format(Messages.ERR_NOT_CUSTOM_ARMOR_STAND,
+                    CustomArmorStand.class.getName()));
 
         ((CustomArmorStand) nmsArmorStand).remove = true;
         armorStand.remove();
@@ -69,14 +66,7 @@ public class v1_11_R1 extends ChairNMS {
 
     @Override
     public @NotNull BlockFace getBlockRotation(@NotNull Block block) {
-        BlockFace blockFace = ((Directional) block.getState().getData()).getFacing();
-
-        if (blockFace == BlockFace.NORTH) return BlockFace.SOUTH;
-        if (blockFace == BlockFace.SOUTH) return BlockFace.NORTH;
-        if (blockFace == BlockFace.WEST) return BlockFace.EAST;
-        if (blockFace == BlockFace.EAST) return BlockFace.WEST;
-
-        return blockFace;
+        return ChairUtils.getBlockRotationLegacy(block);
     }
 
     @Override
@@ -137,15 +127,7 @@ public class v1_11_R1 extends ChairNMS {
             this.setYawPitch(passenger.yaw, passenger.pitch * .5F);
             this.aP = this.yaw;
 
-            if (this.regenerationAmplifier >= 0) {
-                CraftHumanEntity p = ((EntityHuman) passenger).getBukkitEntity();
-
-                if (!p.hasPotionEffect(PotionEffectType.REGENERATION)) {
-                    p.addPotionEffect(new PotionEffect(
-                            PotionEffectType.REGENERATION, ChairNMS.REGENERATION_EFFECT_DURATION, this.regenerationAmplifier,
-                            false, false), true);
-                }
-            }
+            ChairUtils.applyRegeneration(((EntityHuman) passenger).getBukkitEntity(), this.regenerationAmplifier);
         }
 
         @Override

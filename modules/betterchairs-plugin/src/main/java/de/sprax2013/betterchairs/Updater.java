@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -95,8 +96,10 @@ public class Updater implements Listener {
         if (isNewerVersion(plugin.getDescription().getVersion(), versionStr)) {
             this.newerVersion = versionStr;
 
-            System.out.println(Messages.PREFIX_CONSOLE + "Found a new update v" +
-                    plugin.getDescription().getVersion() + " -> v" + versionTxt + " (Download at: " + DOWNLOAD_URL + ")");
+            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                    .info("Found a new update v" +
+                            plugin.getDescription().getVersion() + " -> v" + versionTxt +
+                            " (Download at: " + DOWNLOAD_URL + ")");
         } else {
             this.newerVersion = null;
         }
