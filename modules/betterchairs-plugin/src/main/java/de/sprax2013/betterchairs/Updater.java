@@ -58,8 +58,9 @@ public class Updater implements Listener {
                     try {
                         checkForUpdates();
                     } catch (Throwable th) {
-                        System.err.println("[" + plugin.getName() + "] Could not check for updates" +
-                                (th.getMessage() == null ? "!" : ": " + th.getMessage()));
+                        Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                                .warning("Could not check for updates" +
+                                        (th.getMessage() == null ? "!" : ": " + th.getMessage()));
 
                         if (th.getMessage() == null) {
                             th.printStackTrace();
