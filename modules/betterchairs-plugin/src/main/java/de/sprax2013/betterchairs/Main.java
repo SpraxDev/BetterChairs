@@ -14,17 +14,17 @@ import java.nio.charset.StandardCharsets;
  */
 public class Main {
     public static void main(String[] args) {
-        String version = "UNKNOWN", web = null;
+        String version = "UNKNOWN", webURL = null;
 
         // Parse plugin.yml and extract some information
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(Main.class.getResourceAsStream("/plugin.yml"), StandardCharsets.UTF_8))) {
             String line;
-            while ((line = reader.readLine()) != null && (version.equals("UNKNOWN") || web == null)) {
+            while ((line = reader.readLine()) != null && (version.equals("UNKNOWN") || webURL == null)) {
                 if (line.startsWith("version:")) {
                     version = line.substring(8).trim();
                 } else if (line.startsWith("website:")) {
-                    web = line.substring(8).trim();
+                    webURL = line.substring(8).trim();
                 }
             }
         } catch (IOException ex) {
@@ -37,9 +37,9 @@ public class Main {
                 .append("Version: ")
                 .append(version).append("\n");
 
-        if (web != null) {
+        if (webURL != null) {
             sb.append("Website: ")
-                    .append(web);
+                    .append(webURL);
         }
 
         if (!GraphicsEnvironment.isHeadless()) {

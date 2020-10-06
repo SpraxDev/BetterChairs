@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class PlayerLeaveChairEvent extends Event {
-    public static HandlerList handlers = new HandlerList();
+    public static final HandlerList handlers = new HandlerList();
 
     private final Player player;
     private final Chair chair;

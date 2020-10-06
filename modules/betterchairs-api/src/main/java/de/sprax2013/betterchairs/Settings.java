@@ -14,6 +14,10 @@ public class Settings {
 
     private static final List<SettingsReloadListener> reloadListeners = new ArrayList<>();
 
+    private Settings() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /* Chair-Settings */
     public static int allowedDistance() {
         return getSettings().getCfg().getInt("Chairs.AllowedDistanceToChair");
@@ -95,7 +99,7 @@ public class Settings {
         boolean save = false;
 
         // Convert from old config or delete when invalid version
-        if (yamlFile.getCfg().getKeys(false).size() > 0) {
+        if (!yamlFile.getCfg().getKeys(false).isEmpty()) {
             if (!yamlFile.getCfg().contains("version")) {
                 Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
                         .info("Found old BetterChairs config.yml - Converting into new format...");
@@ -184,7 +188,7 @@ public class Settings {
                     int ver = Integer.parseInt(verStr);
 
                     if (ver != 1) {
-                        throw new Exception("Invalid version (=" + ver + ") provided inside config.yml");
+                        throw new IllegalStateException("Invalid version (=" + ver + ") provided inside config.yml");
                     }
                 } catch (Exception ex) {
                     backupConfig(yamlFile);
@@ -240,8 +244,8 @@ public class Settings {
             for (SettingsReloadListener listener : reloadListeners) {
                 try {
                     listener.onReload();
-                } catch (Throwable th) {
-                    th.printStackTrace();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         }

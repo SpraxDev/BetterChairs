@@ -21,6 +21,7 @@ import java.net.URLConnection;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 public class Updater implements Listener {
     // TODO: Use SpigotMC as DownloadURL
@@ -44,35 +45,26 @@ public class Updater implements Listener {
             if (this.timer != null) return;
 
             this.timer = new Timer(true);
-
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    if (!plugin.isEnabled()) {
-                        timer.cancel();
-                        return;
-                    }
-
-                    if (!Settings.checkForUpdates()) return;
-
-                    try {
-                        checkForUpdates();
-                    } catch (Throwable th) {
-                        Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                                .warning("Could not check for updates" +
-                                        (th.getMessage() == null ? "!" : ": " + th.getMessage()));
-
-                        if (th.getMessage() == null) {
-                            th.printStackTrace();
+                    if (plugin.isEnabled() && Settings.checkForUpdates()) {
+                        try {
+                            checkForUpdates();
+                        } catch (Exception ex) {
+                            (ChairManager.getPlugin() != null ? ChairManager.getPlugin().getLogger() : Logger.getGlobal())
+                                    .warning("Could not check for updates" +
+                                            (ex.getMessage() == null ? "!" : ": " + ex.getMessage()));
                         }
+                    } else {
+                        timer.cancel();
                     }
                 }
             }, 2000, 1000 * 60 * 60 * 3);   // Check every 3h
 
             Bukkit.getPluginManager().registerEvents(this, this.plugin);
-        } else {
-            if (this.timer == null) return;
-
+        } else if (this.timer != null) {
+            // Stop Update-Timer
             HandlerList.unregisterAll(this);
             this.timer.cancel();
             this.timer = null;
