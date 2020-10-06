@@ -13,19 +13,19 @@ import java.util.List;
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
 public class BetterChairsCommand implements CommandExecutor, TabCompleter {
-    private final String PERMS_TOGGLE, PERMS_RELOAD, PERMS_RESET;
+    private final String permsToggle, permsReload, permsReset;
 
     protected BetterChairsCommand(JavaPlugin plugin) {
-        this.PERMS_TOGGLE = plugin.getName() + ".cmd.toggle";
-        this.PERMS_RELOAD = plugin.getName() + ".cmd.reload";
-        this.PERMS_RESET = plugin.getName() + ".cmd.reset";
+        this.permsToggle = plugin.getName() + ".cmd.toggle";
+        this.permsReload = plugin.getName() + ".cmd.reload";
+        this.permsReset = plugin.getName() + ".cmd.reset";
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission(PERMS_TOGGLE) &&
-                !sender.hasPermission(PERMS_RELOAD) &&
-                !sender.hasPermission(PERMS_RESET)) {
+        if (!sender.hasPermission(permsToggle) &&
+                !sender.hasPermission(permsReload) &&
+                !sender.hasPermission(permsReset)) {
             sender.sendMessage(Messages.noPermission());
         }
 
@@ -37,7 +37,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("toggle")) {
                 handleToggleChairs(sender);
             } else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
-                if (sender.hasPermission(PERMS_RELOAD)) {
+                if (sender.hasPermission(permsReload)) {
                     if (Settings.reload()) {
                         sender.sendMessage(Messages.getPrefix() + "§aSuccessfully reloaded §6config.yml§a!");
                     } else {
@@ -53,7 +53,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(Messages.noPermission());
                 }
             } else if (args[0].equalsIgnoreCase("reset")) {
-                if (sender.hasPermission(PERMS_RESET)) {
+                if (sender.hasPermission(permsReset)) {
                     int chairCount = getManager().destroyAll(true);
 
                     if (chairCount > 0) {
@@ -84,21 +84,19 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         List<String> result = new ArrayList<>();
 
-        if (!cmd.getName().equalsIgnoreCase("toggleChairs")) {
-            if (args.length == 1) {
-                String arg = args[0].toLowerCase();
+        if (!cmd.getName().equalsIgnoreCase("toggleChairs") && args.length == 1) {
+            String arg = args[0].toLowerCase();
 
-                if ("toggle".startsWith(arg) && sender.hasPermission(PERMS_TOGGLE)) {
-                    result.add("toggle");
-                }
+            if ("toggle".startsWith(arg) && sender.hasPermission(permsToggle)) {
+                result.add("toggle");
+            }
 
-                if ("reload".startsWith(arg) && sender.hasPermission(PERMS_RELOAD)) {
-                    result.add("reload");
-                }
+            if ("reload".startsWith(arg) && sender.hasPermission(permsReload)) {
+                result.add("reload");
+            }
 
-                if ("reset".startsWith(arg) && sender.hasPermission(PERMS_RESET)) {
-                    result.add("reset");
-                }
+            if ("reset".startsWith(arg) && sender.hasPermission(permsReset)) {
+                result.add("reset");
             }
         }
 
@@ -106,7 +104,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleToggleChairs(CommandSender sender) {
-        if (!sender.hasPermission(PERMS_TOGGLE)) {
+        if (!sender.hasPermission(permsToggle)) {
             sender.sendMessage(Messages.noPermission());
             return;
         }

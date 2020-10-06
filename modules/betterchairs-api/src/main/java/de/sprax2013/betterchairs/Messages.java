@@ -15,6 +15,10 @@ public class Messages {
 
     private static final int CURR_VERSION = 1;
 
+    private Messages() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static String getPrefix() {
         return ChatColor.translateAlternateColorCodes('&',
                 getMessages().getCfg().getString("General.Prefix"));
@@ -56,7 +60,7 @@ public class Messages {
         boolean save = false;
 
         // Convert from old format or delete when invalid version
-        if (yamlFile.getCfg().getKeys(false).size() > 0) {
+        if (!yamlFile.getCfg().getKeys(false).isEmpty()) {
             if (!yamlFile.getCfg().contains("version")) {
                 Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
                         .info("Found old BetterChairs messages.yml - Converting into new format...");
@@ -103,7 +107,7 @@ public class Messages {
                     int ver = Integer.parseInt(verStr);
 
                     if (ver != 1) {
-                        throw new Exception("Invalid version (=" + ver + ") provided inside messages.yml");
+                        throw new IllegalStateException("Invalid version (=" + ver + ") provided inside messages.yml");
                     }
                 } catch (Exception ex) {
                     backupConfig(yamlFile);

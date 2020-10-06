@@ -64,8 +64,8 @@ public class EventListener implements Listener {
                 !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
 
         // Block disabled in config?
-        if (!Settings.useStairs() && getManager().chairNMS.isStair(e.getClickedBlock())) return;
-        else if (!Settings.useSlabs() && getManager().chairNMS.isSlab(e.getClickedBlock())) return;
+        if ((!Settings.useStairs() && getManager().chairNMS.isStair(e.getClickedBlock())) ||
+                (!Settings.useSlabs() && getManager().chairNMS.isSlab(e.getClickedBlock()))) return;
 
         if (getManager().chairNMS.isStair(e.getClickedBlock()) &&
                 getManager().chairNMS.isStairUpsideDown(e.getClickedBlock())) return;   // Stair but upside down

@@ -7,7 +7,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class PlayerEnterChairEvent extends Event implements Cancellable {
-    public static HandlerList handlers = new HandlerList();
+    public static final HandlerList handlers = new HandlerList();
     private boolean cancelled = false;
 
     private final Player player;

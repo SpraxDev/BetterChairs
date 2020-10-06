@@ -13,6 +13,10 @@ import java.util.List;
 public class YAMLFileManager {
     private static final HashMap<JavaPlugin, HashMap<File, YAMLFile>> files = new HashMap<>();
 
+    private YAMLFileManager() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Creates a file inside the plugin's DataFolder
      * <p>

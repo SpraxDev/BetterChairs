@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.logging.Level;
+import java.util.Map;
 
 /**
  * Using my old FileManager for Settings - Needs a recode
@@ -91,12 +91,14 @@ public class YAMLFile {
      */
     public boolean refresh() {
         if (!file.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             file.getParentFile().mkdirs();
 
             try {
+                //noinspection ResultOfMethodCallIgnored
                 file.createNewFile();
             } catch (IOException ex) {
-                getPlugin().getLogger().log(Level.WARNING, "Could not create YAML-File " + file.getAbsolutePath(), ex);
+                getPlugin().getLogger().warning(() -> "Could not create YAML-File " + file.getAbsolutePath() + " (" + ex.getMessage() + ")");
 
                 cfg = null;
 
@@ -122,7 +124,7 @@ public class YAMLFile {
 
             return true;
         } catch (IOException ex) {
-            getPlugin().getLogger().log(Level.WARNING, "Could not save YAML-File " + file.getAbsolutePath(), ex);
+            getPlugin().getLogger().warning(() -> "Could not save YAML-File " + file.getAbsolutePath() + " (" + ex.getMessage() + ")");
         }
 
         return false;
@@ -159,9 +161,9 @@ public class YAMLFile {
      */
     private boolean insertDefaultValues() {
         if (!defaultValues.isEmpty()) {
-            for (String key : defaultValues.keySet()) {
-                if (!getCfg().contains(key)) {
-                    getCfg().set(key, defaultValues.get(key));
+            for (Map.Entry<String, Object> entry : defaultValues.entrySet()) {
+                if (!getCfg().contains(entry.getKey())) {
+                    getCfg().set(entry.getKey(), entry.getValue());
                 }
             }
 
