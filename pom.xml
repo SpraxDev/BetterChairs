@@ -61,6 +61,11 @@
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
+
+        <repository>
+            <id>GitHub-SpraxDev-LimeDevUtility</id>
+            <url>https://maven.pkg.github.com/SpraxDev/LimeDevUtility</url>
+        </repository>
     </repositories>
 
     <dependencies>

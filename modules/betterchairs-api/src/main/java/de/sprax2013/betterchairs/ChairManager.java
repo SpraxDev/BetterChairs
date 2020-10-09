@@ -70,7 +70,7 @@ public class ChairManager {
             return false;
         }
 
-        if (Settings.autoRotate() && chair.isStair()) {
+        if (Settings.AUTO_ROTATE_PLAYER.getValueAsBoolean() && chair.isStair()) {
             Location loc = player.getLocation();
             loc.setPitch(0);
 
@@ -131,7 +131,7 @@ public class ChairManager {
         chairNMS.killChairArmorStand(chair.armorStand);
         chairs.remove(chair);
 
-        if (hasPassenger && teleportPlayer && Settings.leavingChairTeleportPlayerToOldLocation()) {
+        if (hasPassenger && teleportPlayer && Settings.LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getValueAsBoolean()) {
             Runnable task = () -> chair.player.teleport(chair.getPlayerLeavingLocation());
 
             if (sameTickTeleport) {

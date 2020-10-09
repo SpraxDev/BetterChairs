@@ -1,5 +1,6 @@
 package de.sprax2013.betterchairs;
 
+import de.sprax2013.lime.spigot.LimeDevUtilitySpigot;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
@@ -30,6 +31,7 @@ public class BetterChairsPlugin extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
+        LimeDevUtilitySpigot.init(this);  // Initialize LimeDevUtility
         MinecraftVersion.logger.setLevel(Level.WARNING); // Hide info messages from NBT-API
 
         ChairNMS chairNMS = getNewNMS();

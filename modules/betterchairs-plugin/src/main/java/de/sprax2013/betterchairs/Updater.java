@@ -35,20 +35,20 @@ public class Updater implements Listener {
     public Updater(JavaPlugin plugin) {
         this.plugin = plugin;
 
-        Settings.addReloadListener(this::reInit);
+        Settings.addListener(this::reInit);
 
         reInit();
     }
 
     private void reInit() {
-        if (Settings.checkForUpdates()) {
+        if (Settings.UPDATER_ENABLED.getValueAsBoolean()) {
             if (this.timer != null) return;
 
             this.timer = new Timer(true);
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    if (plugin.isEnabled() && Settings.checkForUpdates()) {
+                    if (plugin.isEnabled() && Settings.UPDATER_ENABLED.getValueAsBoolean()) {
                         try {
                             checkForUpdates();
                         } catch (Exception ex) {
@@ -101,8 +101,8 @@ public class Updater implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         if (newerVersion == null) return;
-        if (!Settings.checkForUpdates()) return;
-        if (!Settings.updaterNotifyOnJoin()) return;
+        if (!Settings.UPDATER_ENABLED.getValueAsBoolean()) return;
+        if (!Settings.UPDATER_NOTIFY_ON_JOIN.getValueAsBoolean()) return;
         if (!e.getPlayer().hasPermission(plugin.getName() + ".updater")) return;
 
         e.getPlayer().spigot().sendMessage(

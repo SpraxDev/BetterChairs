@@ -1,284 +1,206 @@
 package de.sprax2013.betterchairs;
 
-import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFile;
-import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFileManager;
+import de.sprax2013.lime.configuration.Config;
+import de.sprax2013.lime.configuration.ConfigEntry;
+import de.sprax2013.lime.configuration.ConfigListener;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-// TODO: Comments inside config.yml
 public class Settings {
-    private static final int CURR_VERSION = 1;
+    protected static final int CURR_VERSION = 1;
+    protected static final String header = "BetterChairs Remastered\n\n" +
+            "Support: https://Sprax.me/Discord\n" +
+            "Updates and Information:\n" +
+            "Statistics: https://bstats.org/plugin/bukkit/BetterChairs%20Remastered/8214\n" +
+            "Information for developers: https://github.com/SpraxDev/BetterChairs/wiki";
 
-    private static final List<SettingsReloadListener> reloadListeners = new ArrayList<>();
+    private static final Config config = new Config(
+            new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "config.yml"), header)
+            .withEntry("version", CURR_VERSION, "You shouldn't make any changes to this");
+
+    public static final ConfigEntry ALLOWED_DISTANCE_TO_CHAIR = config.createEntry(
+            "Chairs.AllowedDistanceToChair", -1,
+            "Allowed distance a player is allowed to have when trying to sit? (-1 to ignore)");
+    public static final ConfigEntry AUTO_ROTATE_PLAYER = config.createEntry(
+            "Chairs.AutoRotatePlayer", true,
+            "Should a player automatically look forward when starting to sit");
+    public static final ConfigEntry NEEDS_EMPTY_HANDS = config.createEntry(
+            "Chairs.NeedEmptyHands", true,
+            "Does a player need his hands empty when trying to sit?");
+    public static final ConfigEntry NEEDS_SIGNS = config.createEntry(
+            "Chairs.NeedsSignsOnBothSides", false,
+            "Does a chair need signs on both sides attached to be detected as an chair");
+
+    public static final ConfigEntry USE_STAIRS = config.createEntry(
+            "Chairs.UseStairs", true, "Can stairs be chairs?");
+    public static final ConfigEntry USE_SLABS = config.createEntry(
+            "Chairs.UseSlabs", false, "Can half slabs be chairs too?");
+
+    public static final ConfigEntry LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION = config.createEntry(
+            "Chairs.LeavingChair.TeleportPlayerToOldLocation", true,
+            "Should a player be teleported to its original position when leaving a chair");
+    public static final ConfigEntry LEAVING_CHAIR_KEEP_HEAD_ROTATION = config.createEntry(
+            "Chairs.LeavingChair.KeepHeadRotation", true,
+            "Should a player keep his head rotation when teleported to its original position");
+
+    public static final ConfigEntry MSG_ALREADY_OCCUPIED = config.createEntry(
+            "Chairs.Messages.AlreadyOccupied", false,
+            "Should the player receive a message when the chair is already occupied");
+    public static final ConfigEntry MSG_NEEDS_SIGNS = config.createEntry(
+            "Chairs.Messages.NeedsSignsOnBothSides", false,
+            "Should the player receive a message when a chair is missing signs on both sided");
+    public static final ConfigEntry MSG_NOW_SITTING = config.createEntry(
+            "Chairs.Messages.NowSitting", false,
+            "Should the player receive a message when he starts sitting");
+
+    public static final ConfigEntry REGENERATION_ENABLED = config.createEntry(
+            "Chairs.Regeneration.Enabled", false,
+            "Should player receive regeneration effect when sitting? (Needs permission BetterChairs.regeneration)");
+    public static final ConfigEntry REGENERATION_AMPLIFIER = config.createEntry(
+            "Chairs.Regeneration.Amplifier", 1,
+            "What amplifier should be applied?");
+
+    public static final ConfigEntry WORLD_FILTER_ENABLED = config.createEntry(
+            "Filter.Worlds.Enabled", false,
+            "Should we only enable chairs in specific worlds?");
+    public static final ConfigEntry WORLD_FILTER_AS_BLACKLIST = config.createEntry(
+            "Filter.Worlds.UseAsBlacklist", false,
+            "Should be the list below be used as blacklist or whitelist?");
+    public static final ConfigEntry WORLD_FILTER_NAMES = config.createEntry(
+            "Filter.Worlds.Names", new String[] {"worldname", "worldname2"},
+            "List of all enabled/disabled worlds");
+
+    public static final ConfigEntry UPDATER_ENABLED = config.createEntry(
+            "Updater.CheckForUpdates", true,
+            "Should we check for new versions and report to the console? (Recommended)");
+    public static final ConfigEntry UPDATER_NOTIFY_ON_JOIN = config.createEntry(
+            "Updater.NotifyOnJoin", true,
+            () -> "Should be notify admins when they join the server? (Permission: " +
+                    ChairManager.getPlugin().getName() + ".updater)");
 
     private Settings() {
         throw new IllegalStateException("Utility class");
     }
 
-    /* Chair-Settings */
-    public static int allowedDistance() {
-        return getSettings().getCfg().getInt("Chairs.AllowedDistanceToChair");
-    }
+    public static boolean reload() {
+        File cfgFile = config.getFile();
 
-    public static boolean autoRotate() {
-        return getSettings().getCfg().getBoolean("Chairs.AutoRotatePlayer");
-    }
+        boolean loaded = false;
 
-    public static boolean needsEmptyHands() {
-        return getSettings().getCfg().getBoolean("Chairs.NeedEmptyHands");
-    }
+        if (cfgFile != null && cfgFile.exists()) {
+            YamlConfiguration yamlCfg = YamlConfiguration.loadConfiguration(cfgFile);
 
-    public static boolean needsSignsOnBothSides() {
-        return getSettings().getCfg().getBoolean("Chairs.NeedsSignsOnBothSides");
-    }
+            String version = yamlCfg.getString("version", "-1");
 
-    public static boolean useStairs() {
-        return getSettings().getCfg().getBoolean("Chairs.UseStairs");
-    }
+            if (!version.equals(String.valueOf(CURR_VERSION))) {
+                try {
+                    config.backupFile();
 
-    public static boolean useSlabs() {
-        return getSettings().getCfg().getBoolean("Chairs.UseSlabs");
-    }
+                    if (version.equals("-1")) {
+                        // Convert from old config or delete when invalid version
+                        Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                                .info("Found old BetterChairs config.yml - Converting into new format...");
 
-    public static boolean leavingChairTeleportPlayerToOldLocation() {
-        return getSettings().getCfg().getBoolean("Chairs.LeavingChair.TeleportPlayerToOldLocation");
-    }
+                        Object autoRotatePlayer = yamlCfg.get("AutoTurn"), /* boolean */
+                                checkForUpdate = yamlCfg.get("Update Checker"), /* boolean */
+                                needsEmptyHands = yamlCfg.get("No item in hand"), /* boolean */
+                                needsSignsOnBothSides = yamlCfg.get("Need to sign or chair on each side"), /* boolean */
+                                useSlabs = yamlCfg.get("Use slab"), /* boolean */
 
-    public static boolean leavingChairKeepHeadRotation() {
-        return getSettings().getCfg().getBoolean("Chairs.LeavingChair.KeepHeadRotation");
-    }
+                                sendMsgWhenChairNeedsSigns = yamlCfg.get("Send message if the Chairs need sign or chair"), /* boolean */
+                                sendMsgWhenChairOccupied = yamlCfg.get("Send message if the chairs is already occupied"), /* boolean */
+                                sendMsgWhenPlayerSit = yamlCfg.get("Send message when player sit"), /* boolean */
 
-    public static boolean sendMessageWhenOccupied() {
-        return getSettings().getCfg().getBoolean("Chairs.Messages.AlreadyOccupied");
-    }
+                                regenerationAmplifier = yamlCfg.get("Amplifier"), /* int */
+                                regenerationWhenSitting = yamlCfg.get("Regen when sit"), /* boolean */
 
-    public static boolean sendMessageWhenNeedsSignsOnBothSides() {
-        return getSettings().getCfg().getBoolean("Chairs.Messages.NeedsSignsOnBothSides");
-    }
+                                allowedDistanceToStairs = yamlCfg.get("Distance of the stairs"), /* int */
+                                disabledWorlds = yamlCfg.get("Disable world"); /* List<String> */
 
-    public static boolean sendMessageWhenNowSitting() {
-        return getSettings().getCfg().getBoolean("Chairs.Messages.NowSitting");
-    }
+                        // Chairs.*
+                        if (allowedDistanceToStairs instanceof Integer) {
+                            ALLOWED_DISTANCE_TO_CHAIR.setValue(allowedDistanceToStairs);
+                        }
+                        if (autoRotatePlayer instanceof Boolean) {
+                            AUTO_ROTATE_PLAYER.setValue(autoRotatePlayer);
+                        }
+                        if (needsEmptyHands instanceof Boolean) {
+                            NEEDS_EMPTY_HANDS.setValue(needsEmptyHands);
+                        }
+                        if (needsSignsOnBothSides instanceof Boolean) {
+                            NEEDS_SIGNS.setValue(needsSignsOnBothSides);
+                        }
+                        if (useSlabs instanceof Boolean) {
+                            USE_SLABS.setValue(useSlabs);
+                        }
 
-    public static boolean chairRegeneration() {
-        return getSettings().getCfg().getBoolean("Chairs.Regeneration.Enabled");
-    }
+                        // Chairs.Messages.*
+                        if (sendMsgWhenChairOccupied instanceof Boolean) {
+                            MSG_ALREADY_OCCUPIED.setValue(sendMsgWhenChairOccupied);
+                        }
+                        if (sendMsgWhenChairNeedsSigns instanceof Boolean) {
+                            MSG_NEEDS_SIGNS.setValue(sendMsgWhenChairNeedsSigns);
+                        }
+                        if (sendMsgWhenPlayerSit instanceof Boolean) {
+                            MSG_NOW_SITTING.setValue(sendMsgWhenPlayerSit);
+                        }
 
-    public static int chairRegenerationAmplifier() {
-        return getSettings().getCfg().getInt("Chairs.Regeneration.Amplifier");
-    }
+                        // Chairs.Regeneration.*
+                        if (regenerationWhenSitting instanceof Boolean) {
+                            REGENERATION_ENABLED.setValue(regenerationWhenSitting);
+                        }
+                        if (regenerationAmplifier instanceof Integer) {
+                            REGENERATION_AMPLIFIER.setValue(regenerationAmplifier);
+                        }
 
-    /* Filter: Worlds */
-    public static boolean isWorldFilterEnabled() {
-        return getSettings().getCfg().getBoolean("Filter.Worlds.Enabled");
-    }
+                        // Filter.Worlds.Names
+                        if (disabledWorlds instanceof List) {
+                            List<String> newDisabledWorlds = new ArrayList<>();
 
-    public static boolean isWorldFilterBlacklist() {
-        return getSettings().getCfg().getBoolean("Filter.Worlds.UseAsBlacklist");
-    }
+                            //noinspection rawtypes
+                            for (Object obj : (List) disabledWorlds) {
+                                newDisabledWorlds.add(obj.toString());
+                            }
 
-    public static List<String> getWorldFilter() {
-        return getSettings().getCfg().getStringList("Filter.Worlds.Names");
-    }
+                            WORLD_FILTER_NAMES.setValue(newDisabledWorlds);
+                        }
 
-    /* Updater */
-    public static boolean checkForUpdates() {
-        return getSettings().getCfg().getBoolean("Updater.CheckForUpdates");
-    }
+                        // Updater.CheckForUpdates
+                        if (checkForUpdate instanceof Boolean) {
+                            UPDATER_ENABLED.setValue(checkForUpdate);
+                        }
 
-    public static boolean updaterNotifyOnJoin() {
-        return getSettings().getCfg().getBoolean("Updater.NotifyOnJoin");
-    }
-
-    private static YAMLFile getSettings() {
-        YAMLFile yamlFile = YAMLFileManager.getFile(ChairManager.getPlugin(), "config.yml");
-
-        boolean save = false;
-
-        // Convert from old config or delete when invalid version
-        if (!yamlFile.getCfg().getKeys(false).isEmpty()) {
-            if (!yamlFile.getCfg().contains("version")) {
-                Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                        .info("Found old BetterChairs config.yml - Converting into new format...");
-
-                Object autoRotatePlayer = yamlFile.getCfg().get("AutoTurn"), /* boolean */
-                        checkForUpdate = yamlFile.getCfg().get("Update Checker"), /* boolean */
-                        needsEmptyHands = yamlFile.getCfg().get("No item in hand"), /* boolean */
-                        needsSignsOnBothSides = yamlFile.getCfg().get("Need to sign or chair on each side"), /* boolean */
-                        useSlabs = yamlFile.getCfg().get("Use slab"), /* boolean */
-
-                        sendMsgWhenChairNeedsSigns = yamlFile.getCfg().get("Send message if the Chairs need sign or chair"), /* boolean */
-                        sendMsgWhenChairOccupied = yamlFile.getCfg().get("Send message if the chairs is already occupied"), /* boolean */
-                        sendMsgWhenPlayerSit = yamlFile.getCfg().get("Send message when player sit"), /* boolean */
-
-                        regenerationAmplifier = yamlFile.getCfg().get("Amplifier"), /* int */
-                        regenerationWhenSitting = yamlFile.getCfg().get("Regen when sit"), /* boolean */
-
-                        allowedDistanceToStairs = yamlFile.getCfg().get("Distance of the stairs"), /* int */
-                        disabledWorlds = yamlFile.getCfg().get("Disable world"); /* List<String> */
-
-                backupConfig(yamlFile);
-
-                // Generate new file
-                yamlFile = YAMLFileManager.getFile(ChairManager.getPlugin(), "config.yml");
-
-                yamlFile.getCfg().set("version", CURR_VERSION);
-
-                // Chairs.*
-                if (allowedDistanceToStairs instanceof Integer) {
-                    yamlFile.getCfg().set("Chairs.AllowedDistanceToChair", allowedDistanceToStairs);
-                }
-                if (autoRotatePlayer instanceof Boolean) {
-                    yamlFile.getCfg().set("Chairs.AutoRotatePlayer", autoRotatePlayer);
-                }
-                if (needsEmptyHands instanceof Boolean) {
-                    yamlFile.getCfg().set("Chairs.NeedEmptyHands", needsEmptyHands);
-                }
-                if (needsSignsOnBothSides instanceof Boolean) {
-                    yamlFile.getCfg().set("Chairs.NeedsSignsOnBothSides", needsSignsOnBothSides);
-                }
-                if (useSlabs instanceof Boolean) {
-                    yamlFile.getCfg().set("Chairs.UseSlabs", useSlabs);
-                }
-
-                // Chairs.Messages.*
-                if (sendMsgWhenChairOccupied instanceof Boolean) {
-                    yamlFile.getCfg().set("Chairs.Messages.AlreadyOccupied", sendMsgWhenChairOccupied);
-                }
-                if (sendMsgWhenChairNeedsSigns instanceof Boolean) {
-                    yamlFile.getCfg().set("Chairs.Messages.NeedsSignsOnBothSides", sendMsgWhenChairNeedsSigns);
-                }
-                if (sendMsgWhenPlayerSit instanceof Boolean) {
-                    yamlFile.getCfg().set("Chairs.Messages.NowSitting", sendMsgWhenPlayerSit);
-                }
-
-                // Chairs.Regeneration.*
-                if (regenerationWhenSitting instanceof Boolean) {
-                    yamlFile.getCfg().set("Chairs.Regeneration.Enabled", regenerationWhenSitting);
-                }
-                if (regenerationAmplifier instanceof Integer) {
-                    yamlFile.getCfg().set("Chairs.Regeneration.Amplifier", regenerationAmplifier);
-                }
-
-                // Filter.Worlds.Names
-                if (disabledWorlds instanceof List) {
-                    List<String> newDisabledWorlds = new ArrayList<>();
-
-                    //noinspection rawtypes
-                    for (Object obj : (List) disabledWorlds) {
-                        newDisabledWorlds.add(obj.toString());
+                        // Override old config
+                        config.save();
+                        loaded = true;
+                    } else {
+                        throw new IllegalStateException("Invalid version (=" + version + ") provided inside config.yml");
                     }
 
-                    yamlFile.getCfg().set("Filter.Worlds.Names", newDisabledWorlds);
-                }
-
-                // Updater.CheckForUpdates
-                if (checkForUpdate instanceof Boolean) {
-                    yamlFile.getCfg().set("Updater.CheckForUpdates", checkForUpdate);
-                }
-
-                save = true;
-            } else {
-                String verStr = yamlFile.getCfg().getString("version");
-
-                try {
-                    int ver = Integer.parseInt(verStr);
-
-                    if (ver != 1) {
-                        throw new IllegalStateException("Invalid version (=" + ver + ") provided inside config.yml");
+                    if (!cfgFile.delete()) {
+                        throw new IOException("Could not delete file '" + cfgFile.getAbsolutePath() + "'");
                     }
-                } catch (Exception ex) {
-                    backupConfig(yamlFile);
-
-                    // Generate new file
-                    return getSettings();
-                }
-            }
-        }
-
-        // Insert default values
-        if (yamlFile.getCountOfDefaultValues() == 0) {
-            yamlFile.addDefault("version", CURR_VERSION);
-
-            yamlFile.addDefault("Chairs.AllowedDistanceToChair", -1);
-            yamlFile.addDefault("Chairs.AutoRotatePlayer", true);
-            yamlFile.addDefault("Chairs.NeedEmptyHands", true);
-            yamlFile.addDefault("Chairs.NeedsSignsOnBothSides", false);
-            yamlFile.addDefault("Chairs.UseStairs", true);
-            yamlFile.addDefault("Chairs.UseSlabs", false);
-
-            yamlFile.addDefault("Chairs.LeavingChair.TeleportPlayerToOldLocation", true);
-            yamlFile.addDefault("Chairs.LeavingChair.KeepHeadRotation", true);
-
-            yamlFile.addDefault("Chairs.Messages.AlreadyOccupied", false);
-            yamlFile.addDefault("Chairs.Messages.NeedsSignsOnBothSides", false);
-            yamlFile.addDefault("Chairs.Messages.NowSitting", false);
-
-            yamlFile.addDefault("Chairs.Regeneration.Enabled", false);
-            yamlFile.addDefault("Chairs.Regeneration.Amplifier", 1);
-
-            yamlFile.addDefault("Filter.Worlds.Enabled", false);
-            yamlFile.addDefault("Filter.Worlds.UseAsBlacklist", true);
-            yamlFile.addDefault("Filter.Worlds.Names", new String[] {"worldname", "worldname2"});
-
-            yamlFile.addDefault("Updater.CheckForUpdates", true);
-            yamlFile.addDefault("Updater.NotifyOnJoin", true);
-
-            save = true;
-        }
-
-        if (save) {
-            yamlFile.save();
-        }
-
-        return yamlFile;
-    }
-
-    protected static boolean reload() {
-        boolean result = getSettings().refresh();
-
-        if (result) {
-            for (SettingsReloadListener listener : reloadListeners) {
-                try {
-                    listener.onReload();
-                } catch (Exception ex) {
+                } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
         }
 
-        return result;
+        // If loaded has been set to true, we don't need to load the file again
+        return loaded || config.load() && config.save();
     }
 
     protected static void reset() {
-        reloadListeners.clear();
-        YAMLFileManager.removeFileFromCache(ChairManager.getPlugin(), getSettings());
+        config.clearListeners();
+        config.reset();
     }
 
-    protected static void addReloadListener(SettingsReloadListener reloadListener) {
-        reloadListeners.add(reloadListener);
-    }
-
-    private static void backupConfig(YAMLFile yamlFile) {
-        File file = yamlFile.getFile();
-
-        YAMLFileManager.removeFileFromCache(ChairManager.getPlugin(), yamlFile);
-
-        // Backup file
-        File newFile = new File(file.getParentFile(), "config-" + System.currentTimeMillis() + ".yml");
-        if (file.renameTo(newFile)) {
-            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                    .info("Created backup of " + file.getName() + ": " + newFile.getName());
-        } else {
-            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                    .warning("Could not create a backup of " + file.getName());
-        }
-    }
-
-    public interface SettingsReloadListener {
-        void onReload();
+    protected static void addListener(ConfigListener cfgListener) {
+        config.addListener(cfgListener);
     }
 }

@@ -76,10 +76,10 @@ public abstract class ChairNMS {
     }
 
     public static int getRegenerationAmplifier(Player p) {
-        if (!Settings.chairRegeneration() ||
-                Settings.chairRegenerationAmplifier() <= 0 ||
+        if (!Settings.REGENERATION_ENABLED.getValueAsBoolean() ||
+                Settings.REGENERATION_AMPLIFIER.getValueAsInt() <= 0 ||
                 !p.hasPermission(ChairManager.plugin.getName() + ".regeneration")) return -1;
 
-        return Settings.chairRegenerationAmplifier() - 1;
+        return Settings.REGENERATION_AMPLIFIER.getValueAsInt() - 1;
     }
 }

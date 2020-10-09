@@ -60,12 +60,12 @@ public class Chair {
 
     @Nullable
     public Location getPlayerLeavingLocation() {
-        if (!Settings.leavingChairTeleportPlayerToOldLocation()) return null;
+        if (!Settings.LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getValueAsBoolean()) return null;
 
         Location loc = playerOriginalLoc.clone();
 
-        if (Settings.leavingChairKeepHeadRotation()) {
-            loc.setDirection(player.getLocation().getDirection());
+        if (Settings.LEAVING_CHAIR_KEEP_HEAD_ROTATION.getValueAsBoolean()) {
+            loc.setDirection(this.player.getLocation().getDirection());
         }
 
         return loc;

@@ -21,6 +21,13 @@
         </dependency>
 
         <dependency>
+            <groupId>de.sprax2013.lime</groupId>
+            <artifactId>lime-spigot-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
             <version>7.5.3</version>

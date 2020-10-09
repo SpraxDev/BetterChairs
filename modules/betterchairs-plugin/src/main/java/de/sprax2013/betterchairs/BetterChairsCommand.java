@@ -26,7 +26,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
         if (!sender.hasPermission(permsToggle) &&
                 !sender.hasPermission(permsReload) &&
                 !sender.hasPermission(permsReset)) {
-            sender.sendMessage(Messages.noPermission());
+            sender.sendMessage(Messages.getString(Messages.NO_PERMISSION));
         }
 
         boolean showHelp = false;
@@ -50,7 +50,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.getPrefix() + "§cCould not reload §6messages.yml §7- §cCheck server logs for more information");
                     }
                 } else {
-                    sender.sendMessage(Messages.noPermission());
+                    sender.sendMessage(Messages.getString(Messages.NO_PERMISSION));
                 }
             } else if (args[0].equalsIgnoreCase("reset")) {
                 if (sender.hasPermission(permsReset)) {
@@ -62,7 +62,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.getPrefix() + "§4There are no chairs that could be removed");
                     }
                 } else {
-                    sender.sendMessage(Messages.noPermission());
+                    sender.sendMessage(Messages.getString(Messages.NO_PERMISSION));
                 }
             } else {
                 showHelp = true;
@@ -105,7 +105,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
 
     private void handleToggleChairs(CommandSender sender) {
         if (!sender.hasPermission(permsToggle)) {
-            sender.sendMessage(Messages.noPermission());
+            sender.sendMessage(Messages.getString(Messages.NO_PERMISSION));
             return;
         }
 
@@ -117,6 +117,6 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
         boolean nowDisabled = !getManager().hasChairsDisabled((Player) sender);
         getManager().setChairsDisabled((Player) sender, nowDisabled);
 
-        sender.sendMessage(nowDisabled ? Messages.toggleChairsDisabled() : Messages.toggleChairsEnabled());
+        sender.sendMessage(Messages.getString(nowDisabled ? Messages.TOGGLE_DISABLED : Messages.TOGGLE_ENABLED));
     }
 }

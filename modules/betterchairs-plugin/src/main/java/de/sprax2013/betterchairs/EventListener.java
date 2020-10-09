@@ -46,17 +46,20 @@ public class EventListener implements Listener {
         if (getManager().getChair(e.getPlayer()) != null) return;   // Destroy zombie chair on old spigot versions
         if (e.getPlayer().getVehicle() != null) return; // Already sitting on something else
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
-        if (Settings.needsEmptyHands() &&
+        if (Settings.NEEDS_EMPTY_HANDS.getValueAsBoolean() &&
                 !getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;
-        if (Settings.allowedDistance() > 0 &&
+        if (Settings.ALLOWED_DISTANCE_TO_CHAIR.getValueAsInt() > 0 &&
                 e.getPlayer().getLocation()  // TODO: Use center of Block for distance
-                        .distance(e.getClickedBlock().getLocation()) > Settings.allowedDistance()) return;
+                        .distance(e.getClickedBlock().getLocation()) >
+                        Settings.ALLOWED_DISTANCE_TO_CHAIR.getValueAsInt()) return;
 
         // Is world disabled?
-        if (Settings.isWorldFilterEnabled()) {
-            boolean worldInFilter = Settings.getWorldFilter().contains(e.getPlayer().getWorld().getName());
+        if (Settings.WORLD_FILTER_ENABLED.getValueAsBoolean()) {
+            boolean worldInFilter = Settings.WORLD_FILTER_NAMES.getValueAsStringList()
+                    .contains(e.getPlayer().getWorld().getName());
 
-            if (worldInFilter == Settings.isWorldFilterBlacklist()) return; // World on Blacklist or not on Whitelist
+            // World on Blacklist or not on Whitelist
+            if (worldInFilter == Settings.WORLD_FILTER_AS_BLACKLIST.getValueAsBoolean()) return;
         }
 
         /* Check Block */
@@ -64,23 +67,23 @@ public class EventListener implements Listener {
                 !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
 
         // Block disabled in config?
-        if ((!Settings.useStairs() && getManager().chairNMS.isStair(e.getClickedBlock())) ||
-                (!Settings.useSlabs() && getManager().chairNMS.isSlab(e.getClickedBlock()))) return;
+        if ((!Settings.USE_STAIRS.getValueAsBoolean() && getManager().chairNMS.isStair(e.getClickedBlock())) ||
+                (!Settings.USE_SLABS.getValueAsBoolean() && getManager().chairNMS.isSlab(e.getClickedBlock()))) return;
 
         if (getManager().chairNMS.isStair(e.getClickedBlock()) &&
                 getManager().chairNMS.isStairUpsideDown(e.getClickedBlock())) return;   // Stair but upside down
 
         // Check Chair
         if (getManager().isOccupied(e.getClickedBlock())) {
-            if (Settings.sendMessageWhenOccupied()) {
-                e.getPlayer().sendMessage(Messages.chairUseOccupied());
+            if (Settings.MSG_ALREADY_OCCUPIED.getValueAsBoolean()) {
+                e.getPlayer().sendMessage(Messages.getString(Messages.USE_ALREADY_OCCUPIED));
             }
 
             return;
         }
 
         // Check if Chair needs Signs
-        if (Settings.needsSignsOnBothSides()) {
+        if (Settings.NEEDS_SIGNS.getValueAsBoolean()) {
             BlockFace rotation = getManager().chairNMS.getBlockRotation(e.getClickedBlock());
 
             BlockFace side1 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.WEST : BlockFace.NORTH;
@@ -92,8 +95,8 @@ public class EventListener implements Listener {
             // Are WALL_SIGNs placed?
             if (!WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block1.getType())) ||
                     !WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block2.getType()))) {
-                if (Settings.sendMessageWhenNeedsSignsOnBothSides()) {
-                    e.getPlayer().sendMessage(Messages.chairUseNeedsSigns());
+                if (Settings.MSG_NEEDS_SIGNS.getValueAsBoolean()) {
+                    e.getPlayer().sendMessage(Messages.getString(Messages.USE_NEEDS_SIGNS));
                 }
 
                 return; // No
@@ -102,8 +105,8 @@ public class EventListener implements Listener {
             // Are they attached to the chair?
             if (side1 != getManager().chairNMS.getBlockRotation(block1).getOppositeFace() ||
                     side2 != getManager().chairNMS.getBlockRotation(block2).getOppositeFace()) {
-                if (Settings.sendMessageWhenNeedsSignsOnBothSides()) {
-                    e.getPlayer().sendMessage(Messages.chairUseNeedsSigns());
+                if (Settings.MSG_NEEDS_SIGNS.getValueAsBoolean()) {
+                    e.getPlayer().sendMessage(Messages.getString(Messages.USE_NEEDS_SIGNS));
                 }
 
                 return; // No
@@ -113,8 +116,8 @@ public class EventListener implements Listener {
         // Spawn Chair
         e.setUseItemInHand(Event.Result.DENY);
 
-        if (getManager().create(e.getPlayer(), e.getClickedBlock()) && Settings.sendMessageWhenNowSitting()) {
-            e.getPlayer().sendMessage(Messages.playerNowSitting());
+        if (getManager().create(e.getPlayer(), e.getClickedBlock()) && Settings.MSG_NOW_SITTING.getValueAsBoolean()) {
+            e.getPlayer().sendMessage(Messages.getString(Messages.USE_NOW_SITTING));
         }
     }
 
