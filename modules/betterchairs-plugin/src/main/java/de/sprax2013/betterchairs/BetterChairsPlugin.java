@@ -1,5 +1,6 @@
 package de.sprax2013.betterchairs;
 
+import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,7 +21,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BetterChairsPlugin extends JavaPlugin {
     private static BetterChairsPlugin plugin;
@@ -54,7 +54,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         getCommand(getName()).setExecutor(cmdExecutor);
         getCommand("toggleChairs").setExecutor(cmdExecutor);
 
-        Logger.getLogger("NBTAPI").setLevel(Level.WARNING); // Hide info messages from NBT-API
+        MinecraftVersion.logger.setLevel(Level.WARNING); // Hide info messages from NBT-API
 
         // Load bStats
         //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
@@ -91,7 +91,7 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         try {
             // Try loading NMS class (package is remapped by maven-shade-plugin)
-            return (ChairNMS) Class.forName("nms." + version).newInstance();
+            return (ChairNMS) Class.forName("nms." + version).getConstructors()[0].newInstance();
         } catch (Exception ignore) {
             getLogger().warning("Your server version (" + version + ") is not fully supported - Loading fallback...");
 
