@@ -2,7 +2,7 @@
 
 <!-- Template
 ## 'Version major.minor.patch' or 'Unreleased'
-_yyyy-mm-dd_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/prev-tag-name...curr-tag-name)
+_yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev-tag-name...curr-tag-name)
 
 ### Breaking Changes
 ### Changed
@@ -12,7 +12,7 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/pre
 -->
 
 ## Version 0.12.0
-_2020-09-24_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.6...v0.12.0)
+_2020-09-24_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.11.6...v0.12.0)
 
 ### Breaking Changes
 * Using Maven default target/output directory
@@ -27,14 +27,14 @@ _2020-09-24_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.
 
 
 ## Version 0.11.6
-_2020-09-05_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.5...v0.11.6)
+_2020-09-05_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.11.5...v0.11.6)
 
 ### Added
 * Full 1.16.2 support (#33)
 
 
 ## Version 0.11.5
-_2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.4...v0.11.5)
+_2020-06-26_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.11.4...v0.11.5)
 
 ### Changed
 * Added a message when a player starts sitting
@@ -45,14 +45,14 @@ _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.
 
 
 ## Version 0.11.4
-_2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.3...v0.11.4)
+_2020-06-26_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.11.3...v0.11.4)
 
 ### Changed
 * Fix Chairs not spawning (Some plugins prevented ArmorStands from spawning)
 
 
 ## Version 0.11.3
-_2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.2...v0.11.3)
+_2020-06-26_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.11.2...v0.11.3)
 
 ### Added
 * Full Spigot 1.12 support
@@ -63,7 +63,7 @@ _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.
 
 
 ## Version 0.11.2
-_2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.1...v0.11.2)
+_2020-06-26_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.11.1...v0.11.2)
 
 ### Added
 * Full Spigot 1.16 support
@@ -71,7 +71,7 @@ _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.
 
 
 ## Version 0.11.1
-_2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.11.0...v0.11.1)
+_2020-06-26_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.11.0...v0.11.1)
 
 ### Breaking Changes
 * **All the packages and classes have been replaces and changed**
@@ -79,7 +79,7 @@ _2020-06-26_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.
 
 
 ## Version 0.11.0
-_2020-05-12_ [GitHub Diff](https://github.com/Sprax2013/BetterChairs/compare/v0.10.2...v0.11.0)
+_2020-05-12_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.10.2...v0.11.0)
 
 ### Breaking Changes
 I did my best to make sure the resulting .jar-file keeps its class and package structure.
