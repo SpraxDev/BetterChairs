@@ -12,6 +12,7 @@ import java.util.List;
 
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
+// TODO: Put all strings into messages.yml
 public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     private final String permsToggle, permsReload, permsReset;
 
@@ -38,16 +39,16 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
                 handleToggleChairs(sender);
             } else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
                 if (sender.hasPermission(permsReload)) {
-                    if (Settings.reload()) {
-                        sender.sendMessage(Messages.getPrefix() + "§aSuccessfully reloaded §6config.yml§a!");
+                    if (Messages.reload()) {
+                        sender.sendMessage(Messages.getPrefix() + " §aSuccessfully reloaded §6messages.yml§a!");
                     } else {
-                        sender.sendMessage(Messages.getPrefix() + "§cCould not reload §6config.yml §7- §cCheck server logs for more information");
+                        sender.sendMessage(Messages.getPrefix() + " §cCould not reload §6messages.yml §7- §cCheck server logs for more information");
                     }
 
-                    if (Messages.reload()) {
-                        sender.sendMessage(Messages.getPrefix() + "§aSuccessfully reloaded §6messages.yml§a!");
+                    if (Settings.reload()) {
+                        sender.sendMessage(Messages.getPrefix() + " §aSuccessfully reloaded §6config.yml§a!");
                     } else {
-                        sender.sendMessage(Messages.getPrefix() + "§cCould not reload §6messages.yml §7- §cCheck server logs for more information");
+                        sender.sendMessage(Messages.getPrefix() + " §cCould not reload §6config.yml §7- §cCheck server logs for more information");
                     }
                 } else {
                     sender.sendMessage(Messages.getString(Messages.NO_PERMISSION));
@@ -57,9 +58,9 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
                     int chairCount = getManager().destroyAll(true);
 
                     if (chairCount > 0) {
-                        sender.sendMessage(Messages.getPrefix() + "§aSuccessfully removed §6" + chairCount + " players§a from their chairs");
+                        sender.sendMessage(Messages.getPrefix() + " §aSuccessfully removed §6" + chairCount + " players§a from their chairs");
                     } else {
-                        sender.sendMessage(Messages.getPrefix() + "§4There are no chairs that could be removed");
+                        sender.sendMessage(Messages.getPrefix() + " §4There are no chairs that could be removed");
                     }
                 } else {
                     sender.sendMessage(Messages.getString(Messages.NO_PERMISSION));
@@ -72,9 +73,9 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
         }
 
         if (showHelp) {
-            sender.sendMessage(Messages.getPrefix() + "§3/" + cmd.getName() + " toggle §7(§eor §3/bct§7, §3/toggleChairs§7)");   // TODO: allow player(+ @a,@r,@p) as arg
-            sender.sendMessage(Messages.getPrefix() + "§3/" + cmd.getName() + " reload§7/§3rl");
-            sender.sendMessage(Messages.getPrefix() + "§3/" + cmd.getName() + " reset"); // TODO: allow player(+ @a,@r,@p) as arg
+            sender.sendMessage(Messages.getPrefix() + " §3/" + cmd.getName() + " toggle §7(§eor §3/bct§7, §3/toggleChairs§7)");   // TODO: allow player(+ @a,@r,@p) as arg
+            sender.sendMessage(Messages.getPrefix() + " §3/" + cmd.getName() + " reload§7/§3rl");
+            sender.sendMessage(Messages.getPrefix() + " §3/" + cmd.getName() + " reset"); // TODO: allow player(+ @a,@r,@p) as arg
         }
 
         return true;
@@ -110,7 +111,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
         }
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.getPrefix() + "§cOnly players may toggle chairs");
+            sender.sendMessage(Messages.getPrefix() + " §cOnly players may toggle chairs");
             return;
         }
 

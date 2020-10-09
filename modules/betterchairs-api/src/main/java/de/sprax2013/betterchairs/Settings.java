@@ -3,6 +3,7 @@ package de.sprax2013.betterchairs;
 import de.sprax2013.lime.configuration.Config;
 import de.sprax2013.lime.configuration.ConfigEntry;
 import de.sprax2013.lime.configuration.ConfigListener;
+import de.sprax2013.lime.configuration.validation.IntEntryValidator;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -25,7 +26,8 @@ public class Settings {
 
     public static final ConfigEntry ALLOWED_DISTANCE_TO_CHAIR = config.createEntry(
             "Chairs.AllowedDistanceToChair", -1,
-            "Allowed distance a player is allowed to have when trying to sit? (-1 to ignore)");
+            "Allowed distance a player is allowed to have when trying to sit? (-1 to ignore)")
+            .setEntryValidator(IntEntryValidator.get());
     public static final ConfigEntry AUTO_ROTATE_PLAYER = config.createEntry(
             "Chairs.AutoRotatePlayer", true,
             "Should a player automatically look forward when starting to sit");
@@ -62,8 +64,8 @@ public class Settings {
             "Chairs.Regeneration.Enabled", false,
             "Should player receive regeneration effect when sitting? (Needs permission BetterChairs.regeneration)");
     public static final ConfigEntry REGENERATION_AMPLIFIER = config.createEntry(
-            "Chairs.Regeneration.Amplifier", 1,
-            "What amplifier should be applied?");
+            "Chairs.Regeneration.Amplifier", 1, "What amplifier should be applied?")
+            .setEntryValidator(IntEntryValidator.get());
 
     public static final ConfigEntry WORLD_FILTER_ENABLED = config.createEntry(
             "Filter.Worlds.Enabled", false,

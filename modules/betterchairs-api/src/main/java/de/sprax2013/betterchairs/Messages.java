@@ -2,6 +2,7 @@ package de.sprax2013.betterchairs;
 
 import de.sprax2013.lime.configuration.Config;
 import de.sprax2013.lime.configuration.ConfigEntry;
+import de.sprax2013.lime.configuration.validation.StringEntryValidator;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -9,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-// TODO: Comments inside messages.yml
 public class Messages {
     public static final String ERR_ASYNC_API_CALL = "Async API call";
     public static final String ERR_ANOTHER_PLUGIN_PREVENTING_SPAWN = "Looks like another plugin is preventing BetterChairs from spawning chairs";
@@ -22,26 +22,33 @@ public class Messages {
 
     private static final ConfigEntry PREFIX = config.createEntry(
             "General.Prefix", "&7[&2" + Objects.requireNonNull(ChairManager.getPlugin()).getName() + "&7]",
-            "The prefix that can be used in all other messages");
+            "The prefix that can be used in all other messages")
+            .setEntryValidator(StringEntryValidator.get());
     public static final ConfigEntry NO_PERMISSION = config.createEntry(
             "General.NoPermission", "${Prefix} &cYou do not have permission to use this command!",
-            "What should we tell players that are not allowed to use an command?");
+            "What should we tell players that are not allowed to use an command?")
+            .setEntryValidator(StringEntryValidator.get());
 
     public static final ConfigEntry TOGGLE_ENABLED = config.createEntry(
-            "ToggleChairs.Enabled", "${Prefix} &eYou now can use chairs again");
+            "ToggleChairs.Enabled", "${Prefix} &eYou now can use chairs again")
+            .setEntryValidator(StringEntryValidator.get());
     public static final ConfigEntry TOGGLE_DISABLED = config.createEntry(
             "ToggleChairs.Disabled",
-            "${Prefix} &eChairs are now disabled until you leave the server or run the command again");
+            "${Prefix} &eChairs are now disabled until you leave the server or run the command again")
+            .setEntryValidator(StringEntryValidator.get());
 
     public static final ConfigEntry USE_ALREADY_OCCUPIED = config.createEntry(
             "ChairUse.AlreadyOccupied", "${Prefix} &cThis chair is already occupied",
-            "What should we tell players when an chair is already occupied");
+            "What should we tell players when an chair is already occupied")
+            .setEntryValidator(StringEntryValidator.get());
     public static final ConfigEntry USE_NEEDS_SIGNS = config.createEntry(
             "ChairUse.NeedsSignsOnBothSides", "${Prefix} &cA chair needs a sign attached to it on both sides",
-            "What should we tell players when an chair is missing signs on both sides");
+            "What should we tell players when an chair is missing signs on both sides")
+            .setEntryValidator(StringEntryValidator.get());
     public static final ConfigEntry USE_NOW_SITTING = config.createEntry(
             "ChairUse.NowSitting", "${Prefix} &cYou are taking a break now",
-            "What should we tell players when he/she is now sitting");
+            "What should we tell players when he/she is now sitting")
+            .setEntryValidator(StringEntryValidator.get());
 
     private Messages() {
         throw new IllegalStateException("Utility class");
