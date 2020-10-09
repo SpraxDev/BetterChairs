@@ -11,6 +11,18 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 
+## 0.13.0
+_2020-10-09_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.12.0...v0.13.0)
+
+### Breaking Changes
+* BetterChairs is now compiled using Java 11 - It *should* still work on servers running Java 8 (create an issue if not) (#50)
+* The configuration system has been rewritten and replaced with a new one ([SpraxDev/LimeDevUtility](https://github.com/SpraxDev/LimeDevUtility)) (#52)
+### Changed
+* `config.yml` and `messages.yml` now contain comments to explain all the settings (#52)
+* The dependency XSeries has been updated and might have improved performance (probably nothing you'd be able to notice)
+* NBT-API is longer logging information to the console (It sometimes still did) (#51)
+
+
 ## Version 0.12.0
 _2020-09-24_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.11.6...v0.12.0)
 

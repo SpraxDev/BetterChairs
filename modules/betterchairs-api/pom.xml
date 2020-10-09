@@ -7,7 +7,7 @@
     <parent>
         <groupId>de.sprax2013</groupId>
         <artifactId>betterchairs</artifactId>
-        <version>0.12.0</version>
+        <version>0.13.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <artifactId>betterchairs-api</artifactId>
