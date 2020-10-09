@@ -30,6 +30,8 @@ public class BetterChairsPlugin extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
+        MinecraftVersion.logger.setLevel(Level.WARNING); // Hide info messages from NBT-API
+
         ChairNMS chairNMS = getNewNMS();
 
         if (chairNMS.getListener() != null) {
@@ -53,8 +55,6 @@ public class BetterChairsPlugin extends JavaPlugin {
         BetterChairsCommand cmdExecutor = new BetterChairsCommand(this);
         getCommand(getName()).setExecutor(cmdExecutor);
         getCommand("toggleChairs").setExecutor(cmdExecutor);
-
-        MinecraftVersion.logger.setLevel(Level.WARNING); // Hide info messages from NBT-API
 
         // Load bStats
         //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
