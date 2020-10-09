@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Objects;
 
 public class Messages {
@@ -16,7 +17,7 @@ public class Messages {
     public static final String ERR_NOT_CUSTOM_ARMOR_STAND = "The provided ArmorStand is not an instance of '%s'";
 
     private static final Config config = new Config(
-            new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "messages.yml"), Settings.header)
+            new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "messages.yml"), Settings.HEADER)
             .withEntry("version", Settings.CURR_VERSION, "You shouldn't make any changes to this")
             .withCommentEntry("ToggleChairs", "What should we tell players when they enable or disable chairs for themselves");
 
@@ -117,11 +118,11 @@ public class Messages {
                         throw new IllegalStateException("Invalid version (=" + version + ") provided inside config.yml");
                     }
 
-                    if (!cfgFile.delete()) {
-                        throw new IOException("Could not delete file '" + cfgFile.getAbsolutePath() + "'");
-                    }
+                    Files.deleteIfExists(cfgFile.toPath());
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    Objects.requireNonNull(ChairManager.getPlugin())
+                            .getLogger()
+                            .throwing(Messages.class.getName(), "reload", ex);
                 }
             }
         }

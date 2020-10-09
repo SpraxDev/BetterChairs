@@ -8,20 +8,21 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Settings {
     protected static final int CURR_VERSION = 1;
-    protected static final String header = "BetterChairs Remastered\n\n" +
+    protected static final String HEADER = "BetterChairs Remastered\n\n" +
             "Support: https://Sprax.me/Discord\n" +
             "Updates and Information:\n" +
             "Statistics: https://bstats.org/plugin/bukkit/BetterChairs%20Remastered/8214\n" +
             "Information for developers: https://github.com/SpraxDev/BetterChairs/wiki";
 
     private static final Config config = new Config(
-            new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "config.yml"), header)
+            new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "config.yml"), HEADER)
             .withEntry("version", CURR_VERSION, "You shouldn't make any changes to this");
 
     public static final ConfigEntry ALLOWED_DISTANCE_TO_CHAIR = config.createEntry(
@@ -184,9 +185,7 @@ public class Settings {
                         throw new IllegalStateException("Invalid version (=" + version + ") provided inside config.yml");
                     }
 
-                    if (!cfgFile.delete()) {
-                        throw new IOException("Could not delete file '" + cfgFile.getAbsolutePath() + "'");
-                    }
+                    Files.deleteIfExists(cfgFile.toPath());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
