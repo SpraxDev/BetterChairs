@@ -57,6 +57,11 @@
                                     <pattern>de.tr7zw.changeme.nbtapi</pattern>
                                     <shadedPattern>de.sprax2013.betterchairs.tr7zw.nbtapi</shadedPattern>
                                 </relocation>
+
+                                <relocation>
+                                    <pattern>de.sprax2013.lime</pattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.lime</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>

@@ -46,9 +46,14 @@
 
     <distributionManagement>
         <repository>
-            <id>GitHub-SpraxDev</id>
-            <url>https://maven.pkg.github.com/SpraxDev/BetterChairs</url>
+            <id>sprax-repo</id>
+            <url>https://repo.sprax2013.de/repository/maven-releases/</url>
         </repository>
+
+        <snapshotRepository>
+            <id>sprax-repo</id>
+            <url>https://repo.sprax2013.de/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <repositories>
@@ -59,7 +64,12 @@
 
         <repository>
             <id>CodeMC</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
+
+        <repository>
+            <id>sprax-repo</id>
+            <url>https://repo.sprax2013.de/repository/maven-snapshots/</url>
         </repository>
     </repositories>
 

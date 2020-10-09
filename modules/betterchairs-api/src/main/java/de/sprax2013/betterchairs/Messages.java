@@ -1,169 +1,138 @@
 package de.sprax2013.betterchairs;
 
-import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFile;
-import de.sprax2013.advanced_dev_utils.spigot.files.yaml.YAMLFileManager;
-import org.bukkit.ChatColor;
+import de.sprax2013.lime.configuration.Config;
+import de.sprax2013.lime.configuration.ConfigEntry;
+import de.sprax2013.lime.configuration.validation.StringEntryValidator;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Objects;
 
-// TODO: Comments inside messages.yml
 public class Messages {
     public static final String ERR_ASYNC_API_CALL = "Async API call";
     public static final String ERR_ANOTHER_PLUGIN_PREVENTING_SPAWN = "Looks like another plugin is preventing BetterChairs from spawning chairs";
     public static final String ERR_NOT_CUSTOM_ARMOR_STAND = "The provided ArmorStand is not an instance of '%s'";
 
-    private static final int CURR_VERSION = 1;
+    private static final Config config = new Config(
+            new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "messages.yml"), Settings.HEADER)
+            .withEntry("version", Settings.CURR_VERSION, "You shouldn't make any changes to this")
+            .withCommentEntry("ToggleChairs", "What should we tell players when they enable or disable chairs for themselves");
+
+    private static final ConfigEntry PREFIX = config.createEntry(
+            "General.Prefix", "&7[&2" + Objects.requireNonNull(ChairManager.getPlugin()).getName() + "&7]",
+            "The prefix that can be used in all other messages")
+            .setEntryValidator(StringEntryValidator.get());
+    public static final ConfigEntry NO_PERMISSION = config.createEntry(
+            "General.NoPermission", "${Prefix} &cYou do not have permission to use this command!",
+            "What should we tell players that are not allowed to use an command?")
+            .setEntryValidator(StringEntryValidator.get());
+
+    public static final ConfigEntry TOGGLE_ENABLED = config.createEntry(
+            "ToggleChairs.Enabled", "${Prefix} &eYou now can use chairs again")
+            .setEntryValidator(StringEntryValidator.get());
+    public static final ConfigEntry TOGGLE_DISABLED = config.createEntry(
+            "ToggleChairs.Disabled",
+            "${Prefix} &eChairs are now disabled until you leave the server or run the command again")
+            .setEntryValidator(StringEntryValidator.get());
+
+    public static final ConfigEntry USE_ALREADY_OCCUPIED = config.createEntry(
+            "ChairUse.AlreadyOccupied", "${Prefix} &cThis chair is already occupied",
+            "What should we tell players when an chair is already occupied")
+            .setEntryValidator(StringEntryValidator.get());
+    public static final ConfigEntry USE_NEEDS_SIGNS = config.createEntry(
+            "ChairUse.NeedsSignsOnBothSides", "${Prefix} &cA chair needs a sign attached to it on both sides",
+            "What should we tell players when an chair is missing signs on both sides")
+            .setEntryValidator(StringEntryValidator.get());
+    public static final ConfigEntry USE_NOW_SITTING = config.createEntry(
+            "ChairUse.NowSitting", "${Prefix} &cYou are taking a break now",
+            "What should we tell players when he/she is now sitting")
+            .setEntryValidator(StringEntryValidator.get());
 
     private Messages() {
         throw new IllegalStateException("Utility class");
     }
 
     public static String getPrefix() {
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(PREFIX.getValueAsString()));
+    }
+
+    public static String getString(ConfigEntry cfgEntry) {
         return ChatColor.translateAlternateColorCodes('&',
-                getMessages().getCfg().getString("General.Prefix"));
-    }
-
-    public static String noPermission() {
-        return getString("General.NoPermission");
-    }
-
-    public static String toggleChairsEnabled() {
-        return getString("ToggleChairs.Enabled");
-    }
-
-    public static String toggleChairsDisabled() {
-        return getString("ToggleChairs.Disabled");
-    }
-
-    public static String chairUseOccupied() {
-        return getString("ChairUse.AlreadyOccupied");
-    }
-
-    public static String chairUseNeedsSigns() {
-        return getString("ChairUse.NeedsSignsOnBothSides");
-    }
-
-    public static String playerNowSitting() {
-        return getString("ChairUse.NowSitting");
-    }
-
-    private static String getString(String key) {
-        return ChatColor.translateAlternateColorCodes('&',
-                getMessages().getCfg().getString(key))
+                Objects.requireNonNull(cfgEntry.getValueAsString()))
                 .replace("${Prefix}", getPrefix());
     }
 
-    private static YAMLFile getMessages() {
-        YAMLFile yamlFile = YAMLFileManager.getFile(ChairManager.getPlugin(), "messages.yml");
+    public static boolean reload() {
+        File cfgFile = config.getFile();
 
-        boolean save = false;
+        boolean loaded = false;
 
-        // Convert from old format or delete when invalid version
-        if (!yamlFile.getCfg().getKeys(false).isEmpty()) {
-            if (!yamlFile.getCfg().contains("version")) {
-                Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                        .info("Found old BetterChairs messages.yml - Converting into new format...");
+        if (cfgFile != null && cfgFile.exists()) {
+            YamlConfiguration yamlCfg = YamlConfiguration.loadConfiguration(cfgFile);
 
-                Object noPermission = yamlFile.getCfg().get("Cant use message"),
-                        toggleChairsDisabled = yamlFile.getCfg().get("Message to send when player toggle chairs to off"),
-                        toggleChairsEnabled = yamlFile.getCfg().get("Message to send when player toggle chairs to on"),
-                        chairOccupied = yamlFile.getCfg().get("Message to send if the chairs is occupied"),
-                        needsSign = yamlFile.getCfg().get("Message to send if the chairs need sign or chair");
+            String version = yamlCfg.getString("version", "-1");
 
-                backupConfig(yamlFile);
-
-                // Generate new file
-                yamlFile = YAMLFileManager.getFile(ChairManager.getPlugin(), "messages.yml");
-
-                yamlFile.getCfg().set("version", CURR_VERSION);
-
-                // General.*
-                if (noPermission instanceof String) {
-                    yamlFile.getCfg().set("General.NoPermission", noPermission);
-                }
-
-                // ToggleChairs.*
-                if (toggleChairsDisabled instanceof String) {
-                    yamlFile.getCfg().set("ToggleChairs.Enabled", toggleChairsDisabled);
-                }
-                if (toggleChairsEnabled instanceof String) {
-                    yamlFile.getCfg().set("ToggleChairs.Disabled", toggleChairsEnabled);
-                }
-
-                // ChairUse.*
-                if (chairOccupied instanceof String) {
-                    yamlFile.getCfg().set("ChairUse.AlreadyOccupied", chairOccupied);
-                }
-                if (needsSign instanceof String) {
-                    yamlFile.getCfg().set("ChairUse.NeedsSignsOnBothSides", needsSign);
-                }
-
-                save = true;
-            } else {
-                String verStr = yamlFile.getCfg().getString("version");
-
+            if (!version.equals(String.valueOf(Settings.CURR_VERSION))) {
                 try {
-                    int ver = Integer.parseInt(verStr);
+                    config.backupFile();
 
-                    if (ver != 1) {
-                        throw new IllegalStateException("Invalid version (=" + ver + ") provided inside messages.yml");
+                    if (version.equals("-1")) {
+                        // Convert from old config or delete when invalid version
+                        Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                                .info("Found old BetterChairs messages.yml - Converting into new format...");
+
+                        Object noPermission = yamlCfg.get("Cant use message"),
+                                toggleChairsDisabled = yamlCfg.get("Message to send when player toggle chairs to off"),
+                                toggleChairsEnabled = yamlCfg.get("Message to send when player toggle chairs to on"),
+                                chairOccupied = yamlCfg.get("Message to send if the chairs is occupied"),
+                                needsSign = yamlCfg.get("Message to send if the chairs need sign or chair");
+
+                        // General.*
+                        if (noPermission instanceof String) {
+                            NO_PERMISSION.setValue(noPermission);
+                        }
+
+                        // ToggleChairs.*
+                        if (toggleChairsDisabled instanceof String) {
+                            TOGGLE_ENABLED.setValue(toggleChairsEnabled);
+                        }
+                        if (toggleChairsEnabled instanceof String) {
+                            TOGGLE_DISABLED.setValue(toggleChairsDisabled);
+                        }
+
+                        // ChairUse.*
+                        if (chairOccupied instanceof String) {
+                            USE_ALREADY_OCCUPIED.setValue(chairOccupied);
+                        }
+                        if (needsSign instanceof String) {
+                            USE_NEEDS_SIGNS.setValue(needsSign);
+                        }
+
+                        // Override old config
+                        config.save();
+                        loaded = true;
+                    } else {
+                        throw new IllegalStateException("Invalid version (=" + version + ") provided inside config.yml");
                     }
-                } catch (Exception ex) {
-                    backupConfig(yamlFile);
 
-                    // Generate new file
-                    return getMessages();
+                    Files.deleteIfExists(cfgFile.toPath());
+                } catch (IOException ex) {
+                    Objects.requireNonNull(ChairManager.getPlugin())
+                            .getLogger()
+                            .throwing(Messages.class.getName(), "reload", ex);
                 }
             }
         }
 
-        // Insert default values
-        if (yamlFile.getCountOfDefaultValues() == 0) {
-            yamlFile.addDefault("version", CURR_VERSION);
-
-            yamlFile.addDefault("General.Prefix", "&7[&2" + Objects.requireNonNull(ChairManager.getPlugin()).getName() + "&7]");
-            yamlFile.addDefault("General.NoPermission", "${Prefix} &cYou do not have permission to use this command!");
-
-            yamlFile.addDefault("ToggleChairs.Enabled", "${Prefix} &eYou now can use chairs again");
-            yamlFile.addDefault("ToggleChairs.Disabled", "${Prefix} &eChairs are now disabled until you leave the server or run the command again");
-
-            yamlFile.addDefault("ChairUse.AlreadyOccupied", "${Prefix} &cThis chair is already occupied");
-            yamlFile.addDefault("ChairUse.NeedsSignsOnBothSides", "${Prefix} &cA chair needs a sign attached to it on both sides");
-            yamlFile.addDefault("ChairUse.NowSitting", "${Prefix} &cYou are taking a break now");
-
-            save = true;
-        }
-
-        if (save) {
-            yamlFile.save();
-        }
-
-        return yamlFile;
-    }
-
-    protected static boolean reload() {
-        return getMessages().refresh();
+        // If loaded has been set to true, we don't need to load the file again
+        return loaded || config.load() && config.save();
     }
 
     protected static void reset() {
-        YAMLFileManager.removeFileFromCache(ChairManager.getPlugin(), getMessages());
-    }
-
-    // TODO: Duplicate method in Settings
-    private static void backupConfig(YAMLFile yamlFile) {
-        File file = yamlFile.getFile();
-
-        YAMLFileManager.removeFileFromCache(ChairManager.getPlugin(), yamlFile);
-
-        // Backup file
-        File newFile = new File(file.getParentFile(), "messages-" + System.currentTimeMillis() + ".yml");
-        if (file.renameTo(newFile)) {
-            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                    .info("Created backup of " + file.getName() + ": " + newFile.getName());
-        } else {
-            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                    .warning("Could not create a backup of " + file.getName());
-        }
+        config.clearListeners();
+        config.reset();
     }
 }

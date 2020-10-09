@@ -40,32 +40,32 @@ public class Chair {
 
     @NotNull
     public Location getOriginPlayerLocation() {
-        return playerOriginalLoc.clone();
+        return this.playerOriginalLoc.clone();
     }
 
     @NotNull
     public Block getBlock() {
-        return block;
+        return this.block;
     }
 
     @NotNull
     public ArmorStand getArmorStand() {
-        return armorStand;
+        return this.armorStand;
     }
 
     @NotNull
     public Player getPlayer() {
-        return player;
+        return this.player;
     }
 
     @Nullable
     public Location getPlayerLeavingLocation() {
-        if (!Settings.leavingChairTeleportPlayerToOldLocation()) return null;
+        if (!Settings.LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getValueAsBoolean()) return null;
 
         Location loc = playerOriginalLoc.clone();
 
-        if (Settings.leavingChairKeepHeadRotation()) {
-            loc.setDirection(player.getLocation().getDirection());
+        if (Settings.LEAVING_CHAIR_KEEP_HEAD_ROTATION.getValueAsBoolean()) {
+            loc.setDirection(this.player.getLocation().getDirection());
         }
 
         return loc;
@@ -78,6 +78,7 @@ public class Chair {
      *
      * @return true if the chair is being destroyed, false otherwise
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     protected boolean destroyOnNoPassenger() {
         if (this.armorStand.getPassenger() == null) {
             if (ChairManager.getInstance() == null)
