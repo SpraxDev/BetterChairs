@@ -23,13 +23,15 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
 public class EventListener implements Listener {
-    private static final List<XMaterial> WALL_SIGN_MATERIAL = Arrays.asList(XMaterial.ACACIA_WALL_SIGN,
+    private static final List<XMaterial> WALL_SIGN_MATERIALS = Arrays.asList(XMaterial.ACACIA_WALL_SIGN,
             XMaterial.BIRCH_WALL_SIGN, XMaterial.DARK_OAK_WALL_SIGN, XMaterial.JUNGLE_WALL_SIGN,
             XMaterial.OAK_WALL_SIGN, XMaterial.SPRUCE_WALL_SIGN);
+
     /* Spawn and Destroy Chairs */
 
     /**
@@ -55,7 +57,7 @@ public class EventListener implements Listener {
 
         // Is world disabled?
         if (Settings.WORLD_FILTER_ENABLED.getValueAsBoolean()) {
-            boolean worldInFilter = Settings.WORLD_FILTER_NAMES.getValueAsStringList()
+            boolean worldInFilter = Objects.requireNonNull(Settings.WORLD_FILTER_NAMES.getValueAsStringList())
                     .contains(e.getPlayer().getWorld().getName());
 
             // World on Blacklist or not on Whitelist
@@ -93,8 +95,8 @@ public class EventListener implements Listener {
             Block block2 = e.getClickedBlock().getRelative(side2);
 
             // Are WALL_SIGNs placed?
-            if (!WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block1.getType())) ||
-                    !WALL_SIGN_MATERIAL.contains(XMaterial.matchXMaterial(block2.getType()))) {
+            if (!WALL_SIGN_MATERIALS.contains(XMaterial.matchXMaterial(block1.getType())) ||
+                    !WALL_SIGN_MATERIALS.contains(XMaterial.matchXMaterial(block2.getType()))) {
                 if (Settings.MSG_NEEDS_SIGNS.getValueAsBoolean()) {
                     e.getPlayer().sendMessage(Messages.getString(Messages.USE_NEEDS_SIGNS));
                 }
