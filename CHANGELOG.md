@@ -11,8 +11,17 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 
-## Unreleased
+## Version 1.0.0
+_2020-10-15_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.13.0...v1.0.0)
+
+### Changed
 * Fix error when trying to create `config.yml` or `messages.yml` on fresh installs
+* README.md: Added commands and permissions
+* README.md: Added differences compared to the original plugin (#22)
+### Added
+* Add option to ignore other plugins disallowing a player to use a chair (e.g. PlotSquared or WorldGuard) (#53)
+* Automatically generate JavaDocs (#55)
+* Add documentation (#8)
 
 
 ## Version 0.13.0
