@@ -11,6 +11,10 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 
+## Unreleased
+* Fix error when trying to create `config.yml` or `messages.yml` on fresh installs
+
+
 ## Version 0.13.0
 _2020-10-09_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.12.0...v0.13.0)
 
