@@ -65,6 +65,12 @@ public class EventListener implements Listener {
         }
 
         /* Check Block */
+        if (!e.getClickedBlock().getRelative(BlockFace.UP).isEmpty() &&
+                Settings.CHAIR_NEED_AIR_ABOVE.getValueAsBoolean()) return;  // Needs air above chair
+
+        if (e.getClickedBlock().getRelative(BlockFace.DOWN).isEmpty() &&
+                !Settings.CHAIR_ALLOW_AIR_BELOW.getValueAsBoolean()) return;    // Does not allow air below chair
+
         if (!getManager().chairNMS.isStair(e.getClickedBlock()) &&
                 !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
 
