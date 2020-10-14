@@ -20,7 +20,7 @@ commands:
 
 permissions:
   ${pluginName}.use:
-    description: Allows players to sit on stairs
+    description: Allows players to sit on chairs
     default: true
   ${pluginName}.regeneration:
     description: Grants regeneration to a player when sitting
