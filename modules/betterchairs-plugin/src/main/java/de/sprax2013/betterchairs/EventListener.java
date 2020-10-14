@@ -7,7 +7,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -38,8 +37,9 @@ public class EventListener implements Listener {
      * If a player is interacting with a valid block to be used as a Chair,
      * we spawn a Chair and sit the player on it
      */
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     private void onInteract(PlayerInteractEvent e) {
+        if (e.isCancelled() && !Settings.IGNORES_INTERACT_PREVENTION.getValueAsBoolean()) return;
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         // Check Player
@@ -116,10 +116,12 @@ public class EventListener implements Listener {
         }
 
         // Spawn Chair
-        e.setUseItemInHand(Event.Result.DENY);
+        if (getManager().create(e.getPlayer(), e.getClickedBlock())) {
+            e.setCancelled(true);
 
-        if (getManager().create(e.getPlayer(), e.getClickedBlock()) && Settings.MSG_NOW_SITTING.getValueAsBoolean()) {
-            e.getPlayer().sendMessage(Messages.getString(Messages.USE_NOW_SITTING));
+            if (Settings.MSG_NOW_SITTING.getValueAsBoolean()) {
+                e.getPlayer().sendMessage(Messages.getString(Messages.USE_NOW_SITTING));
+            }
         }
     }
 
