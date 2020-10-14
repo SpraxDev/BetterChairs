@@ -38,6 +38,10 @@ public class Settings {
     public static final ConfigEntry NEEDS_SIGNS = config.createEntry(
             "Chairs.NeedsSignsOnBothSides", false,
             "Does a chair need signs on both sides attached to be detected as an chair");
+    public static final ConfigEntry IGNORES_INTERACT_PREVENTION = config.createEntry(
+            "Chairs.IgnoreOtherPluginsPreventingInteract", false,
+            "Enable this if you want players to be able to sit on chairs while other plugins " +
+                    "(like WorldGuard or PlotSquared) are not allowing interactions/use with the chair blocks.");
 
     public static final ConfigEntry USE_STAIRS = config.createEntry(
             "Chairs.UseStairs", true, "Can stairs be chairs?");
