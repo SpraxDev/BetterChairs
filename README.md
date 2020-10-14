@@ -17,6 +17,16 @@ It is:
 * **free** and OpenSource. Request Features or add them yourself!
 
 
+## Commands & Permissions
+|        Command        |              Permission              | Description               |
+|:---------------------:|:------------------------------------:|:-------------------------:|
+| -                     | `BetterChairs.use` (default: `true`) | Allows players to sit on chairs |
+| `/BetterChairs toggle`| `BetterChairs.cmd.toggle` (default: `true`) | Allows individual players to disabled chairs for them (aliases: `/toggleChairs`, `/bct`) |
+| `/BetterChairs reset` | `BetterChairs.cmd.reset`             | Allows players to eject all players from their chairs |
+| `/BetterChairs reload`| `BetterChairs.cmd.reload`            | Allows players to reload the plugin's configuration files |
+| -                     | `BetterChairs.updater`               | Notifies players about updates when joining the server |
+
+
 ## Useful Links
 * Download the latest version [from GitHub](https://github.com/SpraxDev/BetterChairs/releases/latest)
 * [The Wiki](https://github.com/SpraxDev/BetterChairs/wiki) contains the **API Documentation**
@@ -38,8 +48,8 @@ Please take a look at [the documentation](https://github.com/SpraxDev/BetterChai
 * Support all versions newer than 1.8 (and in theory some older versions too)
 * **All** stairs and slabs are supported in all versions
 * You can sit on slabs that are placed in the upper-half of a block
-* A working Update-Notifier that won't send gargabe messages if the Updater fails to check for an update
-* Check if Signs are really attached to the chair (Requirering signs can be enabled in `config.yml`)
+* A working Update-Notifier that won't send garbage messages if the Updater fails to check for an update
+* Check if Signs are really attached to the chair (Requiring signs can be enabled in `config.yml`)
 * This version is less aggressive when a player tries to sit on an chair (Can be partly re-enabled in `config.yml`)
 * The content of `config.yml` and `messages.yml` has been restructured (old files are automatically converted)
 * Have a world whitelist **or** blacklist
@@ -54,9 +64,9 @@ BetterChairs started in 2016 on SpigotMC and has been developed by
 I made my first commits to the project by adding custom Spigot-Events I wanted to use.
 
 I have been granted write-access to that repository afterwards but could not contact
-BlackScarx and created this fork to fit my need and provide support for new Minecraft version.
+BlackScarx and created this fork to fit my needs and provide support for new Minecraft version.
 
-My fork quickly made some big changes, and decided to fully recode and redesign this project.
+My fork quickly made some big changes, and I decided to fully recode and redesign this project.
 I started with moving to Maven and deleting all those `spigot.jar`s from the repository.
 
 Because of that I rewrote the commit history and detached my Fork on GitHub to be no longer displayed as one
