@@ -110,7 +110,7 @@ public class Settings {
 
                     if (version.equals("-1")) {
                         // Convert from old config or delete when invalid version
-                        Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                        ChairManager.getLogger()
                                 .info("Found old BetterChairs config.yml - Converting into new format...");
 
                         Object autoRotatePlayer = yamlCfg.get("AutoTurn"), /* boolean */

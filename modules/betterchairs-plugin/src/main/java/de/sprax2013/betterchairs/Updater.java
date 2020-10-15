@@ -18,10 +18,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Logger;
 
 public class Updater implements Listener {
     // TODO: Use SpigotMC as DownloadURL
@@ -52,7 +50,7 @@ public class Updater implements Listener {
                         try {
                             checkForUpdates();
                         } catch (Exception ex) {
-                            (ChairManager.getPlugin() != null ? ChairManager.getPlugin().getLogger() : Logger.getGlobal())
+                            ChairManager.getLogger()
                                     .warning("Could not check for updates" +
                                             (ex.getMessage() == null ? "!" : ": " + ex.getMessage()));
                         }
@@ -90,7 +88,7 @@ public class Updater implements Listener {
         if (isNewerVersion(currVersion, versionStr)) {
             this.newerVersion = versionStr;
 
-            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+            ChairManager.getLogger()
                     .info(() -> String.format("Found a new update v%s -> v%s (Download at: %s)",
                             currVersion, versionTxt, DOWNLOAD_URL));
         } else {

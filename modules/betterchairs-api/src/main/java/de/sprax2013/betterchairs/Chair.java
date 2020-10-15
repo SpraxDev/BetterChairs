@@ -38,6 +38,7 @@ public class Chair {
         return ChairManager.getInstance().chairNMS.isStair(block);
     }
 
+    @SuppressWarnings("unused")
     @NotNull
     public Location getOriginPlayerLocation() {
         return this.playerOriginalLoc.clone();

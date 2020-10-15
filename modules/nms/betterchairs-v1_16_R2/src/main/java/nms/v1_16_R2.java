@@ -1,5 +1,6 @@
 package nms;
 
+import de.sprax2013.betterchairs.ChairManager;
 import de.sprax2013.betterchairs.ChairNMS;
 import de.sprax2013.betterchairs.ChairUtils;
 import de.sprax2013.betterchairs.Messages;
@@ -38,7 +39,7 @@ public class v1_16_R2 extends ChairNMS {
         ChairUtils.applyChairProtections(armorStand);
 
         if (!nmsWorld.addEntity(nmsArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM)) {
-            ChairUtils.logNmsErr(Messages.ERR_ANOTHER_PLUGIN_PREVENTING_SPAWN);
+            ChairManager.getLogger().warning(Messages.ERR_ANOTHER_PLUGIN_PREVENTING_SPAWN);
         }
 
         return armorStand;

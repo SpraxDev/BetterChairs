@@ -20,6 +20,7 @@ public class PlayerLeaveChairEvent extends Event {
         return this.player;
     }
 
+    @SuppressWarnings("unused")
     public Chair getChair() {
         return this.chair;
     }

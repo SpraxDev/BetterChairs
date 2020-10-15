@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * This class should be instantiated as soon as possible inside
@@ -239,6 +240,14 @@ public class ChairManager {
         } else {
             disabled.remove(player);
         }
+    }
+
+    /**
+     * Returns BetterChair's logger or the global one,
+     * when {@link #getPlugin()} is {@code null}.
+     */
+    public static @NotNull Logger getLogger() {
+        return plugin != null ? plugin.getLogger() : Logger.getGlobal();
     }
 
     /**
