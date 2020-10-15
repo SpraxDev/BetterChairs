@@ -27,6 +27,8 @@ public class ChairUtils {
      *  <li>Invulnerable = {@code true}</li>
      *  <li>DisabledSlots = {@code 0b11111} <em>(all)</em></li>
      * </ul>
+     *
+     * @param armorStand The ArmorStand to apply the protection to
      */
     public static void applyChairProtections(ArmorStand armorStand) {
         armorStand.setGravity(false);
