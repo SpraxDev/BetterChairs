@@ -82,6 +82,23 @@ public class Settings {
             "Filter.Worlds.Names", new String[] {"worldname", "worldname2"},
             "List of all enabled/disabled worlds");
 
+    public static final ConfigEntry MATERIAL_FILTER_ENABLED = config.createEntry(
+            "Filter.Blocks.Enabled", false,
+            "Should we only enable specific blocks as chairs?");
+    public static final ConfigEntry MATERIAL_FILTER_ALLOW_ALL_TYPES = config.createEntry(
+            "Filter.Blocks.AllowAllTypes", false,
+            "Setting this to true, won't check if a chair\n" +
+                    "is a stair or slab but only look if it is in the list below\n\n" +
+                    "This is kinda experimental.\nEnabling overwrites 'UseStairs' and 'UseSlabs' further above");
+    public static final ConfigEntry MATERIAL_FILTER_AS_BLACKLIST = config.createEntry(
+            "Filter.Blocks.UseAsBlacklist", false,
+            "Should be the list below be used as blacklist or whitelist?");
+    public static final ConfigEntry MATERIAL_FILTER_NAMES = config.createEntry(
+            "Filter.Blocks.Names", new String[] {"blockname", "blockname2"},
+            "List of all enabled/disabled block types\n\n" +
+                    "The names from Minecraft do not always work\n" +
+                    "Full list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");
+
     public static final ConfigEntry UPDATER_ENABLED = config.createEntry(
             "Updater.CheckForUpdates", true,
             "Should we check for new versions and report to the console? (Recommended)");
