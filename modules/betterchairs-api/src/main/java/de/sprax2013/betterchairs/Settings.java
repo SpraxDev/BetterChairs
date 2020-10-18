@@ -40,8 +40,16 @@ public class Settings {
             "Does a chair need signs on both sides attached to be detected as an chair");
     public static final ConfigEntry IGNORES_INTERACT_PREVENTION = config.createEntry(
             "Chairs.IgnoreOtherPluginsPreventingInteract", false,
-            "Enable this if you want players to be able to sit on chairs while other plugins " +
-                    "(like WorldGuard or PlotSquared) are not allowing interactions/use with the chair blocks.");
+            "Enable this if you want players to be able to sit on chairs\n" +
+                    "while other plugins (like WorldGuard or PlotSquared) are not\n" +
+                    "allowing interactions/use with the chair blocks.");
+
+    public static final ConfigEntry CHAIR_NEED_AIR_ABOVE = config.createEntry(
+            "Chairs.Position.NeedAirAbove", true,
+            "Set to false, if you do not care about a player suffocating while sitting");
+    public static final ConfigEntry CHAIR_ALLOW_AIR_BELOW = config.createEntry(
+            "Chairs.Position.AllowAirBelow", true,
+            "Set to false, to force chairs to have a block below them");
 
     public static final ConfigEntry USE_STAIRS = config.createEntry(
             "Chairs.UseStairs", true, "Can stairs be chairs?");
