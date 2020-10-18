@@ -18,7 +18,7 @@ public class Chair {
     protected final Player player;
     private final Location playerOriginalLoc;
 
-    public Chair(Block block, ArmorStand armorStand, Player player) {
+    Chair(Block block, ArmorStand armorStand, Player player) {
         this.block = block;
         this.armorStand = armorStand;
         this.player = player;
@@ -27,10 +27,14 @@ public class Chair {
 
     /**
      * This method checks if it is a stair block.<br>
-     * Currently only Stairs and Slabs may be used for chairs.
+     * <s>Currently only Stairs and Slabs may be used for chairs.</s>
      *
      * @return true if the chair's block is a stair, false otherwise
+     *
+     * @see #getType()
+     * @deprecated Since v1.1.0 Chairs may be any block and not just stairs and slabs
      */
+    @Deprecated
     public boolean isStair() {
         if (ChairManager.getInstance() == null)
             throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
@@ -38,6 +42,25 @@ public class Chair {
         return ChairManager.getInstance().chairNMS.isStair(block);
     }
 
+    /**
+     * This method checks if it is a stair or slab block.<br>
+     *
+     * @return true if the chair's block is a stair, false otherwise
+     */
+    public @NotNull ChairType getType() {
+        if (ChairManager.getInstance() == null)
+            throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
+
+        if (ChairManager.getInstance().chairNMS.isStair(block))
+            return ChairType.STAIR;
+
+        if (ChairManager.getInstance().chairNMS.isSlab(block))
+            return ChairType.SLAB;
+
+        return ChairType.CUSTOM;
+    }
+
+    @SuppressWarnings("unused")
     @NotNull
     public Location getOriginPlayerLocation() {
         return this.playerOriginalLoc.clone();

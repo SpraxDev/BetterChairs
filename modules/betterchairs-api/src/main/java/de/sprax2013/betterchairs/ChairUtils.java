@@ -9,8 +9,6 @@ import org.bukkit.material.Directional;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.logging.Logger;
-
 /**
  * This class provides utility methods intended to be used by BetterChairs's nms-classes
  */
@@ -27,6 +25,8 @@ public class ChairUtils {
      *  <li>Invulnerable = {@code true}</li>
      *  <li>DisabledSlots = {@code 0b11111} <em>(all)</em></li>
      * </ul>
+     *
+     * @param armorStand The ArmorStand to apply the protection to
      */
     public static void applyChairProtections(ArmorStand armorStand) {
         armorStand.setGravity(false);
@@ -74,17 +74,5 @@ public class ChairUtils {
                     PotionEffectType.REGENERATION, ChairNMS.REGENERATION_EFFECT_DURATION, regenerationAmplifier,
                     false, false), true);
         }
-    }
-
-    /**
-     * This method is used to log an error with the plugin's logger or
-     * the global one, in case {@link ChairManager#getPlugin()} is {@code null}.
-     *
-     * @param msg The error message that should be logged
-     */
-    public static void logNmsErr(String msg) {
-        Logger logger = ChairManager.getPlugin() != null ? ChairManager.getPlugin().getLogger() : Logger.getGlobal();
-
-        logger.warning(msg);
     }
 }

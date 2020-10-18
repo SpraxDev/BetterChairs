@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * This class should be instantiated as soon as possible inside
@@ -44,18 +45,14 @@ public class ChairManager {
      * @param block  The block the player should sit on
      *
      * @return true if player is now sitting on a chair, false otherwise
-     *
-     * @throws IllegalArgumentException When {@code block} is not a valid chair block
      */
     public boolean create(Player player, Block block) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
-        if (!chairNMS.isStair(block) && !chairNMS.isSlab(block))
-            throw new IllegalArgumentException("The provided block is neither a stair nor a slab");
-
         if (isOccupied(block)) return false;
 
-        // Slabs that are placed in the upper half of an block need the player to sit 0.5 blocks higher
-        double yOffset = chairNMS.isSlab(block) && chairNMS.isSlabTop(block) ? 0.5 : 0;
+        // Normal blocks and slabs that are placed in the upper half of an block need the player to sit 0.5 blocks higher
+        double yOffset = (!chairNMS.isStair(block) && !chairNMS.isSlab(block)) ||
+                (chairNMS.isSlab(block) && chairNMS.isSlabTop(block)) ? 0.5 : 0;
 
         ArmorStand armorStand = instance.chairNMS.spawnChairArmorStand(
                 block.getLocation().add(0.5, -1.2 + yOffset, 0.5), ChairNMS.getRegenerationAmplifier(player));
@@ -70,7 +67,7 @@ public class ChairManager {
             return false;
         }
 
-        if (Settings.AUTO_ROTATE_PLAYER.getValueAsBoolean() && chair.isStair()) {
+        if (Settings.AUTO_ROTATE_PLAYER.getValueAsBoolean() && chair.getType() == ChairType.STAIR) {
             Location loc = player.getLocation();
             loc.setPitch(0);
 
@@ -239,6 +236,14 @@ public class ChairManager {
         } else {
             disabled.remove(player);
         }
+    }
+
+    /**
+     * Returns BetterChair's logger or the global one,
+     * when {@link #getPlugin()} is {@code null}.
+     */
+    public static @NotNull Logger getLogger() {
+        return plugin != null ? plugin.getLogger() : Logger.getGlobal();
     }
 
     /**
