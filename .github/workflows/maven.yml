@@ -34,7 +34,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('./docs/version.txt') }}
+          key: ${{ runner.os }}-maven
       - name: 'Cache: SonarCloud packages'
         uses: actions/cache@v2
         with:
