@@ -40,8 +40,16 @@ public class Settings {
             "Does a chair need signs on both sides attached to be detected as an chair");
     public static final ConfigEntry IGNORES_INTERACT_PREVENTION = config.createEntry(
             "Chairs.IgnoreOtherPluginsPreventingInteract", false,
-            "Enable this if you want players to be able to sit on chairs while other plugins " +
-                    "(like WorldGuard or PlotSquared) are not allowing interactions/use with the chair blocks.");
+            "Enable this if you want players to be able to sit on chairs\n" +
+                    "while other plugins (like WorldGuard or PlotSquared) are not\n" +
+                    "allowing interactions/use with the chair blocks.");
+
+    public static final ConfigEntry CHAIR_NEED_AIR_ABOVE = config.createEntry(
+            "Chairs.Position.NeedAirAbove", true,
+            "Set to false, if you do not care about a player suffocating while sitting");
+    public static final ConfigEntry CHAIR_ALLOW_AIR_BELOW = config.createEntry(
+            "Chairs.Position.AllowAirBelow", true,
+            "Set to false, to force chairs to have a block below them");
 
     public static final ConfigEntry USE_STAIRS = config.createEntry(
             "Chairs.UseStairs", true, "Can stairs be chairs?");
@@ -82,6 +90,23 @@ public class Settings {
             "Filter.Worlds.Names", new String[] {"worldname", "worldname2"},
             "List of all enabled/disabled worlds");
 
+    public static final ConfigEntry MATERIAL_FILTER_ENABLED = config.createEntry(
+            "Filter.Blocks.Enabled", false,
+            "Should we only enable specific blocks as chairs?");
+    public static final ConfigEntry MATERIAL_FILTER_ALLOW_ALL_TYPES = config.createEntry(
+            "Filter.Blocks.AllowAllTypes", false,
+            "Setting this to true, won't check if a chair\n" +
+                    "is a stair or slab but only look if it is in the list below\n\n" +
+                    "This is kinda experimental.\nEnabling overwrites 'UseStairs' and 'UseSlabs' further above");
+    public static final ConfigEntry MATERIAL_FILTER_AS_BLACKLIST = config.createEntry(
+            "Filter.Blocks.UseAsBlacklist", false,
+            "Should be the list below be used as blacklist or whitelist?");
+    public static final ConfigEntry MATERIAL_FILTER_NAMES = config.createEntry(
+            "Filter.Blocks.Names", new String[] {"blockname", "blockname2"},
+            "List of all enabled/disabled block types\n\n" +
+                    "The names from Minecraft do not always work\n" +
+                    "Full list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");
+
     public static final ConfigEntry UPDATER_ENABLED = config.createEntry(
             "Updater.CheckForUpdates", true,
             "Should we check for new versions and report to the console? (Recommended)");
@@ -110,7 +135,7 @@ public class Settings {
 
                     if (version.equals("-1")) {
                         // Convert from old config or delete when invalid version
-                        Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                        ChairManager.getLogger()
                                 .info("Found old BetterChairs config.yml - Converting into new format...");
 
                         Object autoRotatePlayer = yamlCfg.get("AutoTurn"), /* boolean */

@@ -18,14 +18,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Logger;
 
 public class Updater implements Listener {
-    // TODO: Use SpigotMC as DownloadURL
-    public static final String DOWNLOAD_URL = "https://github.com/SpraxDev/BetterChairs/releases";
+    public static final String VERSION_TXT_URL = "https://spraxdev.github.io/BetterChairs/version.txt";
+
+    public static final String SPIGOT_MC_URL = "https://r.spiget.org/84809";
+    public static final String GITHUB_URL = "https://github.com/SpraxDev/BetterChairs/releases";
+    public static final String SONGODA_URL = "https://songoda.com/marketplace/product/489";
 
     private final JavaPlugin plugin;
 
@@ -52,7 +53,7 @@ public class Updater implements Listener {
                         try {
                             checkForUpdates();
                         } catch (Exception ex) {
-                            (ChairManager.getPlugin() != null ? ChairManager.getPlugin().getLogger() : Logger.getGlobal())
+                            ChairManager.getLogger()
                                     .warning("Could not check for updates" +
                                             (ex.getMessage() == null ? "!" : ": " + ex.getMessage()));
                         }
@@ -72,7 +73,7 @@ public class Updater implements Listener {
     }
 
     private void checkForUpdates() throws IOException {
-        URL website = new URL("https://spraxdev.github.io/BetterChairs/version.txt");
+        URL website = new URL(VERSION_TXT_URL);
         URLConnection connection = website.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
@@ -90,9 +91,9 @@ public class Updater implements Listener {
         if (isNewerVersion(currVersion, versionStr)) {
             this.newerVersion = versionStr;
 
-            Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
-                    .info(() -> String.format("Found a new update v%s -> v%s (Download at: %s)",
-                            currVersion, versionTxt, DOWNLOAD_URL));
+            ChairManager.getLogger()
+                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from:%nSpigotMC: %s%nSongoda: %s%nGitHub: %s",
+                            currVersion, versionTxt, SPIGOT_MC_URL, SONGODA_URL, GITHUB_URL));
         } else {
             this.newerVersion = null;
         }
@@ -111,10 +112,18 @@ public class Updater implements Listener {
                         .append("] ").color(ChatColor.GRAY)
                         .append("Found a new update v" +
                                 plugin.getDescription().getVersion() + " -> v" + newerVersion).color(ChatColor.YELLOW)
-                        .append("[DOWNLOAD]")
+                        .append("[SpigotMC] ")
                         .color(ChatColor.GREEN)
-                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, DOWNLOAD_URL))
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page")))
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SPIGOT_MC_URL))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on SpigotMC")))
+                        .append("[Songoda] ")
+                        .color(ChatColor.GREEN)
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SONGODA_URL))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on Songoda")))
+                        .append("[GitHub]")
+                        .color(ChatColor.GREEN)
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, GITHUB_URL))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on GitHub")))
                         .create());
     }
 
@@ -154,6 +163,16 @@ public class Updater implements Listener {
             if (left != right) {
                 return left < right;
             }
+        }
+
+        if (ver1.contains("-")) {
+            if (!ver2.contains("-"))
+                return true; // true, if they have same SemVer but ver1 has a suffix attached while ver2 does not
+
+            String suffix1 = ver1.substring(ver1.lastIndexOf('-')),
+                    suffix2 = ver2.substring(ver2.lastIndexOf('-'));
+
+            return !suffix1.equals(suffix2);    // true, if versions have suffix like '-SNAPSHOT' while being same SemVer
         }
 
         return false;   // Same version

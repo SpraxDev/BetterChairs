@@ -81,7 +81,7 @@ public class Messages {
 
                     if (version.equals("-1")) {
                         // Convert from old config or delete when invalid version
-                        Objects.requireNonNull(ChairManager.getPlugin()).getLogger()
+                        ChairManager.getLogger()
                                 .info("Found old BetterChairs messages.yml - Converting into new format...");
 
                         Object noPermission = yamlCfg.get("Cant use message"),
@@ -120,9 +120,7 @@ public class Messages {
 
                     Files.deleteIfExists(cfgFile.toPath());
                 } catch (IOException ex) {
-                    Objects.requireNonNull(ChairManager.getPlugin())
-                            .getLogger()
-                            .throwing(Messages.class.getName(), "reload", ex);
+                    ex.printStackTrace();
                 }
             }
         }

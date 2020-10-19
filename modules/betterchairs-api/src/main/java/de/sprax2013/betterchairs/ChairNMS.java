@@ -29,12 +29,21 @@ public abstract class ChairNMS {
      *     <li>NoGravity</li>
      *     <li>DisabledSlots</li>
      * </ul>
-     * The ArmorStand may fulfil the above with the help of {@link #getListener()}.
+     * The ArmorStand may fulfill the above with the help of {@link #getListener()}.
+     *
+     * @param loc                   The location for the Chair-ArmorStand
+     * @param regenerationAmplifier The amplifier for the regeneration effect
+     *
+     * @return The created ArmorStand to be used for an Chair
+     *
+     * @see #getRegenerationAmplifier(Player)
      */
     @NotNull
     public abstract ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier);
 
     /**
+     * @param armorStand The ArmorStand that should be deleted
+     *
      * @throws IllegalArgumentException if {@code armorStand} is not an instance of CustomArmorStand
      */
     public abstract void killChairArmorStand(@NotNull ArmorStand armorStand);

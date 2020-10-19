@@ -11,8 +11,29 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 
-## Unreleased
+## Version 1.1.0
+_2020-10-19_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.0.0...v1.1.0)
+
+### Changed
+* Improve console logging
+* Improve the updater's version detection (`v1.1.0-SNAPSHOT` is now detected as older than `v1.1.0`)
+### Added
+* Allow blocking/allowing specific blocks to be used as chairs (#57)
+* Add options to disallow air below/above chairs (#58)
+* Updater now shows download links from GitHub, Songoda and SpigotMC
+
+
+## Version 1.0.0
+_2020-10-15_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v0.13.0...v1.0.0)
+
+### Changed
 * Fix error when trying to create `config.yml` or `messages.yml` on fresh installs
+* README.md: Added commands and permissions
+* README.md: Added differences compared to the original plugin (#22)
+### Added
+* Add option to ignore other plugins disallowing a player to use a chair (e.g. PlotSquared or WorldGuard) (#53)
+* Automatically generate JavaDocs (#55)
+* Add documentation (#8)
 
 
 ## Version 0.13.0
