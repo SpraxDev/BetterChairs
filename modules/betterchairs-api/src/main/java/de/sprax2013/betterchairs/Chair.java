@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
  * as soon the the player leaves the chair
  */
 public class Chair {
+    private static final String ERR_MANAGER_NOT_AVAILABLE = "ChairManager is not available yet - Did BetterChairs successfully enable?";
+
     protected final Block block;
     protected final ArmorStand armorStand;
     protected final Player player;
@@ -36,8 +38,7 @@ public class Chair {
      */
     @Deprecated
     public boolean isStair() {
-        if (ChairManager.getInstance() == null)
-            throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
+        if (ChairManager.getInstance() == null) throw new IllegalStateException(ERR_MANAGER_NOT_AVAILABLE);
 
         return ChairManager.getInstance().chairNMS.isStair(block);
     }
@@ -48,8 +49,7 @@ public class Chair {
      * @return true if the chair's block is a stair, false otherwise
      */
     public @NotNull ChairType getType() {
-        if (ChairManager.getInstance() == null)
-            throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
+        if (ChairManager.getInstance() == null) throw new IllegalStateException(ERR_MANAGER_NOT_AVAILABLE);
 
         if (ChairManager.getInstance().chairNMS.isStair(block))
             return ChairType.STAIR;
@@ -104,8 +104,7 @@ public class Chair {
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     protected boolean destroyOnNoPassenger() {
         if (this.armorStand.getPassenger() == null) {
-            if (ChairManager.getInstance() == null)
-                throw new IllegalStateException("ChairManager is not available yet - Did BetterChairs successfully enable?");
+            if (ChairManager.getInstance() == null) throw new IllegalStateException(ERR_MANAGER_NOT_AVAILABLE);
 
             ChairManager.getInstance().destroy(this, false);
             return true;

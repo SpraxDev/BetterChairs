@@ -28,9 +28,6 @@ public class Updater implements Listener {
     public static final String GITHUB_URL = "https://github.com/SpraxDev/BetterChairs/releases";
     public static final String SONGODA_URL = "https://songoda.com/marketplace/product/489";
 
-    // TODO: User should get a message like "You can download the update from [SpigotMC], [Songoda] or [GitHub]"
-    //  same for the console but multiline, listing all URLs
-
     private final JavaPlugin plugin;
 
     private Timer timer;
@@ -95,7 +92,7 @@ public class Updater implements Listener {
             this.newerVersion = versionStr;
 
             ChairManager.getLogger()
-                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from:\nSpigotMC: %s\nSongoda: %s\nGitHub: %s",
+                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from:%nSpigotMC: %s%nSongoda: %s%nGitHub: %s",
                             currVersion, versionTxt, SPIGOT_MC_URL, SONGODA_URL, GITHUB_URL));
         } else {
             this.newerVersion = null;
@@ -177,8 +174,6 @@ public class Updater implements Listener {
 
             return !suffix1.equals(suffix2);    // true, if versions have suffix like '-SNAPSHOT' while being same SemVer
         }
-
-        System.out.println("same version");
 
         return false;   // Same version
     }

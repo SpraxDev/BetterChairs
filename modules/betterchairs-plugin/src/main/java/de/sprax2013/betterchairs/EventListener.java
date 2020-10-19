@@ -66,8 +66,9 @@ public class EventListener implements Listener {
                             mat = xMat.get().parseMaterial(true);
 
                             if (mat != null) {
-                                ChairManager.getLogger().warning("Unsupported (older server version?) block type '" + name +
-                                        "' has been replaced with '" + mat.name() + "' in " + Settings.MATERIAL_FILTER_NAMES.getKey());
+                                String matName = mat.name();
+                                ChairManager.getLogger().warning(() -> "Unsupported (older server version?) block type '" + name +
+                                        "' has been replaced with '" + matName + "' in " + Settings.MATERIAL_FILTER_NAMES.getKey());
                             }
                         }
                     }
@@ -75,7 +76,7 @@ public class EventListener implements Listener {
                     if (mat != null) {
                         filteredMaterials.add(mat);
                     } else {
-                        ChairManager.getLogger().warning("Invalid block type '" + name +
+                        ChairManager.getLogger().warning(() -> "Invalid block type '" + name +
                                 "' in " + Settings.MATERIAL_FILTER_NAMES.getKey());
                     }
                 }
@@ -119,11 +120,10 @@ public class EventListener implements Listener {
         }
 
         /* Check Block */
-        if (!Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean() ||
-                !Settings.MATERIAL_FILTER_ALLOW_ALL_TYPES.getValueAsBoolean()) {
-            if (!getManager().chairNMS.isStair(e.getClickedBlock()) &&
-                    !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
-        }
+        if ((!Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean() ||
+                !Settings.MATERIAL_FILTER_ALLOW_ALL_TYPES.getValueAsBoolean()) &&
+                !getManager().chairNMS.isStair(e.getClickedBlock()) &&
+                !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
 
         if (!e.getClickedBlock().getRelative(BlockFace.UP).isEmpty() &&
                 Settings.CHAIR_NEED_AIR_ABOVE.getValueAsBoolean()) return;  // Needs air above chair
