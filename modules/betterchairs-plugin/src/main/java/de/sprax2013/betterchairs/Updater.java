@@ -22,8 +22,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Updater implements Listener {
-    // TODO: Use SpigotMC as DownloadURL
-    public static final String DOWNLOAD_URL = "https://github.com/SpraxDev/BetterChairs/releases";
+    public static final String VERSION_TXT_URL = "https://spraxdev.github.io/BetterChairs/version.txt";
+
+    public static final String SPIGOT_MC_URL = "https://r.spiget.org/84809";
+    public static final String GITHUB_URL = "https://github.com/SpraxDev/BetterChairs/releases";
+    public static final String SONGODA_URL = "https://songoda.com/marketplace/product/489";
+
+    // TODO: User should get a message like "You can download the update from [SpigotMC], [Songoda] or [GitHub]"
+    //  same for the console but multiline, listing all URLs
 
     private final JavaPlugin plugin;
 
@@ -70,7 +76,7 @@ public class Updater implements Listener {
     }
 
     private void checkForUpdates() throws IOException {
-        URL website = new URL("https://spraxdev.github.io/BetterChairs/version.txt");
+        URL website = new URL(VERSION_TXT_URL);
         URLConnection connection = website.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
@@ -89,8 +95,8 @@ public class Updater implements Listener {
             this.newerVersion = versionStr;
 
             ChairManager.getLogger()
-                    .info(() -> String.format("Found a new update v%s -> v%s (Download at: %s)",
-                            currVersion, versionTxt, DOWNLOAD_URL));
+                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from:\nSpigotMC: %s\nSongoda: %s\nGitHub: %s",
+                            currVersion, versionTxt, SPIGOT_MC_URL, SONGODA_URL, GITHUB_URL));
         } else {
             this.newerVersion = null;
         }
@@ -109,10 +115,18 @@ public class Updater implements Listener {
                         .append("] ").color(ChatColor.GRAY)
                         .append("Found a new update v" +
                                 plugin.getDescription().getVersion() + " -> v" + newerVersion).color(ChatColor.YELLOW)
-                        .append("[DOWNLOAD]")
+                        .append("[SpigotMC] ")
                         .color(ChatColor.GREEN)
-                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, DOWNLOAD_URL))
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page")))
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SPIGOT_MC_URL))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on SpigotMC")))
+                        .append("[Songoda] ")
+                        .color(ChatColor.GREEN)
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SONGODA_URL))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on Songoda")))
+                        .append("[GitHub]")
+                        .color(ChatColor.GREEN)
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, GITHUB_URL))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on GitHub")))
                         .create());
     }
 
