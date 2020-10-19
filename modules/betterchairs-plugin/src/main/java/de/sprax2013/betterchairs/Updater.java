@@ -25,8 +25,8 @@ public class Updater implements Listener {
     public static final String VERSION_TXT_URL = "https://spraxdev.github.io/BetterChairs/version.txt";
 
     public static final String SPIGOT_MC_URL = "https://r.spiget.org/84809";
-    public static final String GITHUB_URL = "https://github.com/SpraxDev/BetterChairs/releases";
     public static final String SONGODA_URL = "https://songoda.com/marketplace/product/489";
+    public static final String GITHUB_URL = "https://github.com/SpraxDev/BetterChairs/releases";
 
     private final JavaPlugin plugin;
 
