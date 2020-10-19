@@ -241,6 +241,8 @@ public class ChairManager {
     /**
      * Returns BetterChair's logger or the global one,
      * when {@link #getPlugin()} is {@code null}.
+     *
+     * @return The plugin's {@link Logger} or the global one, never null
      */
     public static @NotNull Logger getLogger() {
         return plugin != null ? plugin.getLogger() : Logger.getGlobal();
