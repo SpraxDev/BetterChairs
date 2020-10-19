@@ -168,6 +168,18 @@ public class Updater implements Listener {
             }
         }
 
+        if (ver1.contains("-")) {
+            if (!ver2.contains("-"))
+                return true; // true, if they have same SemVer but ver1 has a suffix attached while ver2 does not
+
+            String suffix1 = ver1.substring(ver1.lastIndexOf('-')),
+                    suffix2 = ver2.substring(ver2.lastIndexOf('-'));
+
+            return !suffix1.equals(suffix2);    // true, if versions have suffix like '-SNAPSHOT' while being same SemVer
+        }
+
+        System.out.println("same version");
+
         return false;   // Same version
     }
 }
