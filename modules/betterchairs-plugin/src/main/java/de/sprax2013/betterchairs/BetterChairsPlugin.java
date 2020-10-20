@@ -2,7 +2,7 @@ package de.sprax2013.betterchairs;
 
 import de.sprax2013.lime.spigot.LimeDevUtilitySpigot;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
-import org.bstats.bukkit.MetricsLite;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -60,8 +60,11 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         // Load bStats
         try {
-            // TODO: Add Custom ServerVersion-Pie that shows NMS-Versions when clicked
-            new MetricsLite(this, 8214);
+            Metrics bStats = new Metrics(this, 8214);
+
+            // Custom chart: NMS Version
+            String nmsVersion = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+            bStats.addCustomChart(new Metrics.SimplePie("nms_version", () -> nmsVersion));
         } catch (Exception ex) {
             // Does not work on Spigot 1.8.0 (gson is missing)
             getLogger().warning("Could not load bStats (" + ex.getClass().getSimpleName() + "): " + ex.getMessage());
@@ -93,7 +96,7 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         try {
             // Try loading NMS class (package is remapped by maven-shade-plugin)
-            return (ChairNMS) Class.forName("nms." + version).getConstructors()[0].newInstance();
+            return (ChairNMS) Class.forName("betterchairs.nms." + version).getConstructors()[0].newInstance();
         } catch (Exception ignore) {
             getLogger().warning("Your server version (" + version + ") is not fully supported - Loading fallback...");
 
