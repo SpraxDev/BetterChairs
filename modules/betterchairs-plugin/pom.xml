@@ -39,7 +39,7 @@
                         <configuration>
                             <relocations>
                                 <relocation>
-                                    <pattern>nms</pattern>
+                                    <pattern>betterchairs.nms</pattern>
                                     <shadedPattern>de.sprax2013.betterchairs.nms</shadedPattern>
                                 </relocation>
 

@@ -93,7 +93,7 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         try {
             // Try loading NMS class (package is remapped by maven-shade-plugin)
-            return (ChairNMS) Class.forName("nms." + version).getConstructors()[0].newInstance();
+            return (ChairNMS) Class.forName("betterchairs.nms." + version).getConstructors()[0].newInstance();
         } catch (Exception ignore) {
             getLogger().warning("Your server version (" + version + ") is not fully supported - Loading fallback...");
 
