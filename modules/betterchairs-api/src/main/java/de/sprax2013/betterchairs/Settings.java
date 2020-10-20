@@ -2,7 +2,6 @@ package de.sprax2013.betterchairs;
 
 import de.sprax2013.lime.configuration.Config;
 import de.sprax2013.lime.configuration.ConfigEntry;
-import de.sprax2013.lime.configuration.ConfigListener;
 import de.sprax2013.lime.configuration.validation.IntEntryValidator;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -119,7 +118,99 @@ public class Settings {
         throw new IllegalStateException("Utility class");
     }
 
+    public static Config getConfig() {
+        return config;
+    }
+
     public static boolean reload() {
+        return reload((version, file, yaml) -> {
+            if (version.equals(String.valueOf(CURR_VERSION))) return true;  // already valid
+
+            // No version, means the file has been created by the original BetterChairs
+            if (version.equals("-1")) {
+                Object autoRotatePlayer = yaml.get("AutoTurn"), /* boolean */
+                        checkForUpdate = yaml.get("Update Checker"), /* boolean */
+                        needsEmptyHands = yaml.get("No item in hand"), /* boolean */
+                        needsSignsOnBothSides = yaml.get("Need to sign or chair on each side"), /* boolean */
+                        useSlabs = yaml.get("Use slab"), /* boolean */
+
+                        sendMsgWhenChairNeedsSigns = yaml.get("Send message if the Chairs need sign or chair"), /* boolean */
+                        sendMsgWhenChairOccupied = yaml.get("Send message if the chairs is already occupied"), /* boolean */
+                        sendMsgWhenPlayerSit = yaml.get("Send message when player sit"), /* boolean */
+
+                        regenerationAmplifier = yaml.get("Amplifier"), /* int */
+                        regenerationWhenSitting = yaml.get("Regen when sit"), /* boolean */
+
+                        allowedDistanceToStairs = yaml.get("Distance of the stairs"), /* int */
+                        disabledWorlds = yaml.get("Disable world"); /* List<String> */
+
+                // Chairs.*
+                if (allowedDistanceToStairs instanceof Integer) {
+                    ALLOWED_DISTANCE_TO_CHAIR.setValue(allowedDistanceToStairs);
+                }
+                if (autoRotatePlayer instanceof Boolean) {
+                    AUTO_ROTATE_PLAYER.setValue(autoRotatePlayer);
+                }
+                if (needsEmptyHands instanceof Boolean) {
+                    NEEDS_EMPTY_HANDS.setValue(needsEmptyHands);
+                }
+                if (needsSignsOnBothSides instanceof Boolean) {
+                    NEEDS_SIGNS.setValue(needsSignsOnBothSides);
+                }
+                if (useSlabs instanceof Boolean) {
+                    USE_SLABS.setValue(useSlabs);
+                }
+
+                // Chairs.Messages.*
+                if (sendMsgWhenChairOccupied instanceof Boolean) {
+                    MSG_ALREADY_OCCUPIED.setValue(sendMsgWhenChairOccupied);
+                }
+                if (sendMsgWhenChairNeedsSigns instanceof Boolean) {
+                    MSG_NEEDS_SIGNS.setValue(sendMsgWhenChairNeedsSigns);
+                }
+                if (sendMsgWhenPlayerSit instanceof Boolean) {
+                    MSG_NOW_SITTING.setValue(sendMsgWhenPlayerSit);
+                }
+
+                // Chairs.Regeneration.*
+                if (regenerationWhenSitting instanceof Boolean) {
+                    REGENERATION_ENABLED.setValue(regenerationWhenSitting);
+                }
+                if (regenerationAmplifier instanceof Integer) {
+                    REGENERATION_AMPLIFIER.setValue(regenerationAmplifier);
+                }
+
+                // Filter.Worlds.Names
+                if (disabledWorlds instanceof List) {
+                    List<String> newDisabledWorlds = new ArrayList<>();
+
+                    //noinspection rawtypes
+                    for (Object obj : (List) disabledWorlds) {
+                        newDisabledWorlds.add(obj.toString());
+                    }
+
+                    WORLD_FILTER_NAMES.setValue(newDisabledWorlds);
+                }
+
+                // Updater.CheckForUpdates
+                if (checkForUpdate instanceof Boolean) {
+                    UPDATER_ENABLED.setValue(checkForUpdate);
+                }
+
+                // Override old config with the new/converted one
+                config.save();
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    public static void reset() {
+        reset(config);
+    }
+
+    protected static boolean reload(ConfigUpgradeTask upgradeTask) {
         File cfgFile = config.getFile();
 
         boolean loaded = false;
@@ -130,91 +221,19 @@ public class Settings {
             String version = yamlCfg.getString("version", "-1");
 
             if (!version.equals(String.valueOf(CURR_VERSION))) {
+                // Convert from old config or delete when upgrade failed (=invalid version)
                 try {
+                    ChairManager.getLogger()
+                            .info("Found old BetterChairs " + cfgFile.getName() + " - Converting into new format...");
+
                     config.backupFile();
+                    loaded = upgradeTask.doUpgrade(version, cfgFile, yamlCfg);
 
-                    if (version.equals("-1")) {
-                        // Convert from old config or delete when invalid version
-                        ChairManager.getLogger()
-                                .info("Found old BetterChairs config.yml - Converting into new format...");
+                    if (!loaded) {
+                        Files.deleteIfExists(cfgFile.toPath());
 
-                        Object autoRotatePlayer = yamlCfg.get("AutoTurn"), /* boolean */
-                                checkForUpdate = yamlCfg.get("Update Checker"), /* boolean */
-                                needsEmptyHands = yamlCfg.get("No item in hand"), /* boolean */
-                                needsSignsOnBothSides = yamlCfg.get("Need to sign or chair on each side"), /* boolean */
-                                useSlabs = yamlCfg.get("Use slab"), /* boolean */
-
-                                sendMsgWhenChairNeedsSigns = yamlCfg.get("Send message if the Chairs need sign or chair"), /* boolean */
-                                sendMsgWhenChairOccupied = yamlCfg.get("Send message if the chairs is already occupied"), /* boolean */
-                                sendMsgWhenPlayerSit = yamlCfg.get("Send message when player sit"), /* boolean */
-
-                                regenerationAmplifier = yamlCfg.get("Amplifier"), /* int */
-                                regenerationWhenSitting = yamlCfg.get("Regen when sit"), /* boolean */
-
-                                allowedDistanceToStairs = yamlCfg.get("Distance of the stairs"), /* int */
-                                disabledWorlds = yamlCfg.get("Disable world"); /* List<String> */
-
-                        // Chairs.*
-                        if (allowedDistanceToStairs instanceof Integer) {
-                            ALLOWED_DISTANCE_TO_CHAIR.setValue(allowedDistanceToStairs);
-                        }
-                        if (autoRotatePlayer instanceof Boolean) {
-                            AUTO_ROTATE_PLAYER.setValue(autoRotatePlayer);
-                        }
-                        if (needsEmptyHands instanceof Boolean) {
-                            NEEDS_EMPTY_HANDS.setValue(needsEmptyHands);
-                        }
-                        if (needsSignsOnBothSides instanceof Boolean) {
-                            NEEDS_SIGNS.setValue(needsSignsOnBothSides);
-                        }
-                        if (useSlabs instanceof Boolean) {
-                            USE_SLABS.setValue(useSlabs);
-                        }
-
-                        // Chairs.Messages.*
-                        if (sendMsgWhenChairOccupied instanceof Boolean) {
-                            MSG_ALREADY_OCCUPIED.setValue(sendMsgWhenChairOccupied);
-                        }
-                        if (sendMsgWhenChairNeedsSigns instanceof Boolean) {
-                            MSG_NEEDS_SIGNS.setValue(sendMsgWhenChairNeedsSigns);
-                        }
-                        if (sendMsgWhenPlayerSit instanceof Boolean) {
-                            MSG_NOW_SITTING.setValue(sendMsgWhenPlayerSit);
-                        }
-
-                        // Chairs.Regeneration.*
-                        if (regenerationWhenSitting instanceof Boolean) {
-                            REGENERATION_ENABLED.setValue(regenerationWhenSitting);
-                        }
-                        if (regenerationAmplifier instanceof Integer) {
-                            REGENERATION_AMPLIFIER.setValue(regenerationAmplifier);
-                        }
-
-                        // Filter.Worlds.Names
-                        if (disabledWorlds instanceof List) {
-                            List<String> newDisabledWorlds = new ArrayList<>();
-
-                            //noinspection rawtypes
-                            for (Object obj : (List) disabledWorlds) {
-                                newDisabledWorlds.add(obj.toString());
-                            }
-
-                            WORLD_FILTER_NAMES.setValue(newDisabledWorlds);
-                        }
-
-                        // Updater.CheckForUpdates
-                        if (checkForUpdate instanceof Boolean) {
-                            UPDATER_ENABLED.setValue(checkForUpdate);
-                        }
-
-                        // Override old config
-                        config.save();
-                        loaded = true;
-                    } else {
-                        throw new IllegalStateException("Invalid version (=" + version + ") provided inside config.yml");
+                        throw new IllegalStateException("Invalid version (=" + version + ") provided inside " + cfgFile.getName());
                     }
-
-                    Files.deleteIfExists(cfgFile.toPath());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -225,12 +244,22 @@ public class Settings {
         return loaded || config.load() && config.save();
     }
 
-    protected static void reset() {
-        config.clearListeners();
-        config.reset();
+    protected static void reset(Config cfg) {
+        cfg.clearListeners();
+        cfg.reset();
     }
 
-    protected static void addListener(ConfigListener cfgListener) {
-        config.addListener(cfgListener);
+    protected interface ConfigUpgradeTask {
+        /**
+         * This method is called <strong>after</strong> a backup file has been created
+         * Returning {@code false}, indicates that the upgrade failed and that the current config should be replaced with the default one
+         *
+         * @param version The current config version or {@code "-1"} if none set
+         * @param file    The config file
+         * @param yaml    The current YAML-File
+         *
+         * @return true on success, false on failure
+         */
+        boolean doUpgrade(String version, File file, YamlConfiguration yaml);
     }
 }

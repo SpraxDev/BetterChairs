@@ -36,7 +36,7 @@ public class Updater implements Listener {
     public Updater(JavaPlugin plugin) {
         this.plugin = plugin;
 
-        Settings.addListener(this::reInit);
+        Settings.getConfig().addListener(this::reInit);
 
         reInit();
     }
