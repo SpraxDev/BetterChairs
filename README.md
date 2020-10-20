@@ -1,11 +1,31 @@
+<p align="center">
+  <img src="./modules/betterchairs-plugin/src/main/resources/icon.png">
+</p>
+
+<p align="center">
+  <a href="https://JavaDocs.Sprax2013.de/BetterChairs/">
+    <img alt="JavaDocs" src="https://img.shields.io/badge/JavaDocs-latest-succes?logo=Java">
+  </a>
+  <a href="https://sprax.me/discord">
+    <img alt="Gett Support on Discord" src="https://img.shields.io/discord/344982818863972352.svg?label=Get%20Support&logo=Discord&color=blue">
+  </a>
+  <a href="https://www.patreon.com/sprax">
+    <img alt="Suport me on Patreon"
+         src="https://img.shields.io/badge/-Support%20me%20on%20Patreon-%23FF424D?logo=patreon&logoColor=white">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/SpraxDev/BetterChairs/actions?query=workflow%3A%22Build+with+Maven%22">
+    <img alt="Build with Maven" src="https://github.com/Sprax2013/BetterChairs/workflows/Build%20with%20Maven/badge.svg">
+  </a>
+  <a href="https://sonarcloud.io/dashboard?id=SpraxDev_BetterChairs">
+    <img alt="Quality Gate Status"
+         src="https://sonarcloud.io/api/project_badges/measure?project=SpraxDev_BetterChairs&metric=alert_status">
+  </a>
+</p>
+
 # BetterChairs (Remastered)
-[![JavaDocs](https://img.shields.io/badge/JavaDocs-latest-succes?logo=Java)](https://JavaDocs.Sprax2013.de/BetterChairs/)
-[![Discord](https://img.shields.io/discord/344982818863972352.svg?label=Get%20Support&logo=Discord&color=blue)](https://sprax.me/discord)
-[![Patreon](https://img.shields.io/badge/-Support%20me%20on%20Patreon-%23FF424D?logo=patreon&logoColor=white)](https://www.patreon.com/sprax)
-
-[![Build with Maven](https://github.com/Sprax2013/BetterChairs/workflows/Build%20with%20Maven/badge.svg)](https://github.com/SpraxDev/BetterChairs/actions?query=workflow%3A%22Build+with+Maven%22)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SpraxDev_BetterChairs&metric=alert_status)](https://sonarcloud.io/dashboard?id=SpraxDev_BetterChairs)
-
 BetterChairs allows you and your players to sit on chairs. It's that simple!
 Every stair and every half block can be a chair if you want it to!
 
@@ -15,6 +35,9 @@ It is:
 * **customizable**, as it generates configuration files for you
 * **reliable**, as it supports all Minecraft versions newer than 1.8 natively
 * **free** and OpenSource. Request Features or add them yourself!
+
+
+![Screenshot of players sitting on chairs](./docs/images/Screenshot4.jpg)
 
 
 ## Commands & Permissions
