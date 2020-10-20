@@ -37,16 +37,20 @@ public class EventListener implements Listener {
     private List<Material> filteredMaterials;
 
     public EventListener() {
+        Runnable task = () -> {
+            if (Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean()) {
+                getMaterialFilter();    // Populate list to make sure invalid materials are logged
+            }
+        };
+
         // Make sure that our list is up-to-date, after reloading the settings
         Settings.getConfig().addListener(() -> {
             filteredMaterials = null;
 
-            if (Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean()) {
-                getMaterialFilter();    // Populate list to make sure invalid materials are logged
-            }
+            task.run();
         });
 
-        getMaterialFilter();    // Populate list to make sure invalid materials are logged
+        task.run();
     }
 
     private List<Material> getMaterialFilter() {
