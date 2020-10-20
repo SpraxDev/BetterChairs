@@ -67,7 +67,7 @@ public class Messages {
     }
 
     public static boolean reload() {
-        return Settings.reload((version, file, yaml) -> {
+        return ConfigHelper.reload(config, (version, file, yaml) -> {
             if (version.equals(String.valueOf(Settings.CURR_VERSION))) return true;  // already valid
 
             // No version, means the file has been created by the original BetterChairs
@@ -109,6 +109,6 @@ public class Messages {
     }
 
     public static void reset() {
-        Settings.reset(config);
+        ConfigHelper.reset(config);
     }
 }

@@ -6,8 +6,6 @@ import de.sprax2013.lime.configuration.validation.IntEntryValidator;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -123,7 +121,7 @@ public class Settings {
     }
 
     public static boolean reload() {
-        return reload((version, file, yaml) -> {
+        return ConfigHelper.reload(config, (version, file, yaml) -> {
             if (version.equals(String.valueOf(CURR_VERSION))) return true;  // already valid
 
             // No version, means the file has been created by the original BetterChairs
@@ -207,46 +205,7 @@ public class Settings {
     }
 
     public static void reset() {
-        reset(config);
-    }
-
-    protected static boolean reload(ConfigUpgradeTask upgradeTask) {
-        File cfgFile = config.getFile();
-
-        boolean loaded = false;
-
-        if (cfgFile != null && cfgFile.exists()) {
-            YamlConfiguration yamlCfg = YamlConfiguration.loadConfiguration(cfgFile);
-
-            String version = yamlCfg.getString("version", "-1");
-
-            if (!version.equals(String.valueOf(CURR_VERSION))) {
-                // Convert from old config or delete when upgrade failed (=invalid version)
-                try {
-                    ChairManager.getLogger()
-                            .info("Found old BetterChairs " + cfgFile.getName() + " - Converting into new format...");
-
-                    config.backupFile();
-                    loaded = upgradeTask.doUpgrade(version, cfgFile, yamlCfg);
-
-                    if (!loaded) {
-                        Files.deleteIfExists(cfgFile.toPath());
-
-                        throw new IllegalStateException("Invalid version (=" + version + ") provided inside " + cfgFile.getName());
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-
-        // If loaded has been set to true, we don't need to load the file again
-        return loaded || config.load() && config.save();
-    }
-
-    protected static void reset(Config cfg) {
-        cfg.clearListeners();
-        cfg.reset();
+        ConfigHelper.reset(config);
     }
 
     protected interface ConfigUpgradeTask {
