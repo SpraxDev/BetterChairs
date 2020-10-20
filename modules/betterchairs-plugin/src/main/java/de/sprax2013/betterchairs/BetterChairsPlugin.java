@@ -59,11 +59,11 @@ public class BetterChairsPlugin extends JavaPlugin {
         getCommand("toggleChairs").setExecutor(cmdExecutor);
 
         // Load bStats
-        //TODO: Sign plugin-jar and append '-UNOFFICIAL' to reported plugin version if missing/invalid signature
         try {
             // TODO: Add Custom ServerVersion-Pie that shows NMS-Versions when clicked
-            new MetricsLite(this, 8214); // TODO: Does not work on Spigot 1.8.0? (Can't find gson)
+            new MetricsLite(this, 8214);
         } catch (Exception ex) {
+            // Does not work on Spigot 1.8.0 (gson is missing)
             getLogger().warning("Could not load bStats (" + ex.getClass().getSimpleName() + "): " + ex.getMessage());
         }
     }

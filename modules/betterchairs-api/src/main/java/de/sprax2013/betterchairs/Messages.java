@@ -4,11 +4,8 @@ import de.sprax2013.lime.configuration.Config;
 import de.sprax2013.lime.configuration.ConfigEntry;
 import de.sprax2013.lime.configuration.validation.StringEntryValidator;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Objects;
 
 public class Messages {
@@ -55,6 +52,10 @@ public class Messages {
         throw new IllegalStateException("Utility class");
     }
 
+    public static Config getConfig() {
+        return config;
+    }
+
     public static String getPrefix() {
         return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(PREFIX.getValueAsString()));
     }
@@ -66,71 +67,48 @@ public class Messages {
     }
 
     public static boolean reload() {
-        File cfgFile = config.getFile();
+        return Settings.reload((version, file, yaml) -> {
+            if (version.equals(String.valueOf(Settings.CURR_VERSION))) return true;  // already valid
 
-        boolean loaded = false;
+            // No version, means the file has been created by the original BetterChairs
+            if (version.equals("-1")) {
+                Object noPermission = yaml.get("Cant use message"),
+                        toggleChairsDisabled = yaml.get("Message to send when player toggle chairs to off"),
+                        toggleChairsEnabled = yaml.get("Message to send when player toggle chairs to on"),
+                        chairOccupied = yaml.get("Message to send if the chairs is occupied"),
+                        needsSign = yaml.get("Message to send if the chairs need sign or chair");
 
-        if (cfgFile != null && cfgFile.exists()) {
-            YamlConfiguration yamlCfg = YamlConfiguration.loadConfiguration(cfgFile);
-
-            String version = yamlCfg.getString("version", "-1");
-
-            if (!version.equals(String.valueOf(Settings.CURR_VERSION))) {
-                try {
-                    config.backupFile();
-
-                    if (version.equals("-1")) {
-                        // Convert from old config or delete when invalid version
-                        ChairManager.getLogger()
-                                .info("Found old BetterChairs messages.yml - Converting into new format...");
-
-                        Object noPermission = yamlCfg.get("Cant use message"),
-                                toggleChairsDisabled = yamlCfg.get("Message to send when player toggle chairs to off"),
-                                toggleChairsEnabled = yamlCfg.get("Message to send when player toggle chairs to on"),
-                                chairOccupied = yamlCfg.get("Message to send if the chairs is occupied"),
-                                needsSign = yamlCfg.get("Message to send if the chairs need sign or chair");
-
-                        // General.*
-                        if (noPermission instanceof String) {
-                            NO_PERMISSION.setValue(noPermission);
-                        }
-
-                        // ToggleChairs.*
-                        if (toggleChairsDisabled instanceof String) {
-                            TOGGLE_ENABLED.setValue(toggleChairsEnabled);
-                        }
-                        if (toggleChairsEnabled instanceof String) {
-                            TOGGLE_DISABLED.setValue(toggleChairsDisabled);
-                        }
-
-                        // ChairUse.*
-                        if (chairOccupied instanceof String) {
-                            USE_ALREADY_OCCUPIED.setValue(chairOccupied);
-                        }
-                        if (needsSign instanceof String) {
-                            USE_NEEDS_SIGNS.setValue(needsSign);
-                        }
-
-                        // Override old config
-                        config.save();
-                        loaded = true;
-                    } else {
-                        throw new IllegalStateException("Invalid version (=" + version + ") provided inside config.yml");
-                    }
-
-                    Files.deleteIfExists(cfgFile.toPath());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                // General.*
+                if (noPermission instanceof String) {
+                    NO_PERMISSION.setValue(noPermission);
                 }
-            }
-        }
 
-        // If loaded has been set to true, we don't need to load the file again
-        return loaded || config.load() && config.save();
+                // ToggleChairs.*
+                if (toggleChairsDisabled instanceof String) {
+                    TOGGLE_ENABLED.setValue(toggleChairsEnabled);
+                }
+                if (toggleChairsEnabled instanceof String) {
+                    TOGGLE_DISABLED.setValue(toggleChairsDisabled);
+                }
+
+                // ChairUse.*
+                if (chairOccupied instanceof String) {
+                    USE_ALREADY_OCCUPIED.setValue(chairOccupied);
+                }
+                if (needsSign instanceof String) {
+                    USE_NEEDS_SIGNS.setValue(needsSign);
+                }
+
+                // Override old config with the new/converted one
+                config.save();
+                return true;
+            }
+
+            return false;
+        });
     }
 
-    protected static void reset() {
-        config.clearListeners();
-        config.reset();
+    public static void reset() {
+        Settings.reset(config);
     }
 }

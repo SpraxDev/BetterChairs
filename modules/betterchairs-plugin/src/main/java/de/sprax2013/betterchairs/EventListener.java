@@ -38,7 +38,7 @@ public class EventListener implements Listener {
 
     public EventListener() {
         // Make sure that our list is up-to-date, after reloading the settings
-        Settings.addListener(() -> {
+        Settings.getConfig().addListener(() -> {
             filteredMaterials = null;
 
             if (Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean()) {
