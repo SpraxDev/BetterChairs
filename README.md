@@ -7,10 +7,10 @@
     <img alt="JavaDocs" src="https://img.shields.io/badge/JavaDocs-latest-succes?logo=Java">
   </a>
   <a href="https://sprax.me/discord">
-    <img alt="Gett Support on Discord" src="https://img.shields.io/discord/344982818863972352.svg?label=Get%20Support&logo=Discord&color=blue">
+    <img alt="Get Support on Discord" src="https://img.shields.io/discord/344982818863972352.svg?label=Get%20Support&logo=Discord&color=blue">
   </a>
   <a href="https://www.patreon.com/sprax">
-    <img alt="Suport me on Patreon"
+    <img alt="Support me on Patreon"
          src="https://img.shields.io/badge/-Support%20me%20on%20Patreon-%23FF424D?logo=patreon&logoColor=white">
   </a>
 </p>
