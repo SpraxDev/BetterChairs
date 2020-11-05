@@ -26,7 +26,7 @@ In short, when you submit code changes, your submissions are understood to be un
 Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs using GitHub's [issues](https://github.com/SpraxDev/BetterChairs/issues)
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/SpraxDev/BetterChairs/issues/new) – it's that easy!
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/SpraxDev/BetterChairs/issues/new/choose) – it's that easy!
 
 ## Write bug reports with detail, background, and sample code
 Make sure to provide all the relevant information needed to reproduce the bug you are reporting. You can upload logs, images or videos if needed.
@@ -44,11 +44,7 @@ Make sure to provide all the relevant information needed to reproduce the bug yo
 People *love* thorough bug reports. I'm not even kidding.
 
 ## Use a Consistent Coding Style
-* 2 spaces for indentation rather than tabs
-* Use `const` or `let` rather than `var`
-
-## License
-By contributing, you agree that your contributions will be licensed under its [MIT License](./LICENSE.md).
+* spaces for indentation rather than tabs
 
 ## Enforcement
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at developer@sprax2013.de.
