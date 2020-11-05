@@ -22,7 +22,7 @@ Steps to reproduce the behavior:
 
 **Screenshots, Videos, Logs or Errors**
 If applicable, add screenshots to help explain your problem.
-If possible, try uploading images or large logs as an attachment instead of somewhere else to ensure it's availability.
+If possible, try uploading images or large logs as an attachment instead of somewhere else to ensure its availability.
 
 **Additional context**
 Add any other context about the problem here.
