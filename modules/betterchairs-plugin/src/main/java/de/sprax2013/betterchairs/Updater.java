@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,6 +28,8 @@ public class Updater implements Listener {
     public static final String SPIGOT_MC_URL = "https://r.spiget.org/84809";
     public static final String SONGODA_URL = "https://songoda.com/marketplace/product/489";
     public static final String GITHUB_URL = "https://github.com/SpraxDev/BetterChairs/releases";
+
+    public static final String CHANGELOG_URL = "https://github.com/SpraxDev/BetterChairs/blob/master/CHANGELOG.md";
 
     private final JavaPlugin plugin;
 
@@ -92,8 +95,8 @@ public class Updater implements Listener {
             this.newerVersion = versionStr;
 
             ChairManager.getLogger()
-                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from:%nSpigotMC: %s%nSongoda: %s%nGitHub: %s",
-                            currVersion, versionTxt, SPIGOT_MC_URL, SONGODA_URL, GITHUB_URL));
+                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from:%nSpigotMC: %s%nSongoda: %s%nGitHub: %s%n%nChangelog: %s",
+                            currVersion, versionStr, SPIGOT_MC_URL, SONGODA_URL, GITHUB_URL, getChangelogUrl(versionStr)));
         } else {
             this.newerVersion = null;
         }
@@ -120,10 +123,14 @@ public class Updater implements Listener {
                         .color(ChatColor.GREEN)
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SONGODA_URL))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on Songoda")))
-                        .append("[GitHub]")
+                        .append("[GitHub] ")
                         .color(ChatColor.GREEN)
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, GITHUB_URL))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on GitHub")))
+                        .append("[Changelog]")
+                        .color(ChatColor.DARK_GREEN)
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, getChangelogUrl(newerVersion)))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§aClick to see the Changelogs at GitHub.com")))
                         .create());
     }
 
@@ -176,5 +183,13 @@ public class Updater implements Listener {
         }
 
         return false;   // Same version
+    }
+
+    private static String getChangelogUrl(@Nullable String semVersion) {
+        if (semVersion != null) {
+            return CHANGELOG_URL + "#version-" + semVersion.replace(".", "");
+        }
+
+        return CHANGELOG_URL;
     }
 }
