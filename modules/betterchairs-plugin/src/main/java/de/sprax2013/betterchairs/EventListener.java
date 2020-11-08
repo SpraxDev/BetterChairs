@@ -65,16 +65,6 @@ public class EventListener implements Listener {
 
                     if (xMat.isPresent()) {
                         mat = xMat.get().parseMaterial();
-
-                        if (mat == null) {
-                            mat = xMat.get().parseMaterial(true);
-
-                            if (mat != null) {
-                                String matName = mat.name();
-                                ChairManager.getLogger().warning(() -> "Unsupported (older server version?) block type '" + name +
-                                        "' has been replaced with '" + matName + "' in " + Settings.MATERIAL_FILTER_NAMES.getKey());
-                            }
-                        }
                     }
 
                     if (mat != null) {
