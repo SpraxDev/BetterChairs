@@ -60,6 +60,7 @@ jobs:
           test -f ${SPIGOT_M2}/1.15.2-R0.1-SNAPSHOT/spigot-1.15.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.15.2
           test -f ${SPIGOT_M2}/1.16.1-R0.1-SNAPSHOT/spigot-1.16.1-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.1
           test -f ${SPIGOT_M2}/1.16.3-R0.1-SNAPSHOT/spigot-1.16.3-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.3
+          test -f ${SPIGOT_M2}/1.16.4-R0.1-SNAPSHOT/spigot-1.16.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.4
           cd ..
           rm -R .spigot-buildtools
         env:
@@ -90,7 +91,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Extract version from pom.xml and compare to docs/version.txt
+      - name: Extract version from the pom.xml and compare to docs/version.txt
         id: version_diff  # Outputs 'same' or 'diff'
         run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "##[set-output name=result;]same" || echo "##[set-output name=result;]diff"
 
@@ -118,7 +119,7 @@ jobs:
 
       - name: Fail Action when versions (from above) are not the same
         if: ${{ steps.version_diff.outputs.result == 'diff' }}
-        run: echo "Versions in pom.xml and docs/version.txt are not the same!" && exit -1
+        run: echo "The versions inside pom.xml and docs/version.txt are not the same!" && exit -1
 
       - name: Fail Action when docs/version.txt not inside CHANGELOG.md
         if: ${{ steps.inside_changelog.outputs.result == 'no' }}

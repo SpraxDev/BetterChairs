@@ -13,6 +13,7 @@
     <modules>
         <module>modules/betterchairs-api</module>
         <module>modules/betterchairs-plugin</module>
+        <module>modules/nms/betterchairs-v1_16_R3</module>
         <module>modules/nms/betterchairs-v1_16_R2</module>
         <module>modules/nms/betterchairs-v1_16_R1</module>
         <module>modules/nms/betterchairs-v1_15_R1</module>

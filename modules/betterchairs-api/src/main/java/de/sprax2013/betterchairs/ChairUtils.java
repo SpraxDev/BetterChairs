@@ -1,6 +1,7 @@
 package de.sprax2013.betterchairs;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
+import de.tr7zw.changeme.nbtapi.NbtApiException;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
@@ -32,12 +33,16 @@ public class ChairUtils {
         armorStand.setGravity(false);
         armorStand.setVisible(false);
 
-        // Chairs should always be removed... But just in case
+        // Chairs should always be removed... Just making sure.
         armorStand.setRemoveWhenFarAway(true);
 
-        NBTEntity nbt = new NBTEntity(armorStand);
-        nbt.setBoolean("Invulnerable", true);
-        nbt.setInteger("DisabledSlots", 0b11111);
+        try {
+            NBTEntity nbt = new NBTEntity(armorStand);
+            nbt.setBoolean("Invulnerable", true);
+            nbt.setInteger("DisabledSlots", 0b11111);
+        } catch (NbtApiException ex) {
+            ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getMessage() + ")!");
+        }
     }
 
     /**
