@@ -19,16 +19,6 @@ jobs:
         with:
           fetch-depth: 0  # Disable shallow clones for static analysis (SonarCloud)
 
-      # JDKs
-      - name: Set up JDK 8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 8
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
       # Caches
       - name: 'Cache: Maven-Repository'
         uses: actions/cache@v2
@@ -41,30 +31,24 @@ jobs:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
 
+      # Use Java 8 to compile Spigot version
+      - name: Set up JDK 8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
       # Maven dependencies that need to be compiled manually
-      - name: Run Spigot-BuildTools
-        run: |
-          mkdir -p .spigot-buildtools
-          cd .spigot-buildtools
-          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
-          test -f ${SPIGOT_M2}/1.8-R0.1-SNAPSHOT/spigot-1.8-R0.1-SNAPSHOT.jar || $JAVA_HOME_8_X64/bin/java -jar BuildTools.jar --rev 1.8
-          test -f ${SPIGOT_M2}/1.8.3-R0.1-SNAPSHOT/spigot-1.8.3-R0.1-SNAPSHOT.jar || $JAVA_HOME_8_X64/bin/java -jar BuildTools.jar --rev 1.8.3
-          test -f ${SPIGOT_M2}/1.8.8-R0.1-SNAPSHOT/spigot-1.8.8-R0.1-SNAPSHOT.jar || $JAVA_HOME_8_X64/bin/java -jar BuildTools.jar --rev 1.8.8
-          test -f ${SPIGOT_M2}/1.9-R0.1-SNAPSHOT/spigot-1.9-R0.1-SNAPSHOT.jar || $JAVA_HOME_8_X64/bin/java -jar BuildTools.jar --rev 1.9
-          test -f ${SPIGOT_M2}/1.9.4-R0.1-SNAPSHOT/spigot-1.9.4-R0.1-SNAPSHOT.jar || $JAVA_HOME_8_X64/bin/java -jar BuildTools.jar --rev 1.9.4
-          test -f ${SPIGOT_M2}/1.10.2-R0.1-SNAPSHOT/spigot-1.10.2-R0.1-SNAPSHOT.jar || $JAVA_HOME_8_X64/bin/java -jar BuildTools.jar --rev 1.10.2
-          test -f ${SPIGOT_M2}/1.11-R0.1-SNAPSHOT/spigot-1.11-R0.1-SNAPSHOT.jar || $JAVA_HOME_8_X64/bin/java -jar BuildTools.jar --rev 1.11
-          test -f ${SPIGOT_M2}/1.12.2-R0.1-SNAPSHOT/spigot-1.12.2-R0.1-SNAPSHOT.jar || $JAVA_HOME_8_X64/bin/java -jar BuildTools.jar --rev 1.12.2
-          test -f ${SPIGOT_M2}/1.13.2-R0.1-SNAPSHOT/spigot-1.13.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.13.2
-          test -f ${SPIGOT_M2}/1.14.4-R0.1-SNAPSHOT/spigot-1.14.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.14.4
-          test -f ${SPIGOT_M2}/1.15.2-R0.1-SNAPSHOT/spigot-1.15.2-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.15.2
-          test -f ${SPIGOT_M2}/1.16.1-R0.1-SNAPSHOT/spigot-1.16.1-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.1
-          test -f ${SPIGOT_M2}/1.16.3-R0.1-SNAPSHOT/spigot-1.16.3-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.3
-          test -f ${SPIGOT_M2}/1.16.4-R0.1-SNAPSHOT/spigot-1.16.4-R0.1-SNAPSHOT.jar || java -jar BuildTools.jar --rev 1.16.4
-          cd ..
-          rm -R .spigot-buildtools
-        env:
-          SPIGOT_M2: /home/runner/.m2/repository/org/spigotmc/spigot
+      - name: Compile Spigot versions
+        uses: SpraxDev/Action-SpigotMC@v1
+        with:
+          versions: 1.8, 1.8.3, 1.8.8, 1.9, 1.9.4, 1.10.2, 1.11, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.1, 1.16.3, 1.16.4
+          forceRun: false # Disables the check for existing files in the local maven repository
+
+      # Use Java 11 for everything else
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
       # Compile the project using maven
       - name: Build with Maven
