@@ -15,6 +15,7 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 <!-- _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.2.0...curr-tag-name) -->
 
 ### Changed
+* Fix `IllegalArgumentException` that could sometimes occur when a player is teleported after interacting with a block
 * Updated dependency `item-nbt-api` from `2.6.0` to `2.6.1`
 * Updated dependency `bstats-bukkit` from `1.7` to `1.8`
 
