@@ -11,6 +11,14 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 
+## Unreleased
+<!-- _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.2.0...curr-tag-name) -->
+
+### Changed
+* Updated dependency `item-nbt-api` from `2.6.0` to `2.6.1`
+* Updated dependency `bstats-bukkit` from `1.7` to `1.8`
+
+
 ## Version 1.2.0
 _2020-11-08_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.1.0...v1.2.0)
 
