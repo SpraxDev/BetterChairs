@@ -44,13 +44,27 @@
                                 </relocation>
 
                                 <relocation>
+                                    <pattern>de.sprax2013.lime</pattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.dependencies.de.sprax2013.lime
+                                    </shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.dependencies.de.tr7zw.nbtapi
+                                    </shadedPattern>
+                                </relocation>
+
+                                <relocation>
                                     <pattern>com.cryptomorin.xseries</pattern>
-                                    <shadedPattern>de.sprax2013.betterchairs.cryptomorin.xseries</shadedPattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.dependencies.com.cryptomorin.xseries
+                                    </shadedPattern>
                                 </relocation>
 
                                 <relocation>
                                     <pattern>org.bstats.bukkit</pattern>
-                                    <shadedPattern>de.sprax2013.betterchairs.bstats</shadedPattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.dependencies.org.bstats.bukkit
+                                    </shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

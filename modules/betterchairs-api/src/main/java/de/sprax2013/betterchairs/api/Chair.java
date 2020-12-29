@@ -1,5 +1,6 @@
-package de.sprax2013.betterchairs;
+package de.sprax2013.betterchairs.api;
 
+import de.sprax2013.betterchairs.files.Settings;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;

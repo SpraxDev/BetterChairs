@@ -1,7 +1,9 @@
-package de.sprax2013.betterchairs;
+package de.sprax2013.betterchairs.api;
 
-import de.sprax2013.betterchairs.events.PlayerEnterChairEvent;
-import de.sprax2013.betterchairs.events.PlayerLeaveChairEvent;
+import de.sprax2013.betterchairs.api.events.PlayerEnterChairEvent;
+import de.sprax2013.betterchairs.api.events.PlayerLeaveChairEvent;
+import de.sprax2013.betterchairs.files.Messages;
+import de.sprax2013.betterchairs.files.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -21,14 +23,14 @@ import java.util.logging.Logger;
  * {@link JavaPlugin#onEnable()} to ensure that other classes relying on it work as intended
  */
 public class ChairManager {
-    protected static JavaPlugin plugin;
-    protected static ChairManager instance;
+    private static JavaPlugin plugin;
+    private static ChairManager instance;
 
     protected final ChairNMS chairNMS;
-    protected final List<Chair> chairs = new ArrayList<>();
-    protected final List<Player> disabled = new ArrayList<>();
+    private final List<Chair> chairs = new ArrayList<>();
+    private final List<Player> disabled = new ArrayList<>();
 
-    protected ChairManager(@NotNull JavaPlugin plugin, @NotNull ChairNMS chairNMS) {
+    public ChairManager(@NotNull JavaPlugin plugin, @NotNull ChairNMS chairNMS) {
         this.chairNMS = Objects.requireNonNull(chairNMS);
 
         instance = this;

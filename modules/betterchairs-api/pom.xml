@@ -31,12 +31,12 @@
                             <relocations>
                                 <relocation>
                                     <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                                    <shadedPattern>de.sprax2013.betterchairs.tr7zw.nbtapi</shadedPattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.dependencies.de.tr7zw.nbtapi</shadedPattern>
                                 </relocation>
 
                                 <relocation>
                                     <pattern>de.sprax2013.lime</pattern>
-                                    <shadedPattern>de.sprax2013.betterchairs.sprax2013.lime</shadedPattern>
+                                    <shadedPattern>de.sprax2013.betterchairs.dependencies.de.sprax2013.lime</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

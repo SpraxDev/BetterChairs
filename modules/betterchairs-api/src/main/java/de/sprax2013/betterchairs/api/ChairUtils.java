@@ -1,4 +1,4 @@
-package de.sprax2013.betterchairs;
+package de.sprax2013.betterchairs.api;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import de.tr7zw.changeme.nbtapi.NbtApiException;

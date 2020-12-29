@@ -1,5 +1,7 @@
 package de.sprax2013.betterchairs;
 
+import de.sprax2013.betterchairs.files.Messages;
+import de.sprax2013.betterchairs.files.Settings;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,8 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
 // TODO: Put all strings into messages.yml
 public class BetterChairsCommand implements CommandExecutor, TabCompleter {
@@ -55,7 +55,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
                 }
             } else if (args[0].equalsIgnoreCase("reset")) {
                 if (sender.hasPermission(permsReset)) {
-                    int chairCount = getManager().destroyAll(true);
+                    int chairCount = BetterChairsPlugin.getManager().destroyAll(true);
 
                     if (chairCount > 0) {
                         sender.sendMessage(Messages.getPrefix() + " §aSuccessfully removed §6" + chairCount + " players§a from their chairs");
@@ -115,8 +115,8 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        boolean nowDisabled = !getManager().hasChairsDisabled((Player) sender);
-        getManager().setChairsDisabled((Player) sender, nowDisabled);
+        boolean nowDisabled = !BetterChairsPlugin.getManager().hasChairsDisabled((Player) sender);
+        BetterChairsPlugin.getManager().setChairsDisabled((Player) sender, nowDisabled);
 
         sender.sendMessage(Messages.getString(nowDisabled ? Messages.TOGGLE_DISABLED : Messages.TOGGLE_ENABLED));
     }

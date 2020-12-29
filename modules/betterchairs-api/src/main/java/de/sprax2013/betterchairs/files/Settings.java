@@ -1,5 +1,6 @@
-package de.sprax2013.betterchairs;
+package de.sprax2013.betterchairs.files;
 
+import de.sprax2013.betterchairs.api.ChairManager;
 import de.sprax2013.lime.configuration.Config;
 import de.sprax2013.lime.configuration.ConfigEntry;
 import de.sprax2013.lime.configuration.validation.IntEntryValidator;

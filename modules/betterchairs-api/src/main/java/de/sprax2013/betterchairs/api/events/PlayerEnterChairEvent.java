@@ -1,17 +1,19 @@
-package de.sprax2013.betterchairs.events;
+package de.sprax2013.betterchairs.api.events;
 
-import de.sprax2013.betterchairs.Chair;
+import de.sprax2013.betterchairs.api.Chair;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerLeaveChairEvent extends Event {
+public class PlayerEnterChairEvent extends Event implements Cancellable {
     public static final HandlerList handlers = new HandlerList();
+    private boolean cancelled = false;
 
     private final Player player;
     private final Chair chair;
 
-    public PlayerLeaveChairEvent(Player player, Chair chair) {
+    public PlayerEnterChairEvent(Player player, Chair chair) {
         this.player = player;
         this.chair = chair;
     }
@@ -20,9 +22,18 @@ public class PlayerLeaveChairEvent extends Event {
         return this.player;
     }
 
-    @SuppressWarnings("unused")
     public Chair getChair() {
         return this.chair;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        this.cancelled = cancel;
     }
 
     @Override

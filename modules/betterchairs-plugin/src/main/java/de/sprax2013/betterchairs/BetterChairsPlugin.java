@@ -1,5 +1,10 @@
 package de.sprax2013.betterchairs;
 
+import de.sprax2013.betterchairs.api.ChairManager;
+import de.sprax2013.betterchairs.api.ChairNMS;
+import de.sprax2013.betterchairs.api.ChairUtils;
+import de.sprax2013.betterchairs.files.Messages;
+import de.sprax2013.betterchairs.files.Settings;
 import de.sprax2013.lime.spigot.LimeDevUtilitySpigot;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import org.bstats.bukkit.Metrics;
@@ -51,7 +56,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         new Updater(this);
 
         // Register Bukkit Event Listener
-        Bukkit.getPluginManager().registerEvents(new EventListener(), this);
+        Bukkit.getPluginManager().registerEvents(new EventListener(chairNMS), this);
 
         // Register CommandExecutor
         BetterChairsCommand cmdExecutor = new BetterChairsCommand(this);
@@ -81,8 +86,6 @@ public class BetterChairsPlugin extends JavaPlugin {
         Messages.reset();
 
         chairManager = null;
-        ChairManager.instance = null;
-        ChairManager.plugin = null;
     }
 
     /**

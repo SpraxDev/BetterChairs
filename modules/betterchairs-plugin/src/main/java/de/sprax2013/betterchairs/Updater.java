@@ -1,5 +1,7 @@
 package de.sprax2013.betterchairs;
 
+import de.sprax2013.betterchairs.api.ChairManager;
+import de.sprax2013.betterchairs.files.Settings;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;

@@ -1,9 +1,9 @@
 package betterchairs.nms;
 
-import de.sprax2013.betterchairs.ChairManager;
-import de.sprax2013.betterchairs.ChairNMS;
-import de.sprax2013.betterchairs.ChairUtils;
-import de.sprax2013.betterchairs.Messages;
+import de.sprax2013.betterchairs.api.ChairUtils;
+import de.sprax2013.betterchairs.api.ChairManager;
+import de.sprax2013.betterchairs.api.ChairNMS;
+import de.sprax2013.betterchairs.files.Messages;
 import net.minecraft.server.v1_8_R1.EntityArmorStand;
 import net.minecraft.server.v1_8_R1.EntityHuman;
 import net.minecraft.server.v1_8_R1.World;

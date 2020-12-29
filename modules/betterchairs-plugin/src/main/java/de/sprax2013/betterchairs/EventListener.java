@@ -1,6 +1,11 @@
 package de.sprax2013.betterchairs;
 
 import com.cryptomorin.xseries.XMaterial;
+import de.sprax2013.betterchairs.api.Chair;
+import de.sprax2013.betterchairs.api.ChairManager;
+import de.sprax2013.betterchairs.api.ChairNMS;
+import de.sprax2013.betterchairs.files.Messages;
+import de.sprax2013.betterchairs.files.Settings;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -34,9 +39,13 @@ public class EventListener implements Listener {
             XMaterial.BIRCH_WALL_SIGN, XMaterial.DARK_OAK_WALL_SIGN, XMaterial.JUNGLE_WALL_SIGN,
             XMaterial.OAK_WALL_SIGN, XMaterial.SPRUCE_WALL_SIGN);
 
+    private final ChairNMS chairNMS;
+
     private List<Material> filteredMaterials;
 
-    public EventListener() {
+    public EventListener(ChairNMS chairNMS) {
+        this.chairNMS = chairNMS;
+
         Runnable task = () -> {
             if (Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean()) {
                 getMaterialFilter();    // Populate list to make sure invalid materials are logged
@@ -98,7 +107,7 @@ public class EventListener implements Listener {
         if (e.getPlayer().getVehicle() != null) return; // Already sitting on something else
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
         if (Settings.NEEDS_EMPTY_HANDS.getValueAsBoolean() &&
-                !getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;
+                !this.chairNMS.hasEmptyHands(e.getPlayer())) return;
         if (Settings.ALLOWED_DISTANCE_TO_CHAIR.getValueAsInt() > 0 &&
                 e.getPlayer().getLocation()
                         .distance(e.getClickedBlock().getLocation()
@@ -119,8 +128,8 @@ public class EventListener implements Listener {
         /* Check Block */
         if ((!Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean() ||
                 !Settings.MATERIAL_FILTER_ALLOW_ALL_TYPES.getValueAsBoolean()) &&
-                !getManager().chairNMS.isStair(e.getClickedBlock()) &&
-                !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
+                !this.chairNMS.isStair(e.getClickedBlock()) &&
+                !this.chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
 
         if (!e.getClickedBlock().getRelative(BlockFace.UP).isEmpty() &&
                 Settings.CHAIR_NEED_AIR_ABOVE.getValueAsBoolean()) return;  // Needs air above chair
@@ -128,19 +137,20 @@ public class EventListener implements Listener {
         if (e.getClickedBlock().getRelative(BlockFace.DOWN).isEmpty() &&
                 !Settings.CHAIR_ALLOW_AIR_BELOW.getValueAsBoolean()) return;    // Does not allow air below chair
 
-        if (!getManager().chairNMS.isStair(e.getClickedBlock()) &&
-                !getManager().chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
+        if (!this.chairNMS.isStair(e.getClickedBlock()) &&
+                !this.chairNMS.isSlab(e.getClickedBlock())) return; // Not a Stair or Slab
 
         // Block type disabled in config?
         if (!Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean() ||
                 (Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean() &&
                         !Settings.MATERIAL_FILTER_ALLOW_ALL_TYPES.getValueAsBoolean())) {
-            if ((!Settings.USE_STAIRS.getValueAsBoolean() && getManager().chairNMS.isStair(e.getClickedBlock())) ||
-                    (!Settings.USE_SLABS.getValueAsBoolean() && getManager().chairNMS.isSlab(e.getClickedBlock())))
+            if ((!Settings.USE_STAIRS.getValueAsBoolean() && this.chairNMS.isStair(e.getClickedBlock())) ||
+                    (!Settings.USE_SLABS.getValueAsBoolean() && this.chairNMS.isSlab(e.getClickedBlock())))
                 return;
 
-            if (getManager().chairNMS.isStair(e.getClickedBlock()) &&
-                    getManager().chairNMS.isStairUpsideDown(e.getClickedBlock())) return;   // Stair but upside down
+            if (this.chairNMS.isStair(e.getClickedBlock()) &&
+                    this.chairNMS.isStairUpsideDown(e.getClickedBlock()))
+                return;   // Stair but upside down
         }
 
         if (Settings.MATERIAL_FILTER_ENABLED.getValueAsBoolean()) {
@@ -162,7 +172,7 @@ public class EventListener implements Listener {
 
         // Check if Chair needs Signs
         if (Settings.NEEDS_SIGNS.getValueAsBoolean()) {
-            BlockFace rotation = getManager().chairNMS.getBlockRotation(e.getClickedBlock());
+            BlockFace rotation = this.chairNMS.getBlockRotation(e.getClickedBlock());
 
             BlockFace side1 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.WEST : BlockFace.NORTH;
             BlockFace side2 = (rotation == BlockFace.NORTH || rotation == BlockFace.SOUTH) ? BlockFace.EAST : BlockFace.SOUTH;
@@ -181,8 +191,8 @@ public class EventListener implements Listener {
             }
 
             // Are they attached to the chair?
-            if (side1 != getManager().chairNMS.getBlockRotation(block1).getOppositeFace() ||
-                    side2 != getManager().chairNMS.getBlockRotation(block2).getOppositeFace()) {
+            if (side1 != this.chairNMS.getBlockRotation(block1).getOppositeFace() ||
+                    side2 != this.chairNMS.getBlockRotation(block2).getOppositeFace()) {
                 if (Settings.MSG_NEEDS_SIGNS.getValueAsBoolean()) {
                     e.getPlayer().sendMessage(Messages.getString(Messages.USE_NEEDS_SIGNS));
                 }
