@@ -92,6 +92,7 @@ public class EventListener implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         // Check Player
+        if (!e.getClickedBlock().getWorld().equals(e.getPlayer().getLocation().getWorld())) return; // Happens sometimes
         if (e.getPlayer().isSneaking()) return;
         if (getManager().hasChairsDisabled(e.getPlayer())) return;
         if (getManager().getChair(e.getPlayer()) != null) return;   // Destroy zombie chair on old spigot versions
@@ -99,13 +100,6 @@ public class EventListener implements Listener {
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
         if (Settings.NEEDS_EMPTY_HANDS.getValueAsBoolean() &&
                 !getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;
-        if (Settings.ALLOWED_DISTANCE_TO_CHAIR.getValueAsInt() > 0 &&
-                e.getPlayer().getLocation()
-                        .distance(e.getClickedBlock().getLocation()
-                                // Use block center for distance calculation
-                                .add(e.getClickedBlock().getX() > 0 ? 0.5 : -0.5, 0,
-                                        e.getClickedBlock().getZ() > 0 ? 0.5 : -0.5)) >
-                        Settings.ALLOWED_DISTANCE_TO_CHAIR.getValueAsInt()) return;
 
         // Is world disabled?
         if (Settings.WORLD_FILTER_ENABLED.getValueAsBoolean()) {
@@ -189,6 +183,17 @@ public class EventListener implements Listener {
 
                 return; // No
             }
+        }
+
+        // Check the distance to the chair
+        if (Settings.ALLOWED_DISTANCE_TO_CHAIR.getValueAsInt() > 0 &&
+                e.getPlayer().getLocation()
+                        .distance(e.getClickedBlock().getLocation()
+                                // Use block center for distance calculation
+                                .add(e.getClickedBlock().getX() > 0 ? 0.5 : -0.5, 0,
+                                        e.getClickedBlock().getZ() > 0 ? 0.5 : -0.5)) >
+                        Settings.ALLOWED_DISTANCE_TO_CHAIR.getValueAsInt()) {
+            return;
         }
 
         // Spawn Chair
