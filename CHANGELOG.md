@@ -16,6 +16,7 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 
 ### Changed
 * Fix `IllegalArgumentException` that could sometimes occur when a player is teleported after interacting with a block
+* `README.md` now contains the download links to GitHub, Songoda and SpigotMC
 * Updated dependency `item-nbt-api` from `2.6.0` to `2.6.1`
 * Updated dependency `bstats-bukkit` from `1.7` to `1.8`
 

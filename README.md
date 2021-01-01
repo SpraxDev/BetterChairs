@@ -51,25 +51,29 @@ It is:
 
 
 ## Useful Links
-* Download the latest version [from GitHub](https://github.com/SpraxDev/BetterChairs/releases/latest)
+* Download the latest version from [GitHub](https://github.com/SpraxDev/BetterChairs/releases/latest),
+  [Songoda](https://songoda.com/marketplace/product/betterchairs-remastered-by-spraxdev.489),
+  [SpigotMC](https://www.spigotmc.org/resources/betterchairs-remastered.84809/)
 * [The Wiki](https://github.com/SpraxDev/BetterChairs/wiki) contains the **API Documentation**
-
-* Original Project (No activity):
-  [GitHub](https://github.com/BlackScarx/BetterChairs),
-  [SpigotMC.org](https://www.spigotmc.org/resources/better-chairs.18705/),
-  [bStats.org](https://bstats.org/plugin/bukkit/BetterChairs/768)
 
 [![bStats Graph](https://bstats.org/signatures/bukkit/BetterChairs%20Remastered.svg)](https://bstats.org/plugin/bukkit/BetterChairs%20Remastered/8214)
 
+* Original Project (No activity):
+  [GitHub](https://github.com/BlackScarx/BetterChairs),
+  [SpigotMC](https://www.spigotmc.org/resources/better-chairs.18705/),
+  [bStats](https://bstats.org/plugin/bukkit/BetterChairs/768)
+
 
 ## BetterChairs API (+ Events)
-Please take a look at [the documentation](https://github.com/SpraxDev/BetterChairs/wiki/BetterChairs-API) and the [JavaDocs](https://JavaDocs.Sprax2013.de/BetterChairs/).
+Please take a look at [the documentation](https://github.com/SpraxDev/BetterChairs/wiki/BetterChairs-API) and
+the [JavaDocs](https://JavaDocs.Sprax2013.de/BetterChairs/).
 
 
 ## What are the differences to the original version?
 * Active author fixing bugs, adding features and add version support
 * Support all versions newer than 1.8 (and in theory some older versions too)
 * **All** stairs and slabs are supported in all versions
+  * Have **every** block you like to act as a chair *(Experimental)*
 * You can sit on slabs that are placed in the upper-half of a block
 * A working Update-Notifier that won't send garbage messages if the Updater fails to check for an update
 * Check if Signs are really attached to the chair (Requiring signs can be enabled in `config.yml`)
