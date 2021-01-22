@@ -45,6 +45,11 @@
         <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
     </properties>
 
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/SpraxDev/BetterChairs/issues</url>
+    </issueManagement>
+
     <distributionManagement>
         <repository>
             <id>sprax-repo</id>
