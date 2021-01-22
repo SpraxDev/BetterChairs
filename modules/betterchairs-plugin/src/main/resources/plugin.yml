@@ -30,6 +30,6 @@ permissions:
     description: Allows individual players to disabled chairs for them
     default: true
   ${pluginName}.cmd.reset:
-    description: Allows players to eject all players from their chairs
+    description: Allows admins to eject all players from their chairs
   ${pluginName}.cmd.reload:
-    description: Allows players to reload the plugin's configuration files
+    description: Allows admins to reload the plugin's configuration files
