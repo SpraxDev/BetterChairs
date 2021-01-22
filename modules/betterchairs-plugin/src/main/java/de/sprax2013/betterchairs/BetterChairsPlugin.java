@@ -184,7 +184,7 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                public boolean hasEmptyHands(@NotNull Player player) {
+                public boolean hasEmptyMainHand(@NotNull Player player) {
                     return player.getInventory().getItemInHand().getType() == Material.AIR;
                 }
 

@@ -64,7 +64,7 @@ public abstract class ChairNMS {
 
     public abstract boolean isSlabTop(@NotNull Block block);
 
-    public abstract boolean hasEmptyHands(@NotNull Player player);
+    public abstract boolean hasEmptyMainHand(@NotNull Player player);
 
     /**
      * Checks if an ArmorStand is or will be used as {@link Chair} with NMS.<br>

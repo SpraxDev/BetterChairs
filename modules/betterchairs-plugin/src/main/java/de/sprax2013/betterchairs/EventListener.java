@@ -99,7 +99,7 @@ public class EventListener implements Listener {
         if (e.getPlayer().getVehicle() != null) return; // Already sitting on something else
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
         if (Settings.NEEDS_EMPTY_HANDS.getValueAsBoolean() &&
-                !getManager().chairNMS.hasEmptyHands(e.getPlayer())) return;
+                !getManager().chairNMS.hasEmptyMainHand(e.getPlayer())) return;
 
         // Is world disabled?
         if (Settings.WORLD_FILTER_ENABLED.getValueAsBoolean()) {

@@ -90,7 +90,7 @@ public class v1_8_R2 extends ChairNMS {
     }
 
     @Override
-    public boolean hasEmptyHands(@NotNull Player player) {
+    public boolean hasEmptyMainHand(@NotNull Player player) {
         return player.getInventory().getItemInHand().getType() == Material.AIR;
     }
 
