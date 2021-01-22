@@ -11,9 +11,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
@@ -26,13 +33,39 @@ public class ChairManager {
 
     protected final ChairNMS chairNMS;
     protected final List<Chair> chairs = new ArrayList<>();
-    protected final List<Player> disabled = new ArrayList<>();
+
+    protected final HashMap<UUID, Boolean> disabled = new HashMap<>();
+    protected final File disabledForDir;
 
     protected ChairManager(@NotNull JavaPlugin plugin, @NotNull ChairNMS chairNMS) {
         this.chairNMS = Objects.requireNonNull(chairNMS);
 
-        instance = this;
+        this.disabledForDir = new File(plugin.getDataFolder(), "disabled_for");
+
         ChairManager.plugin = Objects.requireNonNull(plugin);
+        ChairManager.instance = this;
+    }
+
+    protected void onQuit(UUID uuid) {
+        Boolean value = this.disabled.remove(uuid);
+
+        if (value != null && Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean()) {
+            Path path = new File(disabledForDir, uuid.toString()).toPath();
+
+            try {
+                if (value) {
+                    Files.createDirectories(path.getParent());
+                    Files.createFile(path);
+                } else {
+                    Files.deleteIfExists(path);
+                }
+            } catch (FileAlreadyExistsException ignore) {
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        this.disabled.remove(uuid);
     }
 
     /**
@@ -225,16 +258,41 @@ public class ChairManager {
     }
 
     public boolean hasChairsDisabled(Player player) {
-        return disabled.contains(player);
+        return hasChairsDisabled(player.getUniqueId());
+    }
+
+    public boolean hasChairsDisabled(UUID uuid) {
+        Boolean value = disabled.get(uuid);
+
+        if (value == null) {
+            if (Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean()) {
+                value = new File(disabledForDir, uuid.toString()).exists();
+            } else {
+                value = false;
+            }
+
+            if (Bukkit.getPlayer(uuid).isOnline()) {
+                this.disabled.put(uuid, value);
+            }
+        }
+
+        return value;
     }
 
     public void setChairsDisabled(Player player, boolean areDisabled) {
-        if (areDisabled) {
-            if (!disabled.contains(player)) {
-                disabled.add(player);
-            }
-        } else {
-            disabled.remove(player);
+        setChairsDisabled(player.getUniqueId(), areDisabled);
+    }
+
+    public void setChairsDisabled(UUID uuid, boolean areDisabled) {
+        boolean isOnline = Bukkit.getOfflinePlayer(uuid).isOnline();
+        boolean directlyWriteToFile = !isOnline && Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean();
+
+        if (isOnline || directlyWriteToFile) {
+            this.disabled.put(uuid, areDisabled);
+        }
+
+        if (directlyWriteToFile) {
+            onQuit(uuid);   // Write changes to file
         }
     }
 

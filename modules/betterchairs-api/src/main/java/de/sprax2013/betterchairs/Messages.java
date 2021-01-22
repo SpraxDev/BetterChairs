@@ -9,13 +9,15 @@ import java.io.File;
 import java.util.Objects;
 
 public class Messages {
+    private static final int LATEST_VERSION = 1;
+
     public static final String ERR_ASYNC_API_CALL = "Async API call";
     public static final String ERR_ANOTHER_PLUGIN_PREVENTING_SPAWN = "Looks like another plugin is preventing BetterChairs from spawning chairs";
     public static final String ERR_NOT_CUSTOM_ARMOR_STAND = "The provided ArmorStand is not an instance of '%s'";
 
     private static final Config config = new Config(
             new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "messages.yml"), Settings.HEADER)
-            .withEntry("version", Settings.CURR_VERSION, "You shouldn't make any changes to this")
+            .withEntry("version", LATEST_VERSION, "You shouldn't make any changes to this")
             .withCommentEntry("ToggleChairs", "What should we tell players when they enable or disable chairs for themselves");
 
     private static final ConfigEntry PREFIX = config.createEntry(
@@ -28,11 +30,16 @@ public class Messages {
             .setEntryValidator(StringEntryValidator.get());
 
     public static final ConfigEntry TOGGLE_ENABLED = config.createEntry(
-            "ToggleChairs.Enabled", "${Prefix} &eYou now can use chairs again")
+            "ToggleChairs.Enabled", "${Prefix} &eYou can now use chairs again")
             .setEntryValidator(StringEntryValidator.get());
     public static final ConfigEntry TOGGLE_DISABLED = config.createEntry(
-            "ToggleChairs.Disabled",
-            "${Prefix} &eChairs are now disabled until you leave the server or run the command again")
+            "ToggleChairs.Disabled", "${Prefix} &eChairs are now disabled for you")
+            .setEntryValidator(StringEntryValidator.get());
+    public static final ConfigEntry TOGGLE_STATUS_ENABLED = config.createEntry(
+            "ToggleChairs.Status.Enabled", "${Prefix} &eYou currently have chairs&a enabled")
+            .setEntryValidator(StringEntryValidator.get());
+    public static final ConfigEntry TOGGLE_STATUS_DISABLED = config.createEntry(
+            "ToggleChairs.Status.Disabled", "${Prefix} &eYou currently have chairs &4disabled")
             .setEntryValidator(StringEntryValidator.get());
 
     public static final ConfigEntry USE_ALREADY_OCCUPIED = config.createEntry(
@@ -67,8 +74,8 @@ public class Messages {
     }
 
     public static boolean reload() {
-        return ConfigHelper.reload(config, (version, file, yaml) -> {
-            if (version.equals(String.valueOf(Settings.CURR_VERSION))) return true;  // already valid
+        return ConfigHelper.reload(config, LATEST_VERSION, (version, file, yaml) -> {
+            if (version.equals(String.valueOf(LATEST_VERSION))) return true;  // already valid
 
             // No version, means the file has been created by the original BetterChairs
             if (version.equals("-1")) {

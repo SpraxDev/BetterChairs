@@ -236,9 +236,13 @@ public class EventListener implements Listener {
 
             if (c != null) {
                 getManager().destroy(c, true, true);
-                getManager().setChairsDisabled(e.getPlayer(), false);
             }
         }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    private void onQuitMonitor(PlayerQuitEvent e) {
+        getManager().onQuit(e.getPlayer().getUniqueId());
     }
 
     /* Protect Chairs */

@@ -12,7 +12,7 @@ public class ConfigHelper {
         throw new IllegalStateException("Utility class");
     }
 
-    static boolean reload(Config cfg, Settings.ConfigUpgradeTask upgradeTask) {
+    static boolean reload(Config cfg, int latestFileVersion, Settings.ConfigUpgradeTask upgradeTask) {
         File cfgFile = cfg.getFile();
 
         boolean loaded = false;
@@ -22,7 +22,7 @@ public class ConfigHelper {
 
             String version = yamlCfg.getString("version", "-1");
 
-            if (!version.equals(String.valueOf(Settings.CURR_VERSION))) {
+            if (!version.equals(String.valueOf(latestFileVersion))) {
                 // Convert from old config or delete when upgrade failed (=invalid version)
                 try {
                     ChairManager.getLogger()

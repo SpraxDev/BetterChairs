@@ -33,10 +33,40 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
         boolean showHelp = false;
 
         if (cmd.getName().equalsIgnoreCase("toggleChairs")) {
-            handleToggleChairs(sender);
+            if (args.length > 0) {
+                if (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off")) {
+                    handleToggleChairs(sender, args[0].equalsIgnoreCase("off"));
+                } else if (args[0].equalsIgnoreCase("status")) {
+                    if (!(sender instanceof Player)) {
+                        sender.sendMessage(Messages.getPrefix() + " §cOnly players may toggle chairs");
+                        return true;
+                    }
+
+                    sender.sendMessage(Messages.getString(
+                            getManager().hasChairsDisabled((Player) sender) ?
+                                    Messages.TOGGLE_STATUS_DISABLED :
+                                    Messages.TOGGLE_STATUS_ENABLED));
+                } else {
+                    showHelp = true;
+                }
+            } else {
+                handleToggleChairs(sender);
+            }
         } else if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("toggle")) {
                 handleToggleChairs(sender);
+            } else if (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off")) {
+                handleToggleChairs(sender, args[0].equalsIgnoreCase("off"));
+            } else if (args[0].equalsIgnoreCase("status")) {
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(Messages.getPrefix() + " §cOnly players may toggle chairs");
+                    return true;
+                }
+
+                sender.sendMessage(Messages.getString(
+                        getManager().hasChairsDisabled((Player) sender) ?
+                                Messages.TOGGLE_STATUS_DISABLED :
+                                Messages.TOGGLE_STATUS_ENABLED));
             } else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
                 if (sender.hasPermission(permsReload)) {
                     if (Messages.reload()) {
@@ -74,6 +104,7 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
 
         if (showHelp) {
             sender.sendMessage(Messages.getPrefix() + " §3/" + cmd.getName() + " toggle §7(§eor §3/bct§7, §3/toggleChairs§7)");   // TODO: allow player(+ @a,@r,@p) as arg
+            sender.sendMessage(Messages.getPrefix() + " §3/" + cmd.getName() + " on§7/§3off §7(§eor §3/bct on§7/§3off§7)");   // TODO: allow player(+ @a,@r,@p) as arg
             sender.sendMessage(Messages.getPrefix() + " §3/" + cmd.getName() + " reload§7/§3rl");
             sender.sendMessage(Messages.getPrefix() + " §3/" + cmd.getName() + " reset"); // TODO: allow player(+ @a,@r,@p) as arg
         }
@@ -85,19 +116,35 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         List<String> result = new ArrayList<>();
 
-        if (!cmd.getName().equalsIgnoreCase("toggleChairs") && args.length == 1) {
+        if ( args.length == 1) {
             String arg = args[0].toLowerCase();
 
-            if ("toggle".startsWith(arg) && sender.hasPermission(permsToggle)) {
-                result.add("toggle");
+            if (sender.hasPermission(permsToggle)) {
+                if ("toggle".startsWith(arg)) {
+                    result.add("toggle");
+                }
+
+                if ("on".startsWith(arg)) {
+                    result.add("on");
+                }
+
+                if ("off".startsWith(arg)) {
+                    result.add("off");
+                }
+
+                if ("status".startsWith(arg)) {
+                    result.add("status");
+                }
             }
 
-            if ("reload".startsWith(arg) && sender.hasPermission(permsReload)) {
-                result.add("reload");
-            }
+            if(!cmd.getName().equalsIgnoreCase("toggleChairs")) {
+                if ("reload".startsWith(arg) && sender.hasPermission(permsReload)) {
+                    result.add("reload");
+                }
 
-            if ("reset".startsWith(arg) && sender.hasPermission(permsReset)) {
-                result.add("reset");
+                if ("reset".startsWith(arg) && sender.hasPermission(permsReset)) {
+                    result.add("reset");
+                }
             }
         }
 
@@ -105,6 +152,10 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleToggleChairs(CommandSender sender) {
+        handleToggleChairs(sender, sender instanceof Player && !getManager().hasChairsDisabled((Player) sender));
+    }
+
+    private void handleToggleChairs(CommandSender sender, boolean disableChairs) {
         if (!sender.hasPermission(permsToggle)) {
             sender.sendMessage(Messages.getString(Messages.NO_PERMISSION));
             return;
@@ -115,9 +166,8 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        boolean nowDisabled = !getManager().hasChairsDisabled((Player) sender);
-        getManager().setChairsDisabled((Player) sender, nowDisabled);
+        getManager().setChairsDisabled((Player) sender, disableChairs);
 
-        sender.sendMessage(Messages.getString(nowDisabled ? Messages.TOGGLE_DISABLED : Messages.TOGGLE_ENABLED));
+        sender.sendMessage(Messages.getString(disableChairs ? Messages.TOGGLE_DISABLED : Messages.TOGGLE_ENABLED));
     }
 }

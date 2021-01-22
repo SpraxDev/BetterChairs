@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Settings {
-    protected static final int CURR_VERSION = 1;
+    private static final int LATEST_VERSION = 2;
     protected static final String HEADER = "BetterChairs Remastered\n\n" +
             "Support: https://Sprax.me/Discord\n" +
             "Updates and Information:\n" +
@@ -20,7 +20,7 @@ public class Settings {
 
     private static final Config config = new Config(
             new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "config.yml"), HEADER)
-            .withEntry("version", CURR_VERSION, "You shouldn't make any changes to this");
+            .withEntry("version", LATEST_VERSION, "You shouldn't make any changes to this");
 
     public static final ConfigEntry ALLOWED_DISTANCE_TO_CHAIR = config.createEntry(
             "Chairs.AllowedDistanceToChair", -1,
@@ -40,6 +40,9 @@ public class Settings {
             "Enable this if you want players to be able to sit on chairs\n" +
                     "while other plugins (like WorldGuard or PlotSquared) are not\n" +
                     "allowing interactions/use with the chair blocks.");
+    public static final ConfigEntry REMEMBER_IF_PLAYER_DISABLED_CHAIRS = config.createEntry(
+            "Chairs.RememberIfPlayerDisabledChairsAfterRelogin", true,
+            "Enable this if you want BetterChairs to remember a player who used /bc <toggle|on|off> after a plugin reload or him rejoining");
 
     public static final ConfigEntry CHAIR_NEED_AIR_ABOVE = config.createEntry(
             "Chairs.Position.NeedAirAbove", true,
@@ -121,11 +124,20 @@ public class Settings {
     }
 
     public static boolean reload() {
-        return ConfigHelper.reload(config, (version, file, yaml) -> {
-            if (version.equals(String.valueOf(CURR_VERSION))) return true;  // already valid
+        return ConfigHelper.reload(config, LATEST_VERSION, (version, file, yaml) -> {
+            if (version.equals(String.valueOf(LATEST_VERSION))) return true;  // already valid
 
+            if (version.equals("1")) {
+                config.getEntry("version").setValue(LATEST_VERSION);
+
+                REMEMBER_IF_PLAYER_DISABLED_CHAIRS.setValue(false);
+
+                // Override old config with the new/converted one
+                config.save();
+                return true;
+            }
             // No version, means the file has been created by the original BetterChairs
-            if (version.equals("-1")) {
+            else if (version.equals("-1")) {
                 Object autoRotatePlayer = yaml.get("AutoTurn"), /* boolean */
                         checkForUpdate = yaml.get("Update Checker"), /* boolean */
                         needsEmptyHands = yaml.get("No item in hand"), /* boolean */

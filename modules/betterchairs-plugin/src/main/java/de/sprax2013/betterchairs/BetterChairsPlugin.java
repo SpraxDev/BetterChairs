@@ -76,6 +76,10 @@ public class BetterChairsPlugin extends JavaPlugin {
     public void onDisable() {
         if (getManager() != null) {
             getManager().destroyAll(true, true);
+
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                getManager().onQuit(online.getUniqueId());
+            }
         }
 
         Settings.reset();
