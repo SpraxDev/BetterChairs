@@ -12,75 +12,75 @@
     </parent>
     <artifactId>betterchairs-api</artifactId>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-shade-plugin</artifactId>-->
+<!--                <version>3.2.4</version>-->
 
-                <executions>
-                    <execution>
-                        <phase>package</phase>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
 
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
+<!--                        <goals>-->
+<!--                            <goal>shade</goal>-->
+<!--                        </goals>-->
 
-                        <configuration>
-                            <relocations>
-                                <relocation>
-                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                                    <shadedPattern>de.sprax2013.betterchairs.tr7zw.nbtapi</shadedPattern>
-                                </relocation>
+<!--                        <configuration>-->
+<!--                            <relocations>-->
+<!--                                <relocation>-->
+<!--                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>-->
+<!--                                    <shadedPattern>de.sprax2013.betterchairs.tr7zw.nbtapi</shadedPattern>-->
+<!--                                </relocation>-->
 
-                                <relocation>
-                                    <pattern>de.sprax2013.lime</pattern>
-                                    <shadedPattern>de.sprax2013.betterchairs.sprax2013.lime</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
-                    </execution>
-                </executions>
+<!--                                <relocation>-->
+<!--                                    <pattern>de.sprax2013.lime</pattern>-->
+<!--                                    <shadedPattern>de.sprax2013.betterchairs.sprax2013.lime</shadedPattern>-->
+<!--                                </relocation>-->
+<!--                            </relocations>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
 
-                <configuration>
-                    <minimizeJar>true</minimizeJar>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <createSourcesJar>true</createSourcesJar>
+<!--                <configuration>-->
+<!--                    <minimizeJar>true</minimizeJar>-->
+<!--                    <createDependencyReducedPom>false</createDependencyReducedPom>-->
+<!--                    <createSourcesJar>true</createSourcesJar>-->
 
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>META-INF/**</exclude>
-                                <exclude>LICENSE</exclude>
-                            </excludes>
-                        </filter>
+<!--                    <filters>-->
+<!--                        <filter>-->
+<!--                            <artifact>*:*</artifact>-->
+<!--                            <excludes>-->
+<!--                                <exclude>META-INF/**</exclude>-->
+<!--                                <exclude>LICENSE</exclude>-->
+<!--                            </excludes>-->
+<!--                        </filter>-->
 
-                        <filter>
-                            <artifact>org.jetbrains:annotations</artifact>
-                            <excludes>
-                                <exclude>**</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
-                </configuration>
-            </plugin>
+<!--                        <filter>-->
+<!--                            <artifact>org.jetbrains:annotations</artifact>-->
+<!--                            <excludes>-->
+<!--                                <exclude>**</exclude>-->
+<!--                            </excludes>-->
+<!--                        </filter>-->
+<!--                    </filters>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                <version>3.2.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>jar</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 
     <dependencies>
         <dependency>
