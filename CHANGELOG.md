@@ -11,13 +11,21 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 
-## Unreleased
-<!-- _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.2.0...curr-tag-name) -->
+## Version 1.3.0
+_2021-01-22_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.2.0...v1.3.0)
 
+### Added
+* You can configure BetterChairs to remember players who disabled chairs
+  by enabling `Chairs.RememberIfPlayerDisabledChairsAfterRelogin` in `config.yml` (#77)
+* **API**: You can now get and set the current status for a player by providing a UUID (e.g. for offline players) (#77)
 ### Changed
-* Fix `IllegalArgumentException` that could sometimes occur when a player is teleported after interacting with a block
+* Don't check off-hand when requiring empty hands to sit (#89)
+* Fix NBT-API checking for updates (A bot is regularly checking for updates, don't worry ^^) (#89)
+* Use Spigot 1.16.5 instead of 1.16.4 for compiling (No changes to nms classes)
+* Fix `IllegalArgumentException` that could sometimes occur when a player is teleported
+  after interacting with a block (#81) (#83)
 * `README.md` now contains the download links to GitHub, Songoda and SpigotMC
-* Updated dependency `item-nbt-api` from `2.6.0` to `2.6.1`
+* Updated dependency `item-nbt-api` from `2.6.0` to `2.7.1`
 * Updated dependency `bstats-bukkit` from `1.7` to `1.8`
 
 
