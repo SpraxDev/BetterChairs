@@ -39,7 +39,7 @@ jobs:
 
       # Maven dependencies that need to be compiled manually
       - name: Compile Spigot versions
-        uses: SpraxDev/Action-SpigotMC@v1
+        uses: SpraxDev/Action-SpigotMC@v2
         with:
           versions: 1.8, 1.8.3, 1.8.8, 1.9, 1.9.4, 1.10.2, 1.11, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.1, 1.16.3, 1.16.5
           forceRun: false # Disables the check for existing files in the local maven repository
