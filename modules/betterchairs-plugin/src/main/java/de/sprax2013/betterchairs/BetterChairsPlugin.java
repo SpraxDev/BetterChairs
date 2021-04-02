@@ -3,6 +3,7 @@ package de.sprax2013.betterchairs;
 import de.sprax2013.lime.spigot.LimeDevUtilitySpigot;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -66,7 +67,8 @@ public class BetterChairsPlugin extends JavaPlugin {
 
             // Custom chart: NMS Version
             String nmsVersion = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            bStats.addCustomChart(new Metrics.SimplePie("nms_version", () -> nmsVersion));
+
+            bStats.addCustomChart(new SimplePie("nms_version", () -> nmsVersion));
         } catch (Exception ex) {
             // Does not work on Spigot 1.8.0 (gson is missing)
             getLogger().warning("Could not load bStats (" + ex.getClass().getSimpleName() + "): " + ex.getMessage());
