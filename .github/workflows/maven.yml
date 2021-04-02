@@ -16,8 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Disable shallow clones for static analysis (SonarCloud)
+#        with:
+#          fetch-depth: 0  # Disable shallow clones for static analysis (SonarCloud)
 
       # Caches
       - name: 'Cache: Maven-Repository'
@@ -26,12 +26,12 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
-      - name: 'Cache: SonarCloud packages'
-        uses: actions/cache@v2
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+#      - name: 'Cache: SonarCloud packages'
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.sonar/cache
+#          key: ${{ runner.os }}-sonar
+#          restore-keys: ${{ runner.os }}-sonar
 
       # Use Java 8 to compile Spigot version
       - name: Set up JDK 8
@@ -64,11 +64,11 @@ jobs:
           path: ./modules/betterchairs-plugin/target/BetterChairs.jar
 
       # Run static code analysis
-      - name: 'SonarCloud.io (static code analysis)'
-        run: 'mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#      - name: 'SonarCloud.io (static code analysis)'
+#        run: 'mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   # Check if the versions inside `pom.xml`, CHANGELOG.md and `./docs/version.txt`
   # match and that everything has been edited correctly when pushing a new release version
