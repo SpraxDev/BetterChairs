@@ -42,6 +42,7 @@
         <sonar.projectKey>SpraxDev_BetterChairs</sonar.projectKey>
         <sonar.organization>sprax2013</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
     </properties>
 
     <issueManagement>
