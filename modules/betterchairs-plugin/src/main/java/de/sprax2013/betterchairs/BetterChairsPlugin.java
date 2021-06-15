@@ -60,6 +60,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         BetterChairsCommand cmdExecutor = new BetterChairsCommand(this);
         getCommand(getName()).setExecutor(cmdExecutor);
         getCommand("toggleChairs").setExecutor(cmdExecutor);
+        getCommand("sit").setExecutor(cmdExecutor);
 
         // Load bStats
         try {

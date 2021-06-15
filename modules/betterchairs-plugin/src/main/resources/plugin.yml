@@ -17,6 +17,9 @@ commands:
     aliases:
       - bct
     permission: ${pluginName}.cmd.toggle
+  sit:
+    description: 'Allows a player to sit on the ground'
+    permission: ${pluginName}.cmd.sit
 
 permissions:
   ${pluginName}.use:
@@ -28,6 +31,9 @@ permissions:
     descritpion: Notifies players about updates when joining the server
   ${pluginName}.cmd.toggle:
     description: Allows individual players to disabled chairs for them
+    default: true
+  ${pluginName}.cmd.sit:
+    description: Allows a player to sit on the ground
     default: true
   ${pluginName}.cmd.reset:
     description: Allows admins to eject all players from their chairs

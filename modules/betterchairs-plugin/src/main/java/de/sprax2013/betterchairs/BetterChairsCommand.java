@@ -1,5 +1,7 @@
 package de.sprax2013.betterchairs;
 
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -51,6 +53,27 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
                 }
             } else {
                 handleToggleChairs(sender);
+            }
+        } else if (cmd.getName().equalsIgnoreCase("sit")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(Messages.getPrefix() + " §cOnly players are able to sit");
+                return true;
+            }
+
+            Player p = (Player) sender;
+
+            Block b = null;
+
+            if (p.getLocation().getBlock().getType().isSolid()) {
+                b = p.getLocation().getBlock();
+            } else if (p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) {
+                b = p.getLocation().getBlock().getRelative(BlockFace.DOWN);
+            }
+
+            if (b != null) {
+                getManager().create(p, b);
+            } else {
+                sender.sendMessage(Messages.getPrefix() + " §cYou need to be on solid ground");
             }
         } else if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("toggle")) {
@@ -116,34 +139,36 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         List<String> result = new ArrayList<>();
 
-        if ( args.length == 1) {
-            String arg = args[0].toLowerCase();
+        if (!cmd.getName().equalsIgnoreCase("sit")) {
+            if (args.length == 1) {
+                String arg = args[0].toLowerCase();
 
-            if (sender.hasPermission(permsToggle)) {
-                if ("toggle".startsWith(arg)) {
-                    result.add("toggle");
+                if (sender.hasPermission(permsToggle)) {
+                    if ("toggle".startsWith(arg)) {
+                        result.add("toggle");
+                    }
+
+                    if ("on".startsWith(arg)) {
+                        result.add("on");
+                    }
+
+                    if ("off".startsWith(arg)) {
+                        result.add("off");
+                    }
+
+                    if ("status".startsWith(arg)) {
+                        result.add("status");
+                    }
                 }
 
-                if ("on".startsWith(arg)) {
-                    result.add("on");
-                }
+                if (!cmd.getName().equalsIgnoreCase("toggleChairs")) {
+                    if ("reload".startsWith(arg) && sender.hasPermission(permsReload)) {
+                        result.add("reload");
+                    }
 
-                if ("off".startsWith(arg)) {
-                    result.add("off");
-                }
-
-                if ("status".startsWith(arg)) {
-                    result.add("status");
-                }
-            }
-
-            if(!cmd.getName().equalsIgnoreCase("toggleChairs")) {
-                if ("reload".startsWith(arg) && sender.hasPermission(permsReload)) {
-                    result.add("reload");
-                }
-
-                if ("reset".startsWith(arg) && sender.hasPermission(permsReset)) {
-                    result.add("reset");
+                    if ("reset".startsWith(arg) && sender.hasPermission(permsReset)) {
+                        result.add("reset");
+                    }
                 }
             }
         }
