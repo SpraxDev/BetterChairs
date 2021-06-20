@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -87,7 +88,7 @@ public class ChairManager {
         double yOffset = (!chairNMS.isStair(block) && !chairNMS.isSlab(block)) ||
                 (chairNMS.isSlab(block) && chairNMS.isSlabTop(block)) ? 0.5 : 0;
 
-        ArmorStand armorStand = instance.chairNMS.spawnChairArmorStand(
+        Entity armorStand = instance.chairNMS.spawnChairEntity(
                 block.getLocation().add(0.5, -1.2 + yOffset, 0.5), ChairNMS.getRegenerationAmplifier(player));
 
         Chair chair = new Chair(block, armorStand, player);
@@ -96,7 +97,7 @@ public class ChairManager {
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) {
-            instance.chairNMS.killChairArmorStand(armorStand);
+            instance.chairNMS.killChairEntity(armorStand);
             return false;
         }
 
@@ -153,12 +154,12 @@ public class ChairManager {
     public void destroy(Chair chair, boolean teleportPlayer, boolean sameTickTeleport) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        boolean hasPassenger = chair.armorStand.getPassenger() != null;
+        boolean hasPassenger = chair.chairEntity.getPassenger() != null;
 
         if (hasPassenger)
             Bukkit.getPluginManager().callEvent(new PlayerLeaveChairEvent(chair.player, chair));
 
-        chairNMS.killChairArmorStand(chair.armorStand);
+        chairNMS.killChairEntity(chair.chairEntity);
         chairs.remove(chair);
 
         if (hasPassenger && teleportPlayer && Settings.LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getValueAsBoolean()) {
@@ -237,7 +238,7 @@ public class ChairManager {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
         for (Chair c : new ArrayList<>(chairs)) {
-            if (armorStand == c.armorStand && !c.destroyOnNoPassenger()) {
+            if (armorStand == c.chairEntity && !c.destroyOnNoPassenger()) {
                 return c;
             }
         }

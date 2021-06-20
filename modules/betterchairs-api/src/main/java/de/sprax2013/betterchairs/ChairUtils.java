@@ -5,7 +5,10 @@ import de.tr7zw.changeme.nbtapi.NbtApiException;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Projectile;
 import org.bukkit.material.Directional;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -29,17 +32,26 @@ public class ChairUtils {
      *
      * @param armorStand The ArmorStand to apply the protection to
      */
-    public static void applyChairProtections(ArmorStand armorStand) {
-        armorStand.setGravity(false);
-        armorStand.setVisible(false);
+    public static void applyChairProtections(Entity armorStand) {
+        if (armorStand instanceof ArmorStand) {
+            ((ArmorStand) armorStand).setGravity(false);
+            ((ArmorStand) armorStand).setVisible(false);
+        } else {
+            ((Projectile) armorStand).setBounce(false);
+        }
 
-        // Chairs should always be removed... Just making sure.
-        armorStand.setRemoveWhenFarAway(true);
+        if (armorStand instanceof LivingEntity) {
+            // Chairs should always be removed... Just making sure.
+            ((LivingEntity) armorStand).setRemoveWhenFarAway(true);
+        }
 
         try {
             NBTEntity nbt = new NBTEntity(armorStand);
             nbt.setBoolean("Invulnerable", true);
-            nbt.setInteger("DisabledSlots", 0b11111);
+
+            if (armorStand instanceof ArmorStand) {
+                nbt.setInteger("DisabledSlots", 0b11111);
+            }
         } catch (NbtApiException ex) {
             ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getMessage() + ")!");
         }

@@ -3,7 +3,6 @@ package de.sprax2013.betterchairs;
 import de.sprax2013.lime.configuration.Config;
 import de.sprax2013.lime.configuration.ConfigEntry;
 import de.sprax2013.lime.configuration.validation.IntEntryValidator;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,29 +19,40 @@ public class Settings {
 
     private static final Config config = new Config(
             new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "config.yml"), HEADER)
-            .withEntry("version", LATEST_VERSION, "You shouldn't make any changes to this");
+            .withVersion(LATEST_VERSION, 0, "version", () -> "You shouldn't make any changes to this");
 
     public static final ConfigEntry ALLOWED_DISTANCE_TO_CHAIR = config.createEntry(
-            "Chairs.AllowedDistanceToChair", -1,
-            "Allowed distance a player is allowed to have when trying to sit? (-1 to ignore)")
-            .setEntryValidator(IntEntryValidator.get());
+                    "Chairs.AllowedDistanceToChair", -1,
+                    "Allowed distance a player is allowed to have when trying to sit? (-1 to ignore)")
+            .setEntryValidator(IntEntryValidator.get())
+            .setLegacyKey(0, "Distance of the stairs");
     public static final ConfigEntry AUTO_ROTATE_PLAYER = config.createEntry(
-            "Chairs.AutoRotatePlayer", true,
-            "Should a player automatically look forward when starting to sit");
+                    "Chairs.AutoRotatePlayer", true,
+                    "Should a player automatically look forward when starting to sit")
+            .setLegacyKey(0, "AutoTurn");
     public static final ConfigEntry NEEDS_EMPTY_HANDS = config.createEntry(
-            "Chairs.NeedEmptyHands", true,
-            "Does a player need his hands empty when trying to sit?");
+                    "Chairs.NeedEmptyHands", true,
+                    "Does a player need his hands empty when trying to sit?")
+            .setLegacyKey(0, "No item in hand");
     public static final ConfigEntry NEEDS_SIGNS = config.createEntry(
-            "Chairs.NeedsSignsOnBothSides", false,
-            "Does a chair need signs on both sides attached to be detected as an chair");
+                    "Chairs.NeedsSignsOnBothSides", false,
+                    "Does a chair need signs on both sides attached to be detected as an chair")
+            .setLegacyKey(0, "Need to sign or chair on each side");
     public static final ConfigEntry IGNORES_INTERACT_PREVENTION = config.createEntry(
             "Chairs.IgnoreOtherPluginsPreventingInteract", false,
             "Enable this if you want players to be able to sit on chairs\n" +
                     "while other plugins (like WorldGuard or PlotSquared) are not\n" +
                     "allowing interactions/use with the chair blocks.");
     public static final ConfigEntry REMEMBER_IF_PLAYER_DISABLED_CHAIRS = config.createEntry(
-            "Chairs.RememberIfPlayerDisabledChairsAfterRelogin", true,
-            "Enable this if you want BetterChairs to remember a player who used /bc <toggle|on|off> after a plugin reload or him rejoining");
+                    "Chairs.RememberIfPlayerDisabledChairsAfterRelogin", true,
+                    "Enable this if you want BetterChairs to remember a player who used /bc <toggle|on|off> after a plugin reload or him rejoining")
+            .setLegacyKey(1, null, (value) -> {
+                if (value != null) {
+                    return value;
+                }
+
+                return false;
+            });
 
     public static final ConfigEntry CHAIR_NEED_AIR_ABOVE = config.createEntry(
             "Chairs.Position.NeedAirAbove", true,
@@ -54,7 +64,8 @@ public class Settings {
     public static final ConfigEntry USE_STAIRS = config.createEntry(
             "Chairs.UseStairs", true, "Can stairs be chairs?");
     public static final ConfigEntry USE_SLABS = config.createEntry(
-            "Chairs.UseSlabs", false, "Can half slabs be chairs too?");
+                    "Chairs.UseSlabs", false, "Can half slabs be chairs too?")
+            .setLegacyKey(0, "Use slab");
 
     public static final ConfigEntry LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION = config.createEntry(
             "Chairs.LeavingChair.TeleportPlayerToOldLocation", true,
@@ -64,21 +75,26 @@ public class Settings {
             "Should a player keep his head rotation when teleported to its original position");
 
     public static final ConfigEntry MSG_ALREADY_OCCUPIED = config.createEntry(
-            "Chairs.Messages.AlreadyOccupied", false,
-            "Should the player receive a message when the chair is already occupied");
+                    "Chairs.Messages.AlreadyOccupied", false,
+                    "Should the player receive a message when the chair is already occupied")
+            .setLegacyKey(0, "Send message if the chairs is already occupied");
     public static final ConfigEntry MSG_NEEDS_SIGNS = config.createEntry(
-            "Chairs.Messages.NeedsSignsOnBothSides", false,
-            "Should the player receive a message when a chair is missing signs on both sided");
+                    "Chairs.Messages.NeedsSignsOnBothSides", false,
+                    "Should the player receive a message when a chair is missing signs on both sided")
+            .setLegacyKey(0, "Send message if the Chairs need sign or chair");
     public static final ConfigEntry MSG_NOW_SITTING = config.createEntry(
-            "Chairs.Messages.NowSitting", false,
-            "Should the player receive a message when he starts sitting");
+                    "Chairs.Messages.NowSitting", false,
+                    "Should the player receive a message when he starts sitting")
+            .setLegacyKey(0, "Send message when player sit");
 
     public static final ConfigEntry REGENERATION_ENABLED = config.createEntry(
-            "Chairs.Regeneration.Enabled", false,
-            "Should player receive regeneration effect when sitting? (Needs permission BetterChairs.regeneration)");
+                    "Chairs.Regeneration.Enabled", false,
+                    "Should player receive regeneration effect when sitting? (Needs permission BetterChairs.regeneration)")
+            .setLegacyKey(0, "Regen when sit");
     public static final ConfigEntry REGENERATION_AMPLIFIER = config.createEntry(
-            "Chairs.Regeneration.Amplifier", 1, "What amplifier should be applied?")
-            .setEntryValidator(IntEntryValidator.get());
+                    "Chairs.Regeneration.Amplifier", 1, "What amplifier should be applied?")
+            .setEntryValidator(IntEntryValidator.get())
+            .setLegacyKey(0, "Amplifier");
 
     public static final ConfigEntry WORLD_FILTER_ENABLED = config.createEntry(
             "Filter.Worlds.Enabled", false,
@@ -87,8 +103,22 @@ public class Settings {
             "Filter.Worlds.UseAsBlacklist", false,
             "Should be the list below be used as blacklist or whitelist?");
     public static final ConfigEntry WORLD_FILTER_NAMES = config.createEntry(
-            "Filter.Worlds.Names", new String[] {"worldname", "worldname2"},
-            "List of all enabled/disabled worlds");
+                    "Filter.Worlds.Names", new String[] {"worldname", "worldname2"},
+                    "List of all enabled/disabled worlds")
+            .setLegacyKey(0, "Disable world", value -> {
+                if (value instanceof List) {
+                    List<String> newDisabledWorlds = new ArrayList<>();
+
+                    //noinspection rawtypes
+                    for (Object obj : (List) value) {
+                        newDisabledWorlds.add(obj.toString());
+                    }
+
+                    return newDisabledWorlds;
+                }
+
+                return null;
+            });
 
     public static final ConfigEntry MATERIAL_FILTER_ENABLED = config.createEntry(
             "Filter.Blocks.Enabled", false,
@@ -108,8 +138,9 @@ public class Settings {
                     "Full list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");
 
     public static final ConfigEntry UPDATER_ENABLED = config.createEntry(
-            "Updater.CheckForUpdates", true,
-            "Should we check for new versions and report to the console? (Recommended)");
+                    "Updater.CheckForUpdates", true,
+                    "Should we check for new versions and report to the console? (Recommended)")
+            .setLegacyKey(0, "Update Checker");
     public static final ConfigEntry UPDATER_NOTIFY_ON_JOIN = config.createEntry(
             "Updater.NotifyOnJoin", true,
             () -> "Should be notify admins when they join the server? (Permission: " +
@@ -124,113 +155,10 @@ public class Settings {
     }
 
     public static boolean reload() {
-        return ConfigHelper.reload(config, LATEST_VERSION, (version, file, yaml) -> {
-            if (version.equals(String.valueOf(LATEST_VERSION))) return true;  // already valid
-
-            if (version.equals("1")) {
-                config.getEntry("version").setValue(LATEST_VERSION);
-
-                REMEMBER_IF_PLAYER_DISABLED_CHAIRS.setValue(false);
-
-                // Override old config with the new/converted one
-                config.save();
-                return true;
-            }
-            // No version, means the file has been created by the original BetterChairs
-            else if (version.equals("-1")) {
-                Object autoRotatePlayer = yaml.get("AutoTurn"), /* boolean */
-                        checkForUpdate = yaml.get("Update Checker"), /* boolean */
-                        needsEmptyHands = yaml.get("No item in hand"), /* boolean */
-                        needsSignsOnBothSides = yaml.get("Need to sign or chair on each side"), /* boolean */
-                        useSlabs = yaml.get("Use slab"), /* boolean */
-
-                        sendMsgWhenChairNeedsSigns = yaml.get("Send message if the Chairs need sign or chair"), /* boolean */
-                        sendMsgWhenChairOccupied = yaml.get("Send message if the chairs is already occupied"), /* boolean */
-                        sendMsgWhenPlayerSit = yaml.get("Send message when player sit"), /* boolean */
-
-                        regenerationAmplifier = yaml.get("Amplifier"), /* int */
-                        regenerationWhenSitting = yaml.get("Regen when sit"), /* boolean */
-
-                        allowedDistanceToStairs = yaml.get("Distance of the stairs"), /* int */
-                        disabledWorlds = yaml.get("Disable world"); /* List<String> */
-
-                // Chairs.*
-                if (allowedDistanceToStairs instanceof Integer) {
-                    ALLOWED_DISTANCE_TO_CHAIR.setValue(allowedDistanceToStairs);
-                }
-                if (autoRotatePlayer instanceof Boolean) {
-                    AUTO_ROTATE_PLAYER.setValue(autoRotatePlayer);
-                }
-                if (needsEmptyHands instanceof Boolean) {
-                    NEEDS_EMPTY_HANDS.setValue(needsEmptyHands);
-                }
-                if (needsSignsOnBothSides instanceof Boolean) {
-                    NEEDS_SIGNS.setValue(needsSignsOnBothSides);
-                }
-                if (useSlabs instanceof Boolean) {
-                    USE_SLABS.setValue(useSlabs);
-                }
-
-                // Chairs.Messages.*
-                if (sendMsgWhenChairOccupied instanceof Boolean) {
-                    MSG_ALREADY_OCCUPIED.setValue(sendMsgWhenChairOccupied);
-                }
-                if (sendMsgWhenChairNeedsSigns instanceof Boolean) {
-                    MSG_NEEDS_SIGNS.setValue(sendMsgWhenChairNeedsSigns);
-                }
-                if (sendMsgWhenPlayerSit instanceof Boolean) {
-                    MSG_NOW_SITTING.setValue(sendMsgWhenPlayerSit);
-                }
-
-                // Chairs.Regeneration.*
-                if (regenerationWhenSitting instanceof Boolean) {
-                    REGENERATION_ENABLED.setValue(regenerationWhenSitting);
-                }
-                if (regenerationAmplifier instanceof Integer) {
-                    REGENERATION_AMPLIFIER.setValue(regenerationAmplifier);
-                }
-
-                // Filter.Worlds.Names
-                if (disabledWorlds instanceof List) {
-                    List<String> newDisabledWorlds = new ArrayList<>();
-
-                    //noinspection rawtypes
-                    for (Object obj : (List) disabledWorlds) {
-                        newDisabledWorlds.add(obj.toString());
-                    }
-
-                    WORLD_FILTER_NAMES.setValue(newDisabledWorlds);
-                }
-
-                // Updater.CheckForUpdates
-                if (checkForUpdate instanceof Boolean) {
-                    UPDATER_ENABLED.setValue(checkForUpdate);
-                }
-
-                // Override old config with the new/converted one
-                config.save();
-                return true;
-            }
-
-            return false;
-        });
+        return ConfigHelper.reload(config);
     }
 
     public static void reset() {
         ConfigHelper.reset(config);
-    }
-
-    protected interface ConfigUpgradeTask {
-        /**
-         * This method is called <strong>after</strong> a backup file has been created
-         * Returning {@code false}, indicates that the upgrade failed and that the current config should be replaced with the default one
-         *
-         * @param version The current config version or {@code "-1"} if none set
-         * @param file    The config file
-         * @param yaml    The current YAML-File
-         *
-         * @return true on success, false on failure
-         */
-        boolean doUpgrade(String version, File file, YamlConfiguration yaml);
     }
 }

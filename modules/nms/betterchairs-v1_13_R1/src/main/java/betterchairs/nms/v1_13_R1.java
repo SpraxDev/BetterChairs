@@ -4,29 +4,30 @@ import de.sprax2013.betterchairs.ChairManager;
 import de.sprax2013.betterchairs.ChairNMS;
 import de.sprax2013.betterchairs.ChairUtils;
 import de.sprax2013.betterchairs.Messages;
-import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityArmorStand;
-import net.minecraft.server.v1_9_R1.EntityHuman;
-import net.minecraft.server.v1_9_R1.World;
-import net.minecraft.server.v1_9_R1.WorldServer;
+import net.minecraft.server.v1_13_R1.Entity;
+import net.minecraft.server.v1_13_R1.EntityArmorStand;
+import net.minecraft.server.v1_13_R1.EntityHuman;
+import net.minecraft.server.v1_13_R1.World;
+import net.minecraft.server.v1_13_R1.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_9_R1.entity.CraftEntity;
+import org.bukkit.block.data.Bisected;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Stairs;
+import org.bukkit.craftbukkit.v1_13_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.material.Stairs;
-import org.bukkit.material.Step;
-import org.bukkit.material.WoodenStep;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 @SuppressWarnings("unused")
-public class v1_9_R1 extends ChairNMS {
+public class v1_13_R1 extends ChairNMS {
     @Override
     public @NotNull ArmorStand spawnChairEntity(@NotNull Location loc, int regenerationAmplifier) {
         WorldServer nmsWorld = ((CraftWorld) Objects.requireNonNull(loc.getWorld())).getHandle();
@@ -57,34 +58,27 @@ public class v1_9_R1 extends ChairNMS {
 
     @Override
     public boolean isStair(@NotNull Block block) {
-        return block.getState().getData() instanceof Stairs;
+        return block.getBlockData() instanceof Stairs;
     }
 
     @Override
     public boolean isStairUpsideDown(@NotNull Block block) {
-        return ((Stairs) block.getState().getData()).isInverted();
+        return ((Stairs) block.getBlockData()).getHalf() == Bisected.Half.TOP;
     }
 
     @Override
     public @NotNull BlockFace getBlockRotation(@NotNull Block block) {
-        return ChairUtils.getBlockRotationLegacy(block);
+        return ((Directional) block.getBlockData()).getFacing();
     }
 
     @Override
     public boolean isSlab(@NotNull Block block) {
-        return (block.getState().getData() instanceof Step ||
-                block.getState().getData() instanceof WoodenStep) &&
-                block.getType() != Material.DOUBLE_STEP &&
-                block.getType() != Material.WOOD_DOUBLE_STEP;
+        return block.getBlockData() instanceof Slab && ((Slab) block.getBlockData()).getType() != Slab.Type.DOUBLE;
     }
 
     @Override
     public boolean isSlabTop(@NotNull Block block) {
-        if (block.getState().getData() instanceof Step) {
-            return ((Step) block.getState().getData()).isInverted();
-        }
-
-        return ((WoodenStep) block.getState().getData()).isInverted();
+        return ((Slab) block.getBlockData()).getType() == Slab.Type.TOP;
     }
 
     @Override
@@ -111,7 +105,7 @@ public class v1_9_R1 extends ChairNMS {
         }
 
         @Override
-        public void g(float f, float f1) {
+        public void tick() {
             if (remove) return; // If the ArmorStand is being removed, no need to bother
             if (this.ticksLived % 10 == 0) return;  // Only run every 10 ticks
 
@@ -125,9 +119,15 @@ public class v1_9_R1 extends ChairNMS {
 
             // Rotate the ArmorStand together with its passenger
             this.setYawPitch(passenger.yaw, passenger.pitch * .5F);
-            this.aO = this.yaw;
+            this.setHeadRotation(this.yaw);
 
             ChairUtils.applyRegeneration(((EntityHuman) passenger).getBukkitEntity(), this.regenerationAmplifier);
+        }
+
+        @Override
+        public void killEntity() {
+            // Prevents the ArmorStand from getting killed unexpectedly
+            if (shouldDie()) super.killEntity();
         }
 
         @Override

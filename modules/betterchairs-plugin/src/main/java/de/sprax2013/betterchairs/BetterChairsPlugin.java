@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -112,7 +113,7 @@ public class BetterChairsPlugin extends JavaPlugin {
 
                 @Override
                 @NotNull
-                public ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier) {
+                public ArmorStand spawnChairEntity(@NotNull Location loc, int regenerationAmplifier) {
                     ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
                     ChairUtils.applyChairProtections(armorStand);
 
@@ -122,8 +123,8 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                public void killChairArmorStand(@NotNull ArmorStand armorStand) {
-                    armorStand.remove();
+                public void killChairEntity(@NotNull Entity entity) {
+                    entity.remove();
                 }
 
                 @Override
@@ -193,7 +194,7 @@ public class BetterChairsPlugin extends JavaPlugin {
                 }
 
                 @Override
-                public boolean isChair(@NotNull ArmorStand armorStand) {
+                public boolean isChair(@NotNull Entity entity) {
                     // We cannot check using NMS when fallback NMS does not use NMS to spawn an ArmorStand
                     // Other plugins preventing our ArmorStand from spawning can thus not be prevented from such behavior
 

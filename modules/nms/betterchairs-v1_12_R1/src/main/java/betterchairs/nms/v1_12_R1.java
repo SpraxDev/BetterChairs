@@ -14,7 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -28,7 +28,7 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class v1_12_R1 extends ChairNMS {
     @Override
-    public @NotNull ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier) {
+    public @NotNull ArmorStand spawnChairEntity(@NotNull Location loc, int regenerationAmplifier) {
         WorldServer nmsWorld = ((CraftWorld) Objects.requireNonNull(loc.getWorld())).getHandle();
         CustomArmorStand nmsArmorStand = new CustomArmorStand(
                 nmsWorld, loc.getX(), loc.getY(), loc.getZ(), regenerationAmplifier);
@@ -44,15 +44,15 @@ public class v1_12_R1 extends ChairNMS {
     }
 
     @Override
-    public void killChairArmorStand(@NotNull ArmorStand armorStand) {
-        EntityArmorStand nmsArmorStand = ((CraftArmorStand) armorStand).getHandle();
+    public void killChairEntity(@NotNull org.bukkit.entity.Entity entity) {
+        Entity nmsArmorStand = ((CraftEntity) entity).getHandle();
 
         if (!(nmsArmorStand instanceof CustomArmorStand))
             throw new IllegalArgumentException(String.format(Messages.ERR_NOT_CUSTOM_ARMOR_STAND,
                     CustomArmorStand.class.getName()));
 
         ((CustomArmorStand) nmsArmorStand).remove = true;
-        armorStand.remove();
+        entity.remove();
     }
 
     @Override
@@ -93,8 +93,8 @@ public class v1_12_R1 extends ChairNMS {
     }
 
     @Override
-    public boolean isChair(@NotNull ArmorStand armorStand) {
-        return ((CraftArmorStand) armorStand).getHandle() instanceof CustomArmorStand;
+    public boolean isChair(@NotNull org.bukkit.entity.Entity entity) {
+        return ((CraftEntity) entity).getHandle() instanceof CustomArmorStand;
     }
 
     private static class CustomArmorStand extends EntityArmorStand {

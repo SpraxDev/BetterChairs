@@ -2,7 +2,7 @@ package de.sprax2013.betterchairs;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,13 +16,13 @@ public class Chair {
     private static final String ERR_MANAGER_NOT_AVAILABLE = "ChairManager is not available yet - Did BetterChairs successfully enable?";
 
     protected final Block block;
-    protected final ArmorStand armorStand;
+    protected final Entity chairEntity;
     protected final Player player;
     private final Location playerOriginalLoc;
 
-    Chair(Block block, ArmorStand armorStand, Player player) {
+    Chair(Block block, Entity chairEntity, Player player) {
         this.block = block;
-        this.armorStand = armorStand;
+        this.chairEntity = chairEntity;
         this.player = player;
         this.playerOriginalLoc = player.getLocation();
     }
@@ -72,8 +72,8 @@ public class Chair {
     }
 
     @NotNull
-    public ArmorStand getArmorStand() {
-        return this.armorStand;
+    public Entity getChairEntity() {
+        return this.chairEntity;
     }
 
     @NotNull
@@ -103,7 +103,7 @@ public class Chair {
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     protected boolean destroyOnNoPassenger() {
-        if (this.armorStand.getPassenger() == null) {
+        if (this.chairEntity.getPassenger() == null) {
             if (ChairManager.getInstance() == null) throw new IllegalStateException(ERR_MANAGER_NOT_AVAILABLE);
 
             ChairManager.getInstance().destroy(this, false);

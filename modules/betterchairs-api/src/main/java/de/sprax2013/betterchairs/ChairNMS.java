@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
@@ -39,14 +40,14 @@ public abstract class ChairNMS {
      * @see #getRegenerationAmplifier(Player)
      */
     @NotNull
-    public abstract ArmorStand spawnChairArmorStand(@NotNull Location loc, int regenerationAmplifier);
+    public abstract Entity spawnChairEntity(@NotNull Location loc, int regenerationAmplifier);
 
     /**
-     * @param armorStand The ArmorStand that should be deleted
+     * @param entity The ArmorStand that should be deleted
      *
-     * @throws IllegalArgumentException if {@code armorStand} is not an instance of CustomArmorStand
+     * @throws IllegalArgumentException if {@code entity} is not an instance of the custom Entity
      */
-    public abstract void killChairArmorStand(@NotNull ArmorStand armorStand);
+    public abstract void killChairEntity(@NotNull Entity entity);
 
     public abstract boolean isStair(@NotNull Block block);
 
@@ -71,13 +72,13 @@ public abstract class ChairNMS {
      * This method should be used to identify a {@link Chair} before it has been spawned into the world.<br>
      * This can for example be used to un-cancel an {@link org.bukkit.event.entity.EntitySpawnEvent}
      *
-     * @param armorStand {@link ArmorStand} to check
+     * @param entity {@link ArmorStand} to check
      *
      * @return true if ArmorStand is or will be used as Chair, false otherwise
      *
      * @see ChairManager#isChair(ArmorStand)
      */
-    public abstract boolean isChair(@NotNull ArmorStand armorStand);
+    public abstract boolean isChair(@NotNull Entity entity);
 
     @Nullable
     public Listener getListener() {
