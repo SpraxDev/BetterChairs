@@ -11,6 +11,28 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 
+## Version 1.4.0-ALPHA
+_2021-06-15_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.3.0...1.4.0-ALPHA)
+
+### Added
+* Added support for Minecraft 1.17 (and Java 16)
+* Added `/sit` command allowing players to sit on the ground
+  * Permission `BetterChairs.cmd.sit` is automatically granted to all players
+* Added support for Spigot v`1.13.0` (`v1_13_R1`)
+### Breaking Changes
+* Methods in the API now return `Entity` instead of `ArmorStand` because Spigot 1.17 uses Arrows
+  * This allows for more flexibility in the implementation
+  * Additional related changes might be introduced when leaving the `ALPHA` version
+### Changed
+* Changed the code around `config.yml` and `messages.yml` and how older versions of them are upgraded
+* Updated dependency `item-nbt-api` from `2.7.1` to `2.8.0`
+* Updated dependency `XSeries` from `7.6.0` to `8.0.0`
+* Updated dependency `annotations` from `20.1.0` to `21.0.1`
+* Updated dependency `bstats-bukkit` from `1.8` to `2.2.1`
+* Updated dependency `lime-spigot-api` from `0.0.1-SNAPSHOT` to `0.0.2-SNAPSHOT`
+* Using Spigot v`1.11.2` instead of v`1.11` to compile
+
+
 ## Version 1.3.0
 _2021-01-22_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.2.0...v1.3.0)
 

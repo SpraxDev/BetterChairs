@@ -44,6 +44,7 @@ It is:
 |        Command        |              Permission              | Description               |
 |:---------------------:|:------------------------------------:|:-------------------------:|
 | -                     | `BetterChairs.use` (default: `true`) | Allows players to sit on chairs |
+| `/sit`                | `BetterChairs.cmd.sit` (default: `true`) | Allows a player to sit on the ground |
 | `/BetterChairs <toggle\|on\|off\|status>` | `BetterChairs.cmd.toggle` (default: `true`) | Allows individual players to disabled chairs for them (aliases: `/toggleChairs`, `/bct`) |
 | `/BetterChairs reset` | `BetterChairs.cmd.reset`             | Allows admins to eject all players from their chairs |
 | `/BetterChairs reload`| `BetterChairs.cmd.reload`            | Allows admins to reload the plugin's configuration files |
