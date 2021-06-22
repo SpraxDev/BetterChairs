@@ -31,6 +31,7 @@ _2021-06-15_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.3
 * Updated dependency `bstats-bukkit` from `1.8` to `2.2.1`
 * Updated dependency `lime-spigot-api` from `0.0.1-SNAPSHOT` to `0.0.2-SNAPSHOT`
 * Using Spigot v`1.11.2` instead of v`1.11` to compile
+* Using Spigot v`1.9.2` instead of v`1.9` to compile
 
 
 ## Version 1.3.0
