@@ -13,7 +13,7 @@ public class Messages {
 
     public static final String ERR_ASYNC_API_CALL = "Async API call";
     public static final String ERR_ANOTHER_PLUGIN_PREVENTING_SPAWN = "Looks like another plugin is preventing BetterChairs from spawning chairs";
-    public static final String ERR_NOT_CUSTOM_ARMOR_STAND = "The provided ArmorStand is not an instance of '%s'";
+    public static final String ERR_NOT_CUSTOM_ENTITY = "The provided Entity is not an instance of '%s'";
 
     private static final Config config = new Config(
             new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "messages.yml"), Settings.HEADER)

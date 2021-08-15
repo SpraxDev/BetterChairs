@@ -5,9 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -84,7 +82,7 @@ public class EventListener implements Listener {
 
     /**
      * If a player is interacting with a valid block to be used as a Chair,
-     * we spawn a {@link Chair} and set the player as passenger of its {@link ArmorStand}
+     * we spawn a {@link Chair} and set the player as passenger of its {@link Entity}
      */
     @EventHandler(priority = EventPriority.HIGH)
     private void onInteract(PlayerInteractEvent e) {
@@ -211,14 +209,10 @@ public class EventListener implements Listener {
      */
     @EventHandler(priority = EventPriority.MONITOR)
     private void onDismount(EntityDismountEvent e) {
-        Entity armorStand = e.getDismounted();
+        Chair c = getManager().getChair(e.getDismounted());
 
-        if (armorStand instanceof ArmorStand) {
-            Chair c = getManager().getChair((ArmorStand) armorStand);
-
-            if (c != null) {
-                getManager().destroy(c, true);
-            }
+        if (c != null) {
+            getManager().destroy(c, true);
         }
     }
 
@@ -231,12 +225,10 @@ public class EventListener implements Listener {
     private void onQuit(PlayerQuitEvent e) {
         Entity vehicle = e.getPlayer().getVehicle();
 
-        if (vehicle instanceof ArmorStand) {
-            Chair c = getManager().getChair((ArmorStand) vehicle);
+        Chair c = getManager().getChair(vehicle);
 
-            if (c != null) {
-                getManager().destroy(c, true, true);
-            }
+        if (c != null) {
+            getManager().destroy(c, true, true);
         }
     }
 
@@ -250,37 +242,33 @@ public class EventListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntitySpawn(EntitySpawnEvent e) {
         if (!e.isCancelled()) return;
-        if (!(e.getEntity() instanceof ArmorStand)) return;
 
-        if (getManager().isChair((ArmorStand) e.getEntity())) {
+        if (getManager().isChair(e.getEntity())) {
             e.setCancelled(false);
         }
     }
 
     /**
-     * Prevent a chair's ArmorStand to be teleported by accident
+     * Prevent a chair's Entity to be teleported by accident
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void onTeleport(EntityTeleportEvent e) {
-        if (e.getEntity().getType() == EntityType.ARMOR_STAND &&
-                getManager().isChair((ArmorStand) e.getEntity())) {
-            // We don't want our ArmorStand used as a chair to be teleported by accident
+        if (getManager().isChair(e.getEntity())) {
+            // We don't want our Entity used as a chair to be teleported by accident
             e.setCancelled(true);
         }
     }
 
     /**
-     * Check if another plugin insists on a chair's ArmorStand to be teleported<br>
+     * Check if another plugin insists on a chair's Entity to be teleported<br>
      * if so, destroy the chair
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void onTeleportMonitor(EntityTeleportEvent e) {
-        if (e.getEntity().getType() == EntityType.ARMOR_STAND) {
-            Chair chair = getManager().getChair((ArmorStand) e.getEntity());
+        Chair chair = getManager().getChair(e.getEntity());
 
-            if (chair != null) {
-                getManager().destroy(chair, true);
-            }
+        if (chair != null) {
+            getManager().destroy(chair, true);
         }
     }
 

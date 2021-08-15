@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -105,24 +106,31 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         try {
             // Try loading NMS class (package is remapped by maven-shade-plugin)
-            return (ChairNMS) Class.forName("betterchairs.nms." + version).getConstructors()[0].newInstance();
+            return (ChairNMS) Class.forName("betterchairs.nms." + version + "." + version).getConstructors()[0].newInstance();
         } catch (Exception ignore) {
             getLogger().warning("Your server version (" + version + ") is not fully supported - Loading fallback...");
 
             // Loading fallback when NMS not available
             return new ChairNMS() {
                 // Surrounding some code with try-catch because this is meant to be a fallback
-                // So in theory it should even work on 1.4.7 servers (please no >_<)
+                // So in theory it should even work on 1.4.7 servers (please don't try >_<)
 
                 @Override
                 @NotNull
-                public ArmorStand spawnChairEntity(@NotNull Location loc, int regenerationAmplifier) {
-                    ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
-                    ChairUtils.applyChairProtections(armorStand);
+                public Entity spawnChairEntity(@NotNull Location loc, int regenerationAmplifier, boolean useArmorStand) {
+                    Entity chairEntity;
+
+                    if (useArmorStand) {
+                        chairEntity = loc.getWorld().spawn(loc, ArmorStand.class);
+                    } else {
+                        chairEntity = loc.getWorld().spawn(loc, Arrow.class);
+                    }
+
+                    ChairUtils.applyChairProtections(chairEntity);
 
                     // TODO: Support regeneration effect without overwriting #tick()
 
-                    return armorStand;
+                    return chairEntity;
                 }
 
                 @Override
@@ -143,7 +151,7 @@ public class BetterChairsPlugin extends JavaPlugin {
                         @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
                         private void onDamage(EntityDamageEvent e) {
                             if (e.getEntity() instanceof ArmorStand &&
-                                    getManager().isChair((ArmorStand) e.getEntity())) {
+                                    getManager().isChair(e.getEntity())) {
                                 e.setCancelled(true);
                             }
                         }

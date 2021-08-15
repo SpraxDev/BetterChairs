@@ -5,12 +5,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Holds a spawned chair<br>
  * Instances of this class get disposed
- * as soon the the player leaves the chair
+ * as soon the player leaves the chair
  */
 public class Chair {
     private static final String ERR_MANAGER_NOT_AVAILABLE = "ChairManager is not available yet - Did BetterChairs successfully enable?";
@@ -81,10 +80,8 @@ public class Chair {
         return this.player;
     }
 
-    @Nullable
+    @NotNull
     public Location getPlayerLeavingLocation() {
-        if (!Settings.LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getValueAsBoolean()) return null;
-
         Location loc = playerOriginalLoc.clone();
 
         if (Settings.LEAVING_CHAIR_KEEP_HEAD_ROTATION.getValueAsBoolean()) {
@@ -106,7 +103,7 @@ public class Chair {
         if (this.chairEntity.getPassenger() == null) {
             if (ChairManager.getInstance() == null) throw new IllegalStateException(ERR_MANAGER_NOT_AVAILABLE);
 
-            ChairManager.getInstance().destroy(this, false);
+            ChairManager.getInstance().destroy(this, true);
             return true;
         }
 

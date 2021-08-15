@@ -27,29 +27,31 @@ public class ChairUtils {
      *  <li>{@link ArmorStand#isVisible()} = {@code false}</li>
      *  <li>{@link ArmorStand#getRemoveWhenFarAway()} = {@code true}</li>
      *  <li>Invulnerable = {@code true}</li>
+     *  <li>Silent = {@code 1}</li>
      *  <li>DisabledSlots = {@code 0b11111} <em>(all)</em></li>
      * </ul>
      *
-     * @param armorStand The ArmorStand to apply the protection to
+     * @param entity The Entity to apply the protection to
      */
-    public static void applyChairProtections(Entity armorStand) {
-        if (armorStand instanceof ArmorStand) {
-            ((ArmorStand) armorStand).setGravity(false);
-            ((ArmorStand) armorStand).setVisible(false);
+    public static void applyChairProtections(Entity entity) {
+        if (entity instanceof ArmorStand) {
+            ((ArmorStand) entity).setGravity(false);
+            ((ArmorStand) entity).setVisible(false);
         } else {
-            ((Projectile) armorStand).setBounce(false);
+            ((Projectile) entity).setBounce(false);
         }
 
-        if (armorStand instanceof LivingEntity) {
+        if (entity instanceof LivingEntity) {
             // Chairs should always be removed... Just making sure.
-            ((LivingEntity) armorStand).setRemoveWhenFarAway(true);
+            ((LivingEntity) entity).setRemoveWhenFarAway(true);
         }
 
         try {
-            NBTEntity nbt = new NBTEntity(armorStand);
+            NBTEntity nbt = new NBTEntity(entity);
             nbt.setBoolean("Invulnerable", true);
+            nbt.setInteger("Silent", 1);
 
-            if (armorStand instanceof ArmorStand) {
+            if (entity instanceof ArmorStand) {
                 nbt.setInteger("DisabledSlots", 0b11111);
             }
         } catch (NbtApiException ex) {

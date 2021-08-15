@@ -5,7 +5,6 @@ import de.sprax2013.betterchairs.events.PlayerLeaveChairEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -84,20 +83,21 @@ public class ChairManager {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
         if (isOccupied(block)) return false;
 
-        // Normal blocks and slabs that are placed in the upper half of an block need the player to sit 0.5 blocks higher
+        // Normal blocks and slabs that are placed in the upper half of a block need the player to sit 0.5 blocks higher
         double yOffset = (!chairNMS.isStair(block) && !chairNMS.isSlab(block)) ||
                 (chairNMS.isSlab(block) && chairNMS.isSlabTop(block)) ? 0.5 : 0;
 
-        Entity armorStand = instance.chairNMS.spawnChairEntity(
-                block.getLocation().add(0.5, -1.2 + yOffset, 0.5), ChairNMS.getRegenerationAmplifier(player));
+        Entity chairEntity = instance.chairNMS.spawnChairEntity(block.getLocation().add(0.5, -1.2 + yOffset, 0.5),
+                ChairNMS.getRegenerationAmplifier(player),
+                Settings.USE_ARMOR_STANDS.getValueAsBoolean());
 
-        Chair chair = new Chair(block, armorStand, player);
+        Chair chair = new Chair(block, chairEntity, player);
 
         PlayerEnterChairEvent event = new PlayerEnterChairEvent(player, chair);
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) {
-            instance.chairNMS.killChairEntity(armorStand);
+            instance.chairNMS.killChairEntity(chairEntity);
             return false;
         }
 
@@ -126,7 +126,7 @@ public class ChairManager {
         }
 
         chairs.add(chair);
-        armorStand.setPassenger(player);
+        chairEntity.setPassenger(player);
 
         return true;
     }
@@ -180,7 +180,7 @@ public class ChairManager {
     public int destroyAll(boolean teleportPlayer, boolean sameTickTeleport) {
         int i = 0;
 
-        for (Chair c : new ArrayList<>(chairs)) {
+        for (Chair c : chairs.toArray(new Chair[0])) {
             destroy(c, teleportPlayer, sameTickTeleport);
             i++;
         }
@@ -198,7 +198,7 @@ public class ChairManager {
     public boolean isOccupied(@NotNull Block b) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        for (Chair c : new ArrayList<>(chairs)) {
+        for (Chair c : chairs.toArray(new Chair[0])) {
             if (b.equals(c.block)) {
                 return !c.destroyOnNoPassenger();
             }
@@ -211,7 +211,7 @@ public class ChairManager {
     public Chair getChair(@NotNull Player p) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        for (Chair c : new ArrayList<>(chairs)) {
+        for (Chair c : chairs.toArray(new Chair[0])) {
             if (p == c.player && !c.destroyOnNoPassenger()) {
                 return c;
             }
@@ -224,7 +224,7 @@ public class ChairManager {
     public Chair getChair(@NotNull Block b) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        for (Chair c : new ArrayList<>(chairs)) {
+        for (Chair c : chairs.toArray(new Chair[0])) {
             if (b == c.block && !c.destroyOnNoPassenger()) {
                 return c;
             }
@@ -234,11 +234,11 @@ public class ChairManager {
     }
 
     @Nullable
-    public Chair getChair(@NotNull ArmorStand armorStand) {
+    public Chair getChair(@NotNull Entity entity) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        for (Chair c : new ArrayList<>(chairs)) {
-            if (armorStand == c.chairEntity && !c.destroyOnNoPassenger()) {
+        for (Chair c : chairs.toArray(new Chair[0])) {
+            if (entity == c.chairEntity && !c.destroyOnNoPassenger()) {
                 return c;
             }
         }
@@ -247,15 +247,15 @@ public class ChairManager {
     }
 
     /**
-     * This does not yet guarantee that {@link #getChair(ArmorStand)} is not {@code null}<br>
-     * This may return true for ArmorStand not yet spawned and thus not yet a {@link Chair} that is ready
+     * This does not yet guarantee that {@link #getChair(Entity)} is not {@code null}<br>
+     * This may return true for Entities not yet spawned and thus not yet a {@link Chair} that is ready
      *
-     * @param armorStand The {@link ArmorStand} to check
+     * @param entity The {@link Entity} to check
      *
-     * @return true if the {@link ArmorStand} is used or may be used as {@link Chair}
+     * @return true if the {@link Entity} is used or may be used as {@link Chair}
      */
-    public boolean isChair(@NotNull ArmorStand armorStand) {
-        return getChair(armorStand) != null || chairNMS.isChair(armorStand);
+    public boolean isChair(@NotNull Entity entity) {
+        return getChair(entity) != null || chairNMS.isChair(entity);
     }
 
     public boolean hasChairsDisabled(Player player) {

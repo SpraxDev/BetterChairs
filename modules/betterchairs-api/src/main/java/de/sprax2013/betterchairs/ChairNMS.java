@@ -3,7 +3,6 @@ package de.sprax2013.betterchairs;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -23,27 +22,31 @@ public abstract class ChairNMS {
     public static final int REGENERATION_EFFECT_DURATION = 3 * 20;    // In Ticks
 
     /**
-     * Spawns an ArmorStand that is/has:
+     * Spawns an Entity that is/has:
      * <ul>
      *     <li>Invisible</li>
      *     <li>Invincible</li>
      *     <li>NoGravity</li>
-     *     <li>DisabledSlots</li>
+     *     <li>Silent</li>
+     *     <li>DisabledSlots (if it is an ArmorStand)</li>
+     *     <li>NoBounce (if it is an Arrow)</li>
      * </ul>
-     * The ArmorStand may fulfill the above with the help of {@link #getListener()}.
+     * The entity may fulfill the above with the help of {@link #getListener()} and {@link ChairUtils#applyChairProtections(Entity)}
      *
-     * @param loc                   The location for the Chair-ArmorStand
+     * @param loc                   The location for the Chair-Entity
      * @param regenerationAmplifier The amplifier for the regeneration effect
+     * @param useArmorStand         Whether an ArmorStand should be used as Entity
      *
-     * @return The created ArmorStand to be used for an Chair
+     * @return The created Entity to be used for a Chair
      *
      * @see #getRegenerationAmplifier(Player)
+     * @see ChairUtils#applyChairProtections(Entity)
      */
     @NotNull
-    public abstract Entity spawnChairEntity(@NotNull Location loc, int regenerationAmplifier);
+    public abstract Entity spawnChairEntity(@NotNull Location loc, int regenerationAmplifier, boolean useArmorStand);
 
     /**
-     * @param entity The ArmorStand that should be deleted
+     * @param entity The {@link Entity} that should be deleted
      *
      * @throws IllegalArgumentException if {@code entity} is not an instance of the custom Entity
      */
@@ -68,15 +71,15 @@ public abstract class ChairNMS {
     public abstract boolean hasEmptyMainHand(@NotNull Player player);
 
     /**
-     * Checks if an ArmorStand is or will be used as {@link Chair} with NMS.<br>
+     * Checks if an Entity is or will be used as {@link Chair} with NMS.<br>
      * This method should be used to identify a {@link Chair} before it has been spawned into the world.<br>
      * This can for example be used to un-cancel an {@link org.bukkit.event.entity.EntitySpawnEvent}
      *
-     * @param entity {@link ArmorStand} to check
+     * @param entity {@link Entity} to check
      *
-     * @return true if ArmorStand is or will be used as Chair, false otherwise
+     * @return true if Entity is or will be used as Chair, false otherwise
      *
-     * @see ChairManager#isChair(ArmorStand)
+     * @see ChairManager#isChair(Entity)
      */
     public abstract boolean isChair(@NotNull Entity entity);
 
