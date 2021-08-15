@@ -15,11 +15,14 @@ import java.util.List;
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
 // TODO: Put all strings into messages.yml
+// TODO: Split file into smaller ones
 public class BetterChairsCommand implements CommandExecutor, TabCompleter {
-    private final String permsToggle, permsReload, permsReset;
+    private final String permsSit, permsToggle, permsReload, permsReset;
 
     protected BetterChairsCommand(JavaPlugin plugin) {
+        this.permsSit = plugin.getName() + ".cmd.sit";
         this.permsToggle = plugin.getName() + ".cmd.toggle";
+
         this.permsReload = plugin.getName() + ".cmd.reload";
         this.permsReset = plugin.getName() + ".cmd.reset";
     }
@@ -28,7 +31,8 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission(permsToggle) &&
                 !sender.hasPermission(permsReload) &&
-                !sender.hasPermission(permsReset)) {
+                !sender.hasPermission(permsReset) &&
+                !sender.hasPermission(permsSit)) {
             sender.sendMessage(Messages.getString(Messages.NO_PERMISSION));
         }
 
