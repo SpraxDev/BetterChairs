@@ -11,6 +11,19 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 
+## 1.4.0
+_2021-08-16_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.0-ALPHA...1.4.0)
+
+### Added
+* Option to use ArmorStands or Arrows as ArmorStands proofed to be even less reliable across versions
+  * If you are running 1.8 (or maybe even up to 1.15), you might want to enable AmorStands 
+    in the `config.yml` as you can see the Arrow
+### Changed
+* Sitting on Trapdoors now places you on the correct height
+* Using `/sit` sometimes showed *no permission* message
+* Updated dependencies `XSeries` and `annotations`
+* Fixed bStats (broke in 1.4.0-ALPHA)
+
 ## Version 1.4.0-ALPHA
 _2021-06-15_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.3.0...1.4.0-ALPHA)
 
