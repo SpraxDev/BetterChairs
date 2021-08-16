@@ -5,10 +5,13 @@ import de.sprax2013.betterchairs.CustomChairEntity;
 import net.minecraft.server.v1_8_R1.EntityArmorStand;
 import net.minecraft.server.v1_8_R1.EntityHuman;
 import net.minecraft.server.v1_8_R1.World;
+import org.bukkit.Location;
 
 class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
     private boolean remove = false;
     private final int regenerationAmplifier;
+
+    private final Location expectedLocation;
 
     /**
      * @param regenerationAmplifier provide a negative value to disable regeneration
@@ -17,6 +20,7 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
         super(world, d0, d1, d2);
 
         this.regenerationAmplifier = regenerationAmplifier;
+        this.expectedLocation = new Location(null, d0, d1, d2);
     }
 
     @Override
@@ -38,6 +42,10 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
         // Rotate the ArmorStand together with its passenger
         this.setYawPitch(this.passenger.yaw, this.passenger.pitch * .5F);
         this.aI = this.yaw;
+
+        if (ChairUtils.didChairEntityMove(expectedLocation, this.locX, this.locY, this.locZ)) {
+            this.enderTeleportTo(expectedLocation.getX(), Math.min(this.locY, expectedLocation.getY()), expectedLocation.getZ());
+        }
 
         ChairUtils.applyRegeneration(((EntityHuman) this.passenger).getBukkitEntity(), this.regenerationAmplifier);
     }

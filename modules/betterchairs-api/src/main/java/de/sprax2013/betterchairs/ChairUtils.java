@@ -1,7 +1,9 @@
 package de.sprax2013.betterchairs;
 
+import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import de.tr7zw.changeme.nbtapi.NbtApiException;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
@@ -37,7 +39,9 @@ public class ChairUtils {
         if (entity instanceof ArmorStand) {
             ((ArmorStand) entity).setGravity(false);
             ((ArmorStand) entity).setVisible(false);
-        } else {
+        }
+
+        if (entity instanceof Projectile) {
             ((Projectile) entity).setBounce(false);
         }
 
@@ -87,11 +91,38 @@ public class ChairUtils {
         return BlockFace.SELF;
     }
 
+    public static boolean didChairEntityMove(Location expected, double actualX, double actualY, double actualZ) {
+        return actualX != expected.getX() ||
+                actualY != expected.getY() ||
+                actualZ != expected.getZ();
+    }
+
     public static void applyRegeneration(HumanEntity p, int regenerationAmplifier) {
         if (regenerationAmplifier >= 0 && !p.hasPotionEffect(PotionEffectType.REGENERATION)) {
             p.addPotionEffect(new PotionEffect(
                     PotionEffectType.REGENERATION, ChairNMS.REGENERATION_EFFECT_DURATION, regenerationAmplifier,
                     false, false), true);
         }
+    }
+
+    public static double getSitOffset(Block block, boolean sitsOnArmorStand, ChairNMS chairNMS) {
+        double yOffset = (!chairNMS.isStair(block) && !chairNMS.isSlab(block)) ||
+                (chairNMS.isSlab(block) && chairNMS.isSlabTop(block)) ? 0.5 : 0;
+
+        XMaterial blockType = XMaterial.matchXMaterial(block.getType());
+
+        if (blockType == XMaterial.ACACIA_TRAPDOOR ||
+                blockType == XMaterial.BIRCH_TRAPDOOR ||
+                blockType == XMaterial.CRIMSON_TRAPDOOR ||
+                blockType == XMaterial.DARK_OAK_TRAPDOOR ||
+                blockType == XMaterial.IRON_TRAPDOOR ||
+                blockType == XMaterial.JUNGLE_TRAPDOOR ||
+                blockType == XMaterial.OAK_TRAPDOOR ||
+                blockType == XMaterial.SPRUCE_TRAPDOOR ||
+                blockType == XMaterial.WARPED_TRAPDOOR) {
+            yOffset = -0.125;
+        }
+
+        return -1.2 + yOffset + (sitsOnArmorStand ? 0 : 1);
     }
 }
