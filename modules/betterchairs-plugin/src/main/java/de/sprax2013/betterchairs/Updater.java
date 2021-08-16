@@ -95,7 +95,7 @@ public class Updater implements Listener {
             this.newerVersion = versionStr;
 
             ChairManager.getLogger()
-                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from:%nSpigotMC: %s%nSongoda: %s%nGitHub: %s%n%nChangelog: %s",
+                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from: %nSpigotMC: %s%nSongoda: %s%nGitHub: %s%n%nChangelog: %s",
                             currVersion, versionStr, SPIGOT_MC_URL, SONGODA_URL, GITHUB_URL, getChangelogUrl(versionStr)));
         } else {
             this.newerVersion = null;
@@ -115,7 +115,7 @@ public class Updater implements Listener {
                         .append("] ").color(ChatColor.GRAY)
                         .append("Found a new update v" +
                                 plugin.getDescription().getVersion() + " -> v" + newerVersion).color(ChatColor.YELLOW)
-                        .append("[SpigotMC] ")
+                        .append(" [SpigotMC] ")
                         .color(ChatColor.GREEN)
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SPIGOT_MC_URL))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on SpigotMC")))
