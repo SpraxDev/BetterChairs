@@ -62,7 +62,12 @@ public class BetterChairsPlugin extends JavaPlugin {
         getCommand(getName()).setExecutor(cmdExecutor);
         getCommand("toggleChairs").setExecutor(cmdExecutor);
         getCommand("sit").setExecutor(cmdExecutor);
-
+        
+        // Register Placeholders if PlaceholderAPI present
+        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        	new BetterChairsPlaceholders(this).register();
+        }
+        
         // Load bStats
         try {
             Metrics bStats = new Metrics(this, 8214);
