@@ -34,7 +34,7 @@ public class v1_14_R1 extends ChairNMS {
         if (useArmorStand) {
             nmsEntity = new CustomArmorStand(nmsWorld, loc.getX(), loc.getY(), loc.getZ(), regenerationAmplifier);
         } else {
-            nmsEntity = new CustomArrow(nmsWorld, loc.getX(), loc.getY(), loc.getZ(), regenerationAmplifier);
+            nmsEntity = new CustomArrow(nmsWorld, loc.getX(), loc.getY() + .3, loc.getZ() + .25, regenerationAmplifier);
         }
 
         org.bukkit.entity.Entity bukkitEntity = nmsEntity.getBukkitEntity();
