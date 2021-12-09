@@ -1,5 +1,5 @@
 name: ${pluginName}
-#description: Plugin description for ${pluginName}
+description: Players can sit on chairs and everywhere the admin wants them to be able to.
 version: ${project.parent.version}
 api-version: '1.13'
 
