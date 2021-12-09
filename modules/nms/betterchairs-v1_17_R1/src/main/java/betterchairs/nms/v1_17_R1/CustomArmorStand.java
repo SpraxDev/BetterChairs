@@ -46,10 +46,10 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
         this.setYawPitch(this.getYRot(), this.getXRot());
         this.setHeadRotation(this.getYRot());
 
-        if (ChairUtils.didChairEntityMove(expectedLocation, locX(), locY(), locZ())) {
-            this.expectedLocation.setY(Math.min(this.locY(), expectedLocation.getY()));
+        if (ChairUtils.didChairEntityMove(this.expectedLocation, this.locX(), this.locY(), this.locZ())) {
+            this.expectedLocation.setY(Math.min(this.locY(), this.expectedLocation.getY()));
 
-            this.teleportAndSync(expectedLocation.getX(), this.expectedLocation.getY(), expectedLocation.getZ());
+            this.teleportAndSync(expectedLocation.getX(), this.expectedLocation.getY(), this.expectedLocation.getZ());
         }
 
         ChairUtils.applyRegeneration(((EntityHuman) passenger).getBukkitEntity(), this.regenerationAmplifier);
