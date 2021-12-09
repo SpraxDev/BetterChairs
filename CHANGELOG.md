@@ -10,6 +10,22 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.5.0
+_2021-12-21_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.0...1.5.0)
+
+### Added
+* Minecraft 1.18 support
+* Setting to disable permission check for regeneration effect (#108)
+*  `PlaceholderAPI` support with two placeholders (#114)
+* Plugin description in `plugin.yml`
+### Breaking Changes
+* Changed method signature from `ChairManager#hasChairsDisabled(Player)` to `ChairManager#hasChairsDisabled(OfflinePlayer)`
+* Renamed myself from `Sprax2013` to `SpraxDev` in `plugin.yml`
+### Changed
+* Uses *ArmorStand*s instead of *Arrow*s for chairs by default again
+* Apply `NoGravity` to spawned Arrow (#111, #116)
+* Moves spawned arrow further into the chair block (#111)
+* Updated dependencies `XSeries`, `Item-NBT-API` and `annotations`
 
 ## 1.4.0
 _2021-08-16_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.0-ALPHA...1.4.0)
