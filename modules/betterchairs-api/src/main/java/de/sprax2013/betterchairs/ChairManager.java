@@ -84,7 +84,7 @@ public class ChairManager {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
         if (isOccupied(block)) return false;
 
-        boolean sitsOnArmorStand = Settings.USE_ARMOR_STANDS.getValueAsBoolean();
+        boolean sitsOnArmorStand = !Settings.SIT_ON_ARROWS.getValueAsBoolean();
         double yOffset = ChairUtils.getSitOffset(block, sitsOnArmorStand, chairNMS);
 
         Entity chairEntity = instance.chairNMS.spawnChairEntity(block.getLocation().add(0.5, yOffset, 0.5),

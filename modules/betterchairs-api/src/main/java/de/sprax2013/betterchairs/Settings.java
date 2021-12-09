@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Settings {
-    private static final int LATEST_VERSION = 2;
+    private static final int LATEST_VERSION = 3;
     protected static final String HEADER = "BetterChairs Remastered\n\n" +
             "Support: https://Sprax.me/Discord\n" +
             "Updates and Information:\n" +
@@ -21,12 +21,23 @@ public class Settings {
             new File(Objects.requireNonNull(ChairManager.getPlugin()).getDataFolder(), "config.yml"), HEADER)
             .withVersion(LATEST_VERSION, 0, "version", () -> "You shouldn't make any changes to this");
 
-    public static final ConfigEntry USE_ARMOR_STANDS = config.createEntry(
-            "Chairs.UseArmorStands", false,
-            "Enabling this enables the use of ArmorStands instead of e.g. Arrows.\n" +
-                    "ArmorStands are made invisible so the player doesn't see anything of the magic happening when sitting.\n" +
-                    "But Minecraft proves to be very unreliable with ArmorStands especially between versions (e.g. players instantly stopping to sit)\n\n" +
-                    "You will probably have luck in older version like 1.8 (maybe even up to 1.15), and maybe it'll get better in version newer than 1.17");
+    public static final ConfigEntry SIT_ON_ARROWS = config.createEntry(
+                    "Chairs.SitOnArrows", false,
+                    "Enabling this makes BetterChairs use Arrows instead of ArmorStands.\n" +
+                            "ArmorStands are made invisible so the player doesn't see anything of the magic happening when sitting.\n" +
+                            "But Spigot can be very unreliable on some versions (e.g. players instantly stopping to sit)\n\n" +
+                            "If you are experiencing issues with ArmorStands, enable this option.")
+            .setLegacyKey(2, "UseArmorStands", value -> {
+                if (value == null) {
+                    return false;
+                }
+
+                if (value instanceof Boolean) {
+                    return !(Boolean) value;
+                }
+
+                return !Boolean.parseBoolean(value.toString());
+            });
     public static final ConfigEntry ALLOWED_DISTANCE_TO_CHAIR = config.createEntry(
                     "Chairs.AllowedDistanceToChair", -1,
                     "Allowed distance a player is allowed to have when trying to sit? (-1 to ignore)")
