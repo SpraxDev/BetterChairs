@@ -46,16 +46,28 @@ jobs:
           versions: 1.8, 1.8.3, 1.8.8, 1.9.2, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13, 1.13.2, 1.14.4, 1.15.2, 1.16.1, 1.16.3, 1.16.5
           forceRun: false # Disables the check for existing files in the local maven repository
 
-      # Use Java 16 for everything else
+      # Use Java 16 for Spigot 1.17
       - uses: actions/setup-java@v2
         with:
           java-version: 16
-          distribution: adopt
+          distribution: temurin
 
       - name: Compile Spigot versions
         uses: SpraxDev/Action-SpigotMC@v3
         with:
           versions: 1.17
+          forceRun: false # Disables the check for existing files in the local maven repository
+
+      # Use Java 17 for everything else
+      - uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Compile Spigot versions
+        uses: SpraxDev/Action-SpigotMC@v3
+        with:
+          versions: 1.18
           forceRun: false # Disables the check for existing files in the local maven repository
 
       # Compile the project using maven
