@@ -39,11 +39,15 @@ jobs:
         with:
           java-version: 8
 
+      - name: Manually compile some Spigot version because of broken Spigot BuildTools
+        run: mkdir /tmp/spigot-buildtools/ && cd /tmp/spigot-buildtools/ && wget https://hub.spigotmc.org/jenkins/job/BuildTools/132/artifact/target/BuildTools.jar && java -jar BuildTools.jar --rev 1.8 && java -jar BuildTools.jar --rev 1.8.3 && rm -Rf /tmp/spigot-buildtools/
+
       # Maven dependencies that need to be compiled manually
       - name: Compile Spigot versions
         uses: SpraxDev/Action-SpigotMC@v3
         with:
-          versions: 1.8, 1.8.3, 1.8.8, 1.9.2, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13, 1.13.2, 1.14.4, 1.15.2, 1.16.1, 1.16.3, 1.16.5
+          versions: 1.8.8, 1.9.2, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13, 1.13.2, 1.14.4, 1.15.2, 1.16.1, 1.16.3, 1.16.5
+#          versions: 1.8, 1.8.3, 1.8.8, 1.9.2, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13, 1.13.2, 1.14.4, 1.15.2, 1.16.1, 1.16.3, 1.16.5
           forceRun: false # Disables the check for existing files in the local maven repository
 
       # Use Java 16 for Spigot 1.17
