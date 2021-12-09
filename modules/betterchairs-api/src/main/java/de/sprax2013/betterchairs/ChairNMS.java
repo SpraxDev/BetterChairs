@@ -91,7 +91,8 @@ public abstract class ChairNMS {
     public static int getRegenerationAmplifier(Player p) {
         if (!Settings.REGENERATION_ENABLED.getValueAsBoolean() ||
                 Settings.REGENERATION_AMPLIFIER.getValueAsInt() <= 0 ||
-                !p.hasPermission(ChairManager.plugin.getName() + ".regeneration")) return -1;
+                (Settings.REGENERATION_CHECK_PERMISSION.getValueAsBoolean() &&
+                        !p.hasPermission(ChairManager.plugin.getName() + ".regeneration"))) return -1;
 
         return Settings.REGENERATION_AMPLIFIER.getValueAsInt() - 1;
     }

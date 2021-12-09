@@ -95,8 +95,11 @@ public class Settings {
 
     public static final ConfigEntry REGENERATION_ENABLED = config.createEntry(
                     "Chairs.Regeneration.Enabled", false,
-                    "Should player receive regeneration effect when sitting? (Needs permission BetterChairs.regeneration)")
+                    "Should player receive regeneration effect when sitting?")
             .setLegacyKey(0, "Regen when sit");
+    public static final ConfigEntry REGENERATION_CHECK_PERMISSION = config.createEntry(
+            "Chairs.Regeneration.CheckPermission", true,
+            "Should only players with the permission 'BetterChairs.regeneration' get the effect?");
     public static final ConfigEntry REGENERATION_AMPLIFIER = config.createEntry(
                     "Chairs.Regeneration.Amplifier", 1, "What amplifier should be applied?")
             .setEntryValidator(IntEntryValidator.get())
