@@ -58,6 +58,10 @@ public class ChairUtils {
             if (entity instanceof ArmorStand) {
                 nbt.setInteger("DisabledSlots", 0b11111);
             }
+
+            if (entity instanceof Projectile) {
+                nbt.setBoolean("NoGravity", true);
+            }
         } catch (NbtApiException ex) {
             ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getMessage() + ")!");
         }
