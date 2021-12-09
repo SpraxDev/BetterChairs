@@ -4,6 +4,8 @@ version: ${project.parent.version}
 api-version: '1.13'
 
 main: ${project.parent.groupId}.${project.parent.artifactId}.BetterChairsPlugin
+softdepend:
+  - PlaceholderAPI
 
 author: SpraxDev
 authors: [ BlackScarx ]

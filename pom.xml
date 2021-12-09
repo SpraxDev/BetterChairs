@@ -84,6 +84,11 @@
         </repository>
 
         <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+
+        <repository>
             <id>sprax-repo</id>
             <url>https://repo.sprax2013.de/repository/maven-snapshots/</url>
         </repository>

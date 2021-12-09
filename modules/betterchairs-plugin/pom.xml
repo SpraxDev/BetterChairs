@@ -119,6 +119,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.10</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Modules -->
         <dependency>
             <groupId>de.sprax2013</groupId>
