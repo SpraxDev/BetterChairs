@@ -4,6 +4,7 @@ import de.sprax2013.betterchairs.events.PlayerEnterChairEvent;
 import de.sprax2013.betterchairs.events.PlayerLeaveChairEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -72,7 +73,7 @@ public class ChairManager {
      * Check if a chair can be spawned and call an Event.<br>
      * If the event doesn't get cancelled,
      * the player should then be able to sit.<br>
-     * <b>Ignores {@link #hasChairsDisabled(Player)}</b>
+     * <b>Ignores {@link #hasChairsDisabled(OfflinePlayer)}</b>
      *
      * @param player The player that should sit
      * @param block  The block the player should sit on
@@ -257,7 +258,7 @@ public class ChairManager {
         return getChair(entity) != null || chairNMS.isChair(entity);
     }
 
-    public boolean hasChairsDisabled(Player player) {
+    public boolean hasChairsDisabled(OfflinePlayer player) {
         return hasChairsDisabled(player.getUniqueId());
     }
 
@@ -265,11 +266,7 @@ public class ChairManager {
         Boolean value = disabled.get(uuid);
 
         if (value == null) {
-            if (Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean()) {
-                value = new File(disabledForDir, uuid.toString()).exists();
-            } else {
-                value = false;
-            }
+            value = Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean() && new File(disabledForDir, uuid.toString()).exists();
 
             if (Bukkit.getPlayer(uuid).isOnline()) {
                 this.disabled.put(uuid, value);
