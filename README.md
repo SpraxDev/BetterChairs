@@ -74,11 +74,12 @@ the [JavaDocs](https://JavaDocs.Sprax2013.de/BetterChairs/).
 * Active author fixing bugs, adding features and add version support
 * Support all versions newer than 1.8 (and in theory some older versions too)
 * **All** stairs and slabs are supported in all versions
-  * Have **every** block you like to act as a chair *(Experimental)*
+  * Have **every** block you like to act as a chair *(can be enabled in the config)*
+* *PlaceholderAPI* support
 * You can sit on slabs that are placed in the upper-half of a block
 * A working Update-Notifier that won't send garbage messages if the Updater fails to check for an update
 * Check if Signs are really attached to the chair (Requiring signs can be enabled in `config.yml`)
-* This version is less aggressive when a player tries to sit on an chair (Can be partly re-enabled in `config.yml`)
+* This version is less aggressive when a player tries to sit on a chair (Can be partly re-enabled in `config.yml`)
 * The content of `config.yml` and `messages.yml` has been restructured (old files are automatically converted)
 * Have a world whitelist **or** blacklist
 * Well documented API

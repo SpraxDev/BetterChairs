@@ -16,7 +16,7 @@ _2021-12-21_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.
 ### Added
 * Minecraft 1.18 support
 * Setting to disable permission check for regeneration effect (#108)
-*  `PlaceholderAPI` support with two placeholders (#114)
+* *PlaceholderAPI* support with two placeholders (#114)
 * Plugin description in `plugin.yml`
 ### Breaking Changes
 * Changed method signature from `ChairManager#hasChairsDisabled(Player)` to `ChairManager#hasChairsDisabled(OfflinePlayer)`
