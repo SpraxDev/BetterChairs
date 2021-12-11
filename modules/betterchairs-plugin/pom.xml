@@ -13,7 +13,7 @@
     <artifactId>betterchairs-plugin</artifactId>
 
     <build>
-        <finalName>${pluginName}</finalName>
+        <finalName>${pluginName}-v${project.parent.version}</finalName>
 
         <resources>
             <resource>
