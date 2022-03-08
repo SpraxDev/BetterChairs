@@ -2,7 +2,6 @@ package de.sprax2013.betterchairs;
 
 import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
-import de.tr7zw.changeme.nbtapi.NbtApiException;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -65,8 +64,8 @@ public class ChairUtils {
             if (entity instanceof Projectile) {
                 nbt.setBoolean("NoGravity", true);
             }
-        } catch (NbtApiException ex) {
-            ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getMessage() + ")!");
+        } catch (Throwable ex) {
+            ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getClass().getSimpleName() + ": " + ex.getMessage() + ")!");
         }
     }
 
