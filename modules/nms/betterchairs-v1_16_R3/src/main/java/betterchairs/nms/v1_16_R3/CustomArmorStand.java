@@ -1,11 +1,13 @@
 package betterchairs.nms.v1_16_R3;
 
+import de.sprax2013.betterchairs.ChairManager;
 import de.sprax2013.betterchairs.ChairUtils;
 import de.sprax2013.betterchairs.CustomChairEntity;
 import net.minecraft.server.v1_16_R3.Entity;
 import net.minecraft.server.v1_16_R3.EntityArmorStand;
 import net.minecraft.server.v1_16_R3.EntityHuman;
 import net.minecraft.server.v1_16_R3.World;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
@@ -42,9 +44,10 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
             return;
         }
 
-        // Rotate the entity together with its passenger
-        this.setYawPitch(passenger.yaw, passenger.pitch * .5F);
-        this.setHeadRotation(this.yaw);
+        // Rotate the ArmorStand together with its passenger
+        // Not happy about using Bukkit API here (+ scheduling) but I don't see a good alternative with all the obfuscation
+        Bukkit.getScheduler().runTask(ChairManager.getPlugin(),
+                () -> this.getBukkitEntity().setRotation(passenger.getBukkitYaw(), 0));
 
         if (ChairUtils.didChairEntityMove(expectedLocation, locX(), locY(), locZ())) {
             this.teleportAndSync(expectedLocation.getX(), Math.min(this.locY(), expectedLocation.getY()), expectedLocation.getZ());
