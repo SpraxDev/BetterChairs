@@ -71,7 +71,7 @@ jobs:
       - name: Compile Spigot versions
         uses: SpraxDev/Action-SpigotMC@v3
         with:
-          versions: 1.18
+          versions: 1.18.1, 1.18.2
           forceRun: false # Disables the check for existing files in the local maven repository
 
       # Compile the project using maven
