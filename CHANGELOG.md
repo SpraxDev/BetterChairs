@@ -10,6 +10,19 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.5.1
+_2022-03-22_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.5.0...1.5.1)
+
+### Added
+* Minecraft 1.18.2 support
+* Minecraft 1.13 support (it always ran in legacy mode by accident)
+* The API has been updated to allow chair creating with a custom `yOffset` (`ChairManager#create(Player, Block)`)
+* Your feet now point in the direction you are looking! (Already worked in pre Minecraft 1.13; Now works on all supported versions)
+### Changed
+* Errors caused by the NBT-API library are handled more extensively
+  (if you are running an unsupported server version, you should have less trouble doing so now)
+* Plugin version is now part of the file name
+
 ## Version 1.5.0
 _2021-12-21_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.0...1.5.0)
 
