@@ -70,6 +70,15 @@ public class ChairManager {
     }
 
     /**
+     * This method is a shortcut for {@link #create(Player, Block, double)} with {@code yOffset = ChairUtils#getSitOffset}
+     *
+     * @see #create(Player, Block, double)
+     */
+    public boolean create(Player player, Block block) {
+        return create(player, block, ChairUtils.getSitOffset(block, !Settings.SIT_ON_ARROWS.getValueAsBoolean(), chairNMS));
+    }
+
+    /**
      * Check if a chair can be spawned and call an Event.<br>
      * If the event doesn't get cancelled,
      * the player should then be able to sit.<br>
@@ -80,16 +89,13 @@ public class ChairManager {
      *
      * @return true if player is now sitting on a chair, false otherwise
      */
-    public boolean create(Player player, Block block) {
+    public boolean create(Player player, Block block, double yOffset) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
         if (isOccupied(block)) return false;
 
-        boolean sitsOnArmorStand = !Settings.SIT_ON_ARROWS.getValueAsBoolean();
-        double yOffset = ChairUtils.getSitOffset(block, sitsOnArmorStand, chairNMS);
-
         Entity chairEntity = instance.chairNMS.spawnChairEntity(block.getLocation().add(0.5, yOffset, 0.5),
                 ChairNMS.getRegenerationAmplifier(player),
-                sitsOnArmorStand);
+                !Settings.SIT_ON_ARROWS.getValueAsBoolean());
 
         Chair chair = new Chair(block, chairEntity, player);
 
