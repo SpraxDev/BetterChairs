@@ -43,8 +43,7 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
         }
 
         // Rotate the ArmorStand together with its passenger
-        this.setYawPitch(passenger.yaw, passenger.pitch * .5F);
-        this.aP = this.yaw;
+        this.setYawPitch(passenger.yaw, 0);
 
         if (ChairUtils.didChairEntityMove(expectedLocation, this.locX, this.locY, this.locZ)) {
             this.enderTeleportTo(expectedLocation.getX(), Math.min(this.locY, expectedLocation.getY()), expectedLocation.getZ());

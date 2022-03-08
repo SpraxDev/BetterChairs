@@ -36,8 +36,7 @@ class CustomArrow extends EntityArrow implements CustomChairEntity {
         }
 
         // Rotate the entity together with its passenger
-        this.setYawPitch(this.passenger.yaw, this.passenger.pitch * .5F);
-//        this.setHeadRotation(passenger.yaw);
+        this.setYawPitch(this.passenger.yaw, 0);
 
         ChairUtils.applyRegeneration(((EntityHuman) this.passenger).getBukkitEntity(), this.regenerationAmplifier);
     }
