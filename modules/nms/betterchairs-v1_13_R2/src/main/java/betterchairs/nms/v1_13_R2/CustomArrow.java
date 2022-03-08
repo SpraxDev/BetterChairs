@@ -1,11 +1,13 @@
 package betterchairs.nms.v1_13_R2;
 
+import de.sprax2013.betterchairs.ChairManager;
 import de.sprax2013.betterchairs.ChairUtils;
 import de.sprax2013.betterchairs.CustomChairEntity;
 import net.minecraft.server.v1_13_R2.Entity;
 import net.minecraft.server.v1_13_R2.EntityHuman;
 import net.minecraft.server.v1_13_R2.EntityTippedArrow;
 import net.minecraft.server.v1_13_R2.World;
+import org.bukkit.Bukkit;
 
 class CustomArrow extends EntityTippedArrow implements CustomChairEntity {
     private boolean remove = false;
@@ -39,8 +41,9 @@ class CustomArrow extends EntityTippedArrow implements CustomChairEntity {
         }
 
         // Rotate the entity together with its passenger
-        this.setYawPitch(passenger.yaw, passenger.pitch * .5F);
-        this.setHeadRotation(passenger.yaw);
+        // Not happy about using Bukkit API here (+ scheduling) but I don't see a good alternative with all the obfuscation
+        Bukkit.getScheduler().runTask(ChairManager.getPlugin(),
+                () -> this.getBukkitEntity().setRotation(passenger.getBukkitYaw(), 0));
 
         ChairUtils.applyRegeneration(((EntityHuman) passenger).getBukkitEntity(), this.regenerationAmplifier);
     }
