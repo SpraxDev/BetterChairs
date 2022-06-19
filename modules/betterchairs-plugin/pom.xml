@@ -136,6 +136,13 @@
 
         <dependency>
             <groupId>de.sprax2013</groupId>
+            <artifactId>betterchairs-v1_19_R1</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.sprax2013</groupId>
             <artifactId>betterchairs-v1_18_R2</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
