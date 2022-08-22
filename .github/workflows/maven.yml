@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Caches
       - name: 'Cache: Maven-Repository'
@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Extract version from the pom.xml and compare to docs/version.txt
         id: version_diff  # Outputs 'same' or 'diff'
         run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "##[set-output name=result;]same" || echo "##[set-output name=result;]diff"
