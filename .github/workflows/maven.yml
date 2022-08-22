@@ -68,7 +68,7 @@ jobs:
 
       # Upload the .jar file
       - name: 'Upload Build Artifact: BetterChairs.jar'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: BetterChairs
           path: ./modules/betterchairs-plugin/target/BetterChairs*.jar
