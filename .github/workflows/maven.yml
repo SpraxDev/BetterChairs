@@ -17,19 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Caches
-      - name: 'Cache: Maven-Repository'
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
-
       # Use Java 8 to compile old Spigot version
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-java@v3
         with:
           java-version: 8
           distribution: temurin
+          cache: maven
 
       # Maven dependencies that need to be compiled manually
       - name: Compile Spigot versions
@@ -39,7 +32,7 @@ jobs:
           forceRun: false # Disables the check for existing files in the local maven repository
 
       # Use Java 16 for Spigot 1.17
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-java@v3
         with:
           java-version: 16
           distribution: temurin
@@ -51,7 +44,7 @@ jobs:
           forceRun: false # Disables the check for existing files in the local maven repository
 
       # Use Java 17 for everything else
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: temurin
