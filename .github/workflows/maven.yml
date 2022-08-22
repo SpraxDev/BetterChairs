@@ -67,11 +67,12 @@ jobs:
           path: ./modules/betterchairs-plugin/target/BetterChairs*.jar
 
       # Run static code analysis
-  #      - name: 'SonarCloud.io (static code analysis)'
-  #        run: 'mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
-  #        env:
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-  #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: 'SonarCloud.io (static code analysis)'
+        if: ${{ env.SONAR_TOKEN != null }}
+        run: 'mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   # Check if the versions inside `pom.xml`, CHANGELOG.md and `./docs/version.txt`
   # match and that everything has been edited correctly when pushing a new release version
