@@ -10,6 +10,16 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.5.3
+_2022-08-24_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.2...v1.5.3)
+
+### Added
+* Minecraft 1.19.1 and 1.19.2 support
+### Changed
+* The Minecraft 1.19 submodules now use the remapped Spigot
+  * This makes it easier to create updates for new Spigot versions
+
+
 ## Version 1.5.2
 _2022-06-19_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.1...v1.5.2)
 
