@@ -11,13 +11,14 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 2
 -->
 ## Version 1.5.2
-_2022-06-19_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.5.1...1.5.2)
+_2022-06-19_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.1...v1.5.2)
 
 ### Added
 * Minecraft 1.19 support
 
+
 ## Version 1.5.1
-_2022-03-22_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.5.0...1.5.1)
+_2022-03-22_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.0...v1.5.1)
 
 ### Added
 * Minecraft 1.18.2 support
@@ -29,8 +30,9 @@ _2022-03-22_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.5.
   (if you are running an unsupported server version, you should have less trouble doing so now)
 * Plugin version is now part of the file name
 
+
 ## Version 1.5.0
-_2021-12-21_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.0...1.5.0)
+_2021-12-21_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.4.0...v1.5.0)
 
 ### Added
 * Minecraft 1.18 support
@@ -46,8 +48,9 @@ _2021-12-21_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.
 * Moves spawned arrow further into the chair block (#111)
 * Updated dependencies `XSeries`, `Item-NBT-API` and `annotations`
 
+
 ## 1.4.0
-_2021-08-16_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.0-ALPHA...1.4.0)
+_2021-08-16_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.4.0-ALPHA...v1.4.0)
 
 ### Added
 * Option to use ArmorStands or Arrows as ArmorStands proofed to be even less reliable across versions
@@ -59,8 +62,9 @@ _2021-08-16_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/1.4.
 * Updated dependencies `XSeries` and `annotations`
 * Fixed bStats (broke in 1.4.0-ALPHA)
 
+
 ## Version 1.4.0-ALPHA
-_2021-06-15_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.3.0...1.4.0-ALPHA)
+_2021-06-15_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.3.0...v1.4.0-ALPHA)
 
 ### Added
 * Added support for Minecraft 1.17 (and Java 16)
