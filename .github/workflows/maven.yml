@@ -57,6 +57,7 @@ jobs:
         with:
           versions: 1.19, 1.19.2
           remapped: true
+          forceRun: true
 
       # Compile the project using maven
       - name: Build with Maven
