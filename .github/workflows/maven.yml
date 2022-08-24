@@ -23,9 +23,7 @@ jobs:
           java-version: 8
           distribution: temurin
           cache: maven
-
-      # Maven dependencies that need to be compiled manually
-      - name: Compile Spigot versions
+      - name: Compile Spigot 1.8 - 1.16.5
         uses: SpraxDev/Action-SpigotMC@v4
         with:
           versions: 1.8, 1.8.3, 1.8.8, 1.9.2, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13, 1.13.2, 1.14.4, 1.15.2, 1.16.1, 1.16.3, 1.16.5
@@ -35,8 +33,7 @@ jobs:
         with:
           java-version: 16
           distribution: temurin
-
-      - name: Compile Spigot versions
+      - name: Compile Spigot 1.17
         uses: SpraxDev/Action-SpigotMC@v4
         with:
           versions: 1.17
@@ -51,8 +48,7 @@ jobs:
         uses: SpraxDev/Action-SpigotMC@v4
         with:
           versions: 1.18.1, 1.18.2
-
-      - name: Compile Spigot versions
+      - name: Compile Spigot versions (remapped)
         uses: SpraxDev/Action-SpigotMC@v4
         with:
           versions: 1.19, 1.19.2
