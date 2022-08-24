@@ -10,10 +10,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>betterchairs-v1_19_R1</artifactId>
+    <artifactId>betterchairs-v1_19_0</artifactId>
 
     <properties>
-        <nms.ver>1.19.2-R0.1-SNAPSHOT</nms.ver>
+        <nms.ver>1.19-R0.1-SNAPSHOT</nms.ver>
     </properties>
 
     <build>
@@ -94,13 +94,6 @@
             <version>${nms.ver}</version>
             <classifier>remapped-mojang</classifier>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>de.sprax2013</groupId>
-            <artifactId>betterchairs-v1_19_0</artifactId>
-            <version>${project.parent.version}</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

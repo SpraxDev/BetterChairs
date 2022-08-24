@@ -38,7 +38,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         MinecraftVersion.getLogger().setLevel(Level.WARNING); // Hide info messages from NBT-API
         MinecraftVersion.disableUpdateCheck();
 
-        ChairNMS chairNMS = getNewNMS();
+        ChairNMS chairNMS = getNewNMSInstance();
 
         if (chairNMS.getListener() != null) {
             Bukkit.getPluginManager().registerEvents(chairNMS.getListener(), this);
@@ -63,7 +63,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         getCommand("toggleChairs").setExecutor(cmdExecutor);
         getCommand("sit").setExecutor(cmdExecutor);
 
-        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderApiExpansion(this).register();
         }
 
@@ -105,11 +105,10 @@ public class BetterChairsPlugin extends JavaPlugin {
      * @return new instance of {@code ChairNMS}, never null
      */
     @NotNull
-    private ChairNMS getNewNMS() {
+    private ChairNMS getNewNMSInstance() {
         String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 
         try {
-            // Try loading NMS class (package is remapped by maven-shade-plugin)
             return (ChairNMS) Class.forName("betterchairs.nms." + version + "." + version).getConstructors()[0].newInstance();
         } catch (Exception ignore) {
             getLogger().warning("Your server version (" + version + ") is not fully supported - Loading fallback...");

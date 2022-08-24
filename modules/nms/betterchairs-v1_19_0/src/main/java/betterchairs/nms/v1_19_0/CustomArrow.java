@@ -1,4 +1,4 @@
-package betterchairs.nms.v1_19_R1;
+package betterchairs.nms.v1_19_0;
 
 import de.sprax2013.betterchairs.ChairManager;
 import de.sprax2013.betterchairs.ChairUtils;
