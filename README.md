@@ -9,9 +9,9 @@
   <a href="https://sprax.me/discord">
     <img alt="Get Support on Discord" src="https://img.shields.io/discord/344982818863972352.svg?label=Get%20Support&logo=Discord&color=blue">
   </a>
-  <a href="https://www.patreon.com/sprax">
-    <img alt="Support me on Patreon"
-         src="https://img.shields.io/badge/-Support%20me%20on%20Patreon-%23FF424D?logo=patreon&logoColor=white">
+  <a href="https://ko-fi.com/spraxdev">
+    <img alt="Support me on Ko-fi!"
+         src="https://img.shields.io/badge/-Support%20me%20on%20Ko--fi-%2329ABE0?logo=kofi&logoColor=white">
   </a>
 </p>
 
