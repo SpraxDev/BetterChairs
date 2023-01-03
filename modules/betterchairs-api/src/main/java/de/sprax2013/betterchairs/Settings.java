@@ -91,6 +91,12 @@ public class Settings {
             "Chairs.LeavingChair.KeepHeadRotation", true,
             "Should a player keep his head rotation when teleported to its original position");
 
+    public static final ConfigEntry ALLOW_SWITCHING_SEATS = config.createEntry(
+            "Chairs.AllowSwitchingSeats", false,
+            "This controls whether players can switch seats while already sitting.\n" +
+                    "If '" + LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getKey() + "' is set,\n" +
+                    "the player will be teleported to the *first* location they startet sitting at.");
+
     public static final ConfigEntry MSG_ALREADY_OCCUPIED = config.createEntry(
                     "Chairs.Messages.AlreadyOccupied", false,
                     "Should the player receive a message when the chair is already occupied")

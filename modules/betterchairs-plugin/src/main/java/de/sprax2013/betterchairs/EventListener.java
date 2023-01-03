@@ -1,6 +1,7 @@
 package de.sprax2013.betterchairs;
 
 import com.cryptomorin.xseries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static de.sprax2013.betterchairs.BetterChairsPlugin.getInstance;
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
 public class EventListener implements Listener {
@@ -93,8 +95,12 @@ public class EventListener implements Listener {
         if (!e.getClickedBlock().getWorld().equals(e.getPlayer().getLocation().getWorld())) return; // Happens sometimes
         if (e.getPlayer().isSneaking()) return;
         if (getManager().hasChairsDisabled(e.getPlayer())) return;
-        if (getManager().getChair(e.getPlayer()) != null) return;   // Destroy zombie chair on old spigot versions
-        if (e.getPlayer().getVehicle() != null) return; // Already sitting on something else
+        if (getManager().getChair(e.getPlayer()) != null && // This also destroys zombie chair on old spigot versions
+                !Settings.ALLOW_SWITCHING_SEATS.getValueAsBoolean()) {
+            return;
+        }
+        if (e.getPlayer().getVehicle() != null &&
+                !Settings.ALLOW_SWITCHING_SEATS.getValueAsBoolean()) return; // Already sitting on something else
         if (!e.getPlayer().hasPermission(BetterChairsPlugin.getInstance().getName() + ".use")) return;
         if (Settings.NEEDS_EMPTY_HANDS.getValueAsBoolean() &&
                 !getManager().chairNMS.hasEmptyMainHand(e.getPlayer())) return;
@@ -194,13 +200,29 @@ public class EventListener implements Listener {
             return;
         }
 
-        // Spawn Chair
-        if (getManager().create(e.getPlayer(), e.getClickedBlock())) {
-            e.setCancelled(true);
+        boolean createChairOnNextTick = false;
 
-            if (Settings.MSG_NOW_SITTING.getValueAsBoolean()) {
-                e.getPlayer().sendMessage(Messages.getString(Messages.USE_NOW_SITTING));
+        Chair currentChair = getManager().getChair(e.getPlayer());
+        if (currentChair != null) {
+            createChairOnNextTick = true;
+            getManager().destroy(currentChair, true, true);
+        }
+
+        Runnable createChairTask = () -> {
+            // Spawn Chair
+            if (getManager().create(e.getPlayer(), e.getClickedBlock())) {
+                e.setCancelled(true);
+
+                if (Settings.MSG_NOW_SITTING.getValueAsBoolean()) {
+                    e.getPlayer().sendMessage(Messages.getString(Messages.USE_NOW_SITTING));
+                }
             }
+        };
+
+        if (createChairOnNextTick) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), createChairTask);
+        } else {
+            createChairTask.run();
         }
     }
 
