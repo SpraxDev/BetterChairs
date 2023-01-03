@@ -1,7 +1,7 @@
 package de.sprax2013.betterchairs;
 
 import com.cryptomorin.xseries.XMaterial;
-import de.tr7zw.changeme.nbtapi.NBTEntity;
+import de.tr7zw.changeme.nbtapi.NBT;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -52,21 +52,22 @@ public class ChairUtils {
             ((LivingEntity) entity).setRemoveWhenFarAway(true);
         }
 
-        try {
-            NBTEntity nbt = new NBTEntity(entity);
-            nbt.setBoolean("Invulnerable", true);
-            nbt.setInteger("Silent", 1);
+        NBT.modify(entity, nbt -> {
+            try {
+                nbt.setBoolean("Invulnerable", true);
+                nbt.setInteger("Silent", 1);
 
-            if (entity instanceof ArmorStand) {
-                nbt.setInteger("DisabledSlots", 0b11111);
-            }
+                if (entity instanceof ArmorStand) {
+                    nbt.setInteger("DisabledSlots", 0b11111);
+                }
 
-            if (entity instanceof Projectile) {
-                nbt.setBoolean("NoGravity", true);
+                if (entity instanceof Projectile) {
+                    nbt.setBoolean("NoGravity", true);
+                }
+            } catch (Throwable ex) {
+                ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getClass().getSimpleName() + ": " + ex.getMessage() + ")!");
             }
-        } catch (Throwable ex) {
-            ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getClass().getSimpleName() + ": " + ex.getMessage() + ")!");
-        }
+        });
     }
 
     /**
@@ -77,7 +78,6 @@ public class ChairUtils {
      * the value is returned without inverting it</b>
      *
      * @param b The block to check
-     *
      * @return The inverted BlockFace as described above, or {@link BlockFace#SELF} if the Bukkit-api is too old
      */
     public static BlockFace getBlockRotationLegacy(Block b) {
