@@ -25,6 +25,7 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class v1_11_R1 extends ChairNMS {
     @Override
+    @NotNull
     public org.bukkit.entity.Entity spawnChairEntity(@NotNull Location loc, int regenerationAmplifier, boolean useArmorStand) {
         WorldServer nmsWorld = ((CraftWorld) Objects.requireNonNull(loc.getWorld())).getHandle();
 
