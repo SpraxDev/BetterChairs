@@ -51,7 +51,7 @@ public class ChairManager {
         Boolean value = this.disabled.remove(uuid);
 
         if (value != null && Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean()) {
-            Path path = new File(disabledForDir, uuid.toString()).toPath();
+            Path path = new File(this.disabledForDir, uuid.toString()).toPath();
 
             try {
                 if (value) {
@@ -75,7 +75,7 @@ public class ChairManager {
      * @see #create(Player, Block, double)
      */
     public boolean create(Player player, Block block) {
-        return create(player, block, ChairUtils.getSitOffset(block, !Settings.SIT_ON_ARROWS.getValueAsBoolean(), chairNMS));
+        return create(player, block, ChairUtils.getSitOffset(block, !Settings.SIT_ON_ARROWS.getValueAsBoolean(), this.chairNMS));
     }
 
     /**
@@ -110,7 +110,7 @@ public class ChairManager {
             Location loc = player.getLocation();
             loc.setPitch(0);
 
-            switch (chairNMS.getBlockRotation(block)) {
+            switch (this.chairNMS.getBlockRotation(block)) {
                 case NORTH:
                     loc.setYaw(0);
                     break;
@@ -130,7 +130,7 @@ public class ChairManager {
             player.teleport(loc);
         }
 
-        chairs.add(chair);
+        this.chairs.add(chair);
         chairEntity.setPassenger(player);
 
         return true;
@@ -163,8 +163,8 @@ public class ChairManager {
         if (hasPassenger)
             Bukkit.getPluginManager().callEvent(new PlayerLeaveChairEvent(chair.player, chair));
 
-        chairNMS.killChairEntity(chair.chairEntity);
-        chairs.remove(chair);
+        this.chairNMS.killChairEntity(chair.chairEntity);
+        this.chairs.remove(chair);
 
         if (hasPassenger && teleportPlayer && Settings.LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getValueAsBoolean()) {
             Runnable task = () -> chair.player.teleport(chair.getPlayerLeavingLocation());
@@ -184,12 +184,12 @@ public class ChairManager {
     public int destroyAll(boolean teleportPlayer, boolean sameTickTeleport) {
         int i = 0;
 
-        for (Chair c : chairs.toArray(new Chair[0])) {
+        for (Chair c : this.chairs.toArray(new Chair[0])) {
             destroy(c, teleportPlayer, sameTickTeleport);
             i++;
         }
 
-        chairs.clear(); // Just to make sure
+        this.chairs.clear(); // Just to make sure
 
         return i;
     }
@@ -201,7 +201,7 @@ public class ChairManager {
     public boolean isOccupied(@NotNull Block b) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        for (Chair c : chairs.toArray(new Chair[0])) {
+        for (Chair c : this.chairs.toArray(new Chair[0])) {
             if (b.equals(c.block)) {
                 return !c.destroyOnNoPassenger();
             }
@@ -214,7 +214,7 @@ public class ChairManager {
     public Chair getChair(@NotNull Player p) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        for (Chair c : chairs.toArray(new Chair[0])) {
+        for (Chair c : this.chairs.toArray(new Chair[0])) {
             if (p == c.player && !c.destroyOnNoPassenger()) {
                 return c;
             }
@@ -227,7 +227,7 @@ public class ChairManager {
     public Chair getChair(@NotNull Block b) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        for (Chair c : chairs.toArray(new Chair[0])) {
+        for (Chair c : this.chairs.toArray(new Chair[0])) {
             if (b == c.block && !c.destroyOnNoPassenger()) {
                 return c;
             }
@@ -240,7 +240,7 @@ public class ChairManager {
     public Chair getChair(@NotNull Entity entity) {
         if (!Bukkit.isPrimaryThread()) throw new IllegalStateException(Messages.ERR_ASYNC_API_CALL);
 
-        for (Chair c : chairs.toArray(new Chair[0])) {
+        for (Chair c : this.chairs.toArray(new Chair[0])) {
             if (entity == c.chairEntity && !c.destroyOnNoPassenger()) {
                 return c;
             }
@@ -257,7 +257,7 @@ public class ChairManager {
      * @return true if the {@link Entity} is used or may be used as {@link Chair}
      */
     public boolean isChair(@NotNull Entity entity) {
-        return getChair(entity) != null || chairNMS.isChair(entity);
+        return getChair(entity) != null || this.chairNMS.isChair(entity);
     }
 
     public boolean hasChairsDisabled(OfflinePlayer player) {
@@ -265,10 +265,10 @@ public class ChairManager {
     }
 
     public boolean hasChairsDisabled(UUID uuid) {
-        Boolean value = disabled.get(uuid);
+        Boolean value = this.disabled.get(uuid);
 
         if (value == null) {
-            value = Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean() && new File(disabledForDir, uuid.toString()).exists();
+            value = Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean() && new File(this.disabledForDir, uuid.toString()).exists();
 
             if (Bukkit.getPlayer(uuid).isOnline()) {
                 this.disabled.put(uuid, value);

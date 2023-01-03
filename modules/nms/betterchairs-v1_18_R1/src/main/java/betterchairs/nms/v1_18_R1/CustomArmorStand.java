@@ -39,7 +39,7 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
         Entity passenger = this.cF().isEmpty() ? null : this.cF().get(0);
 
         if (!(passenger instanceof EntityHuman)) {
-            remove = true;
+            this.remove = true;
             this.getBukkitEntity().remove();
             return;
         }
@@ -52,7 +52,7 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
         if (ChairUtils.didChairEntityMove(this.expectedLocation, this.dc() /* locX */, this.de() /* locY */, this.di() /* locZ */)) {
             this.expectedLocation.setY(Math.min(this.de() /* locY */, this.expectedLocation.getY()));
 
-            this.c(expectedLocation.getX(), this.expectedLocation.getY(), this.expectedLocation.getZ()); // teleportAndSync
+            this.c(this.expectedLocation.getX(), this.expectedLocation.getY(), this.expectedLocation.getZ()); // teleportAndSync
         }
 
         ChairUtils.applyRegeneration(((EntityHuman) passenger).getBukkitEntity(), this.regenerationAmplifier);
@@ -71,6 +71,6 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
     }
 
     private boolean shouldDie() {
-        return remove || this.cF().isEmpty() || !(this.cF().get(0) instanceof EntityHuman);
+        return this.remove || this.cF().isEmpty() || !(this.cF().get(0) instanceof EntityHuman);
     }
 }

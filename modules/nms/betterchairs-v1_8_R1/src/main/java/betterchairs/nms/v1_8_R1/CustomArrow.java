@@ -26,11 +26,11 @@ class CustomArrow extends EntityArrow implements CustomChairEntity {
 
     @Override
     public void s_() {
-        if (remove) return; // If the entity is being removed, no need to bother
+        if (this.remove) return; // If the entity is being removed, no need to bother
         if (this.ticksLived % 10 == 0) return;  // Only run every 10 ticks
 
         if (!(this.passenger instanceof EntityHuman)) {
-            remove = true;
+            this.remove = true;
             this.bukkitEntity.remove();
             return;
         }
@@ -48,6 +48,6 @@ class CustomArrow extends EntityArrow implements CustomChairEntity {
     }
 
     private boolean shouldDie() {
-        return remove || this.passenger == null || !(this.passenger instanceof EntityHuman);
+        return this.remove || this.passenger == null || !(this.passenger instanceof EntityHuman);
     }
 }

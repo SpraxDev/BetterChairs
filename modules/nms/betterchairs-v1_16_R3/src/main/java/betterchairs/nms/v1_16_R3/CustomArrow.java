@@ -29,13 +29,13 @@ class CustomArrow extends EntityTippedArrow implements CustomChairEntity {
 
     @Override
     public void tick() {
-        if (remove) return; // If the entity is being removed, no need to bother
+        if (this.remove) return; // If the entity is being removed, no need to bother
         if (this.ticksLived % 10 == 0) return;  // Only run every 10 ticks
 
         Entity passenger = this.passengers.isEmpty() ? null : this.passengers.get(0);
 
         if (!(passenger instanceof EntityHuman)) {
-            remove = true;
+            this.remove = true;
             this.getBukkitEntity().remove();
             return;
         }
@@ -61,6 +61,6 @@ class CustomArrow extends EntityTippedArrow implements CustomChairEntity {
     }
 
     private boolean shouldDie() {
-        return remove || this.passengers.isEmpty() || !(this.passengers.get(0) instanceof EntityHuman);
+        return this.remove || this.passengers.isEmpty() || !(this.passengers.get(0) instanceof EntityHuman);
     }
 }

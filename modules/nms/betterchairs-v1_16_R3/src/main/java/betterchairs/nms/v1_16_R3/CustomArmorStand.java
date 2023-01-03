@@ -33,13 +33,13 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
 
     @Override
     public void tick() {
-        if (remove) return; // If the ArmorStand is being removed, no need to bother
+        if (this.remove) return; // If the ArmorStand is being removed, no need to bother
         if (this.ticksLived % 10 == 0) return;  // Only run every 10 ticks
 
         Entity passenger = this.passengers.isEmpty() ? null : this.passengers.get(0);
 
         if (!(passenger instanceof EntityHuman)) {
-            remove = true;
+            this.remove = true;
             this.getBukkitEntity().remove();
             return;
         }
@@ -49,8 +49,8 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
         Bukkit.getScheduler().runTask(ChairManager.getPlugin(),
                 () -> this.getBukkitEntity().setRotation(passenger.getBukkitYaw(), 0));
 
-        if (ChairUtils.didChairEntityMove(expectedLocation, locX(), locY(), locZ())) {
-            this.teleportAndSync(expectedLocation.getX(), Math.min(this.locY(), expectedLocation.getY()), expectedLocation.getZ());
+        if (ChairUtils.didChairEntityMove(this.expectedLocation, locX(), locY(), locZ())) {
+            this.teleportAndSync(this.expectedLocation.getX(), Math.min(this.locY(), this.expectedLocation.getY()), this.expectedLocation.getZ());
         }
 
         ChairUtils.applyRegeneration(((EntityHuman) passenger).getBukkitEntity(), this.regenerationAmplifier);
@@ -69,6 +69,6 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
     }
 
     private boolean shouldDie() {
-        return remove || this.passengers.isEmpty() || !(this.passengers.get(0) instanceof EntityHuman);
+        return this.remove || this.passengers.isEmpty() || !(this.passengers.get(0) instanceof EntityHuman);
     }
 }

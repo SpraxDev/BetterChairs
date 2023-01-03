@@ -45,7 +45,7 @@ public class EventListener implements Listener {
 
         // Make sure that our list is up-to-date, after reloading the settings
         Settings.getConfig().addListener(() -> {
-            filteredMaterials = null;
+            this.filteredMaterials = null;
 
             task.run();
         });
@@ -54,8 +54,8 @@ public class EventListener implements Listener {
     }
 
     private List<Material> getMaterialFilter() {
-        if (filteredMaterials == null) {
-            filteredMaterials = new ArrayList<>();
+        if (this.filteredMaterials == null) {
+            this.filteredMaterials = new ArrayList<>();
 
             List<String> names = Settings.MATERIAL_FILTER_NAMES.getValueAsStringList();
             if (names != null) {
@@ -68,7 +68,7 @@ public class EventListener implements Listener {
                     }
 
                     if (mat != null) {
-                        filteredMaterials.add(mat);
+                        this.filteredMaterials.add(mat);
                     } else {
                         ChairManager.getLogger().warning(() -> "Invalid block type '" + name +
                                 "' in " + Settings.MATERIAL_FILTER_NAMES.getKey());
@@ -77,7 +77,7 @@ public class EventListener implements Listener {
             }
         }
 
-        return filteredMaterials;
+        return this.filteredMaterials;
     }
 
     /* Spawn and Destroy Chairs */

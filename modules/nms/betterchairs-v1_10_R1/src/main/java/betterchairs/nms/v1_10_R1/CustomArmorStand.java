@@ -31,13 +31,13 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
 
     @Override
     public void g(float f, float f2) {
-        if (remove) return; // If the ArmorStand is being removed, no need to bother
+        if (this.remove) return; // If the ArmorStand is being removed, no need to bother
         if (this.ticksLived % 10 == 0) return;  // Only run every 10 ticks
 
         Entity passenger = this.passengers.isEmpty() ? null : this.passengers.get(0);
 
         if (!(passenger instanceof EntityHuman)) {
-            remove = true;
+            this.remove = true;
             this.getBukkitEntity().remove();
             return;
         }
@@ -45,8 +45,8 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
         // Rotate the ArmorStand together with its passenger
         this.setYawPitch(passenger.yaw, 0);
 
-        if (ChairUtils.didChairEntityMove(expectedLocation, this.locX, this.locY, this.locZ)) {
-            this.enderTeleportTo(expectedLocation.getX(), Math.min(this.locY, expectedLocation.getY()), expectedLocation.getZ());
+        if (ChairUtils.didChairEntityMove(this.expectedLocation, this.locX, this.locY, this.locZ)) {
+            this.enderTeleportTo(this.expectedLocation.getX(), Math.min(this.locY, this.expectedLocation.getY()), this.expectedLocation.getZ());
         }
 
         ChairUtils.applyRegeneration(((EntityHuman) passenger).getBukkitEntity(), this.regenerationAmplifier);
@@ -59,6 +59,6 @@ class CustomArmorStand extends EntityArmorStand implements CustomChairEntity {
     }
 
     private boolean shouldDie() {
-        return remove || this.passengers.isEmpty() || !(this.passengers.get(0) instanceof EntityHuman);
+        return this.remove || this.passengers.isEmpty() || !(this.passengers.get(0) instanceof EntityHuman);
     }
 }

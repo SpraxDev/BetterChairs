@@ -38,7 +38,7 @@ public class Chair {
     public boolean isStair() {
         if (ChairManager.getInstance() == null) throw new IllegalStateException(ERR_MANAGER_NOT_AVAILABLE);
 
-        return ChairManager.getInstance().chairNMS.isStair(block);
+        return ChairManager.getInstance().chairNMS.isStair(this.block);
     }
 
     /**
@@ -47,10 +47,10 @@ public class Chair {
     public @NotNull ChairType getType() {
         if (ChairManager.getInstance() == null) throw new IllegalStateException(ERR_MANAGER_NOT_AVAILABLE);
 
-        if (ChairManager.getInstance().chairNMS.isStair(block))
+        if (ChairManager.getInstance().chairNMS.isStair(this.block))
             return ChairType.STAIR;
 
-        if (ChairManager.getInstance().chairNMS.isSlab(block))
+        if (ChairManager.getInstance().chairNMS.isSlab(this.block))
             return ChairType.SLAB;
 
         return ChairType.CUSTOM;
@@ -79,7 +79,7 @@ public class Chair {
 
     @NotNull
     public Location getPlayerLeavingLocation() {
-        Location loc = playerOriginalLoc.clone();
+        Location loc = this.playerOriginalLoc.clone();
 
         if (Settings.LEAVING_CHAIR_KEEP_HEAD_ROTATION.getValueAsBoolean()) {
             loc.setDirection(this.player.getLocation().getDirection());

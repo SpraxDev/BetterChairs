@@ -35,7 +35,7 @@ class CustomArrow extends EntityTippedArrow implements CustomChairEntity {
         Entity passenger = this.cF().isEmpty() ? null : this.cF().get(0);
 
         if (!(passenger instanceof EntityHuman)) {
-            remove = true;
+            this.remove = true;
             this.getBukkitEntity().remove();
             return;
         }
@@ -61,6 +61,6 @@ class CustomArrow extends EntityTippedArrow implements CustomChairEntity {
     }
 
     private boolean shouldDie() {
-        return remove || this.cF().isEmpty() || !(this.cF().get(0) instanceof EntityHuman);
+        return this.remove || this.cF().isEmpty() || !(this.cF().get(0) instanceof EntityHuman);
     }
 }

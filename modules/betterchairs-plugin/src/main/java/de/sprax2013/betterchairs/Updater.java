@@ -49,10 +49,10 @@ public class Updater implements Listener {
             if (this.timer != null) return;
 
             this.timer = new Timer(true);
-            timer.scheduleAtFixedRate(new TimerTask() {
+            this.timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    if (plugin.isEnabled() && Settings.UPDATER_ENABLED.getValueAsBoolean()) {
+                    if (Updater.this.plugin.isEnabled() && Settings.UPDATER_ENABLED.getValueAsBoolean()) {
                         try {
                             checkForUpdates();
                         } catch (Exception ex) {
@@ -61,7 +61,7 @@ public class Updater implements Listener {
                                             (ex.getMessage() == null ? "!" : ": " + ex.getMessage()));
                         }
                     } else {
-                        timer.cancel();
+                        Updater.this.timer.cancel();
                     }
                 }
             }, 2000, 1000 * 60 * 60 * 3);   // Check every 3h
@@ -89,7 +89,7 @@ public class Updater implements Listener {
         in.close();
 
         String versionStr = versionTxt.toString().split("\n")[0];
-        String currVersion = plugin.getDescription().getVersion();
+        String currVersion = this.plugin.getDescription().getVersion();
 
         if (isNewerVersion(currVersion, versionStr)) {
             this.newerVersion = versionStr;
@@ -104,17 +104,17 @@ public class Updater implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
-        if (newerVersion == null) return;
+        if (this.newerVersion == null) return;
         if (!Settings.UPDATER_ENABLED.getValueAsBoolean()) return;
         if (!Settings.UPDATER_NOTIFY_ON_JOIN.getValueAsBoolean()) return;
-        if (!e.getPlayer().hasPermission(plugin.getName() + ".updater")) return;
+        if (!e.getPlayer().hasPermission(this.plugin.getName() + ".updater")) return;
 
         e.getPlayer().spigot().sendMessage(
                 new ComponentBuilder("[").color(ChatColor.GRAY)
                         .append(BetterChairsPlugin.getInstance().getName()).color(ChatColor.GOLD)
                         .append("] ").color(ChatColor.GRAY)
                         .append("Found a new update v" +
-                                plugin.getDescription().getVersion() + " -> v" + newerVersion).color(ChatColor.YELLOW)
+                                this.plugin.getDescription().getVersion() + " -> v" + this.newerVersion).color(ChatColor.YELLOW)
                         .append(" [SpigotMC] ")
                         .color(ChatColor.GREEN)
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SPIGOT_MC_URL))
@@ -129,15 +129,15 @@ public class Updater implements Listener {
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on GitHub")))
                         .append("[Changelog]")
                         .color(ChatColor.DARK_GREEN)
-                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, getChangelogUrl(newerVersion)))
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, getChangelogUrl(this.newerVersion)))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§aClick to see the Changelogs at GitHub.com")))
                         .create());
     }
 
     @EventHandler
     private void onPluginDisable(PluginDisableEvent e) {
-        if (e.getPlugin() == plugin) {
-            timer.cancel();
+        if (e.getPlugin() == this.plugin) {
+            this.timer.cancel();
         }
     }
 
