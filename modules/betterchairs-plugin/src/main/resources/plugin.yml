@@ -30,7 +30,7 @@ permissions:
   ${pluginName}.regeneration:
     description: Grants regeneration to a player when sitting
   ${pluginName}.updater:
-    descritpion: Notifies players about updates when joining the server
+    description: Notifies players about updates when joining the server
   ${pluginName}.cmd.toggle:
     description: Allows individual players to disabled chairs for them
     default: true
