@@ -10,6 +10,17 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.5.4
+_2023-01-03_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.3...v1.5.4)
+
+### Added
+* Minecraft 1.19.3 support
+* New configuration option to allow seat-switching while sitting
+  * It is disabled by default
+### Changed
+* Fixes updater permission description not being declared correctly
+
+
 ## Version 1.5.3
 _2022-08-24_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.2...v1.5.3)
 
