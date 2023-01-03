@@ -82,10 +82,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Extract version from the pom.xml and compare to docs/version.txt
         id: version_diff  # Outputs 'same' or 'diff'
-        run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "##[set-output name=result;]same" || echo "##[set-output name=result;]diff"
+        run: mkdir -p docs && echo $(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }') >> docs/version_new.txt && diff -q --ignore-space-change --strip-trailing-cr --ignore-blank-lines docs/version.txt docs/version_new.txt 2>&1 && echo "result=same" >> $GITHUB_OUTPUT || echo "result=diff" >> $GITHUB_OUTPUT
 
       - name: Check if extracted version matches docs/version.txt
-        if: ${{ steps.version_diff.outputs.result == 'diff' }}
+        if: ${{ steps.version_diff.outputs.result != 'same' }}
         uses: unsplash/comment-on-pr@master
         with:
           msg: "Versions in `pom.xml` and `docs/version.txt` are not the same! Please use the same version in both files."
@@ -95,10 +95,10 @@ jobs:
 
       - name: Check if version from docs/version.txt is inside CHANGELOG.md
         id: inside_changelog  # Outputs 'yes' or 'no'
-        run: verTxt=$(cat docs/version.txt) && grep -q "## Version ${verTxt}" CHANGELOG.md && echo "##[set-output name=result;]yes" || echo "##[set-output name=result;]no"
+        run: verTxt=$(cat docs/version.txt) && grep -q "## Version ${verTxt}" CHANGELOG.md && echo "result=yes" >> $GITHUB_OUTPUT || echo "result=no" >> $GITHUB_OUTPUT
 
       - name: Check if extracted version matches docs/version.txt
-        if: ${{ steps.inside_changelog.outputs.result == 'no' }}
+        if: ${{ steps.inside_changelog.outputs.result != 'yes' }}
         uses: unsplash/comment-on-pr@master
         with:
           msg: "`CHANGELOG.md` is missing changes for version in `docs/version.txt`!"
@@ -107,9 +107,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fail Action when versions (from above) are not the same
-        if: ${{ steps.version_diff.outputs.result == 'diff' }}
+        if: ${{ steps.version_diff.outputs.result != 'same' }}
         run: echo "The versions inside pom.xml and docs/version.txt are not the same!" && exit -1
 
       - name: Fail Action when docs/version.txt not inside CHANGELOG.md
-        if: ${{ steps.inside_changelog.outputs.result == 'no' }}
+        if: ${{ steps.inside_changelog.outputs.result != 'yes' }}
         run: echo "CHANGELOG.md is missing changes for version in docs/version.txt!" && exit -1
