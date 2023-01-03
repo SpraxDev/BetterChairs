@@ -31,7 +31,6 @@ public class Chair {
      * <s>Currently only Stairs and Slabs may be used for chairs.</s>
      *
      * @return true if the chair's block is a stair, false otherwise
-     *
      * @see #getType()
      * @deprecated Since v1.1.0 Chairs may be any block and not just stairs and slabs
      */
@@ -43,9 +42,7 @@ public class Chair {
     }
 
     /**
-     * This method checks if it is a stair or slab block.<br>
-     *
-     * @return true if the chair's block is a stair, false otherwise
+     * This method checks if it is a stair, slab or different block.
      */
     public @NotNull ChairType getType() {
         if (ChairManager.getInstance() == null) throw new IllegalStateException(ERR_MANAGER_NOT_AVAILABLE);

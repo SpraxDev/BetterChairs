@@ -16,7 +16,7 @@ import java.util.Objects;
 
 /**
  * Between Minecraft 1.19 and 1.19.1 the mappings changed but not the NMS version.
- *
+ * <br>
  * This is a compatibility class that doesn't fully comfort to {@link de.sprax2013.betterchairs.ChairNMS}
  * and is used by the implementation for v1_19_R1
  */

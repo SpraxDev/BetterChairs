@@ -73,7 +73,7 @@ public class ChairUtils {
     /**
      * This method checks {@link Directional#getFacing()} (legacy API in the current Bukkit api) and
      * inverts it to show the Block's rotation.
-     *
+     * <br>
      * <b>If the block is not facing to {@code NORTH}, {@code SOUTH}, {@code EAST} or {@code WEST},
      * the value is returned without inverting it</b>
      *

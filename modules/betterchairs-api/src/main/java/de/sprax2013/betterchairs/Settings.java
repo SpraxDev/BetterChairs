@@ -129,7 +129,7 @@ public class Settings {
             "Filter.Worlds.UseAsBlacklist", false,
             "Should be the list below be used as blacklist or whitelist?");
     public static final ConfigEntry WORLD_FILTER_NAMES = config.createEntry(
-                    "Filter.Worlds.Names", new String[] {"worldname", "worldname2"},
+                    "Filter.Worlds.Names", new String[]{"worldname", "worldname2"},
                     "List of all enabled/disabled worlds")
             .setLegacyKey(0, "Disable world", value -> {
                 if (value instanceof List) {
@@ -158,7 +158,7 @@ public class Settings {
             "Filter.Blocks.UseAsBlacklist", false,
             "Should be the list below be used as blacklist or whitelist?");
     public static final ConfigEntry MATERIAL_FILTER_NAMES = config.createEntry(
-            "Filter.Blocks.Names", new String[] {"blockname", "blockname2"},
+            "Filter.Blocks.Names", new String[]{"blockname", "blockname2"},
             "List of all enabled/disabled block types\n\n" +
                     "The names from Minecraft do not always work\n" +
                     "Full list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");

@@ -86,7 +86,6 @@ public class ChairManager {
      *
      * @param player The player that should sit
      * @param block  The block the player should sit on
-     *
      * @return true if player is now sitting on a chair, false otherwise
      */
     public boolean create(Player player, Block block, double yOffset) {
@@ -143,7 +142,6 @@ public class ChairManager {
      * @param chair          The {@link Chair} that should be destroyed
      * @param teleportPlayer true, when called without an {@link org.bukkit.event.player.PlayerTeleportEvent}
      *                       being fired afterwards (e.g. {@link org.spigotmc.event.entity.EntityDismountEvent} does)
-     *
      * @see #destroy(Chair, boolean, boolean)
      */
     public void destroy(Chair chair, boolean teleportPlayer) {
@@ -198,7 +196,6 @@ public class ChairManager {
 
     /**
      * @param b The block to check
-     *
      * @return true if a player is sitting on it, false otherwise
      */
     public boolean isOccupied(@NotNull Block b) {
@@ -257,7 +254,6 @@ public class ChairManager {
      * This may return true for Entities not yet spawned and thus not yet a {@link Chair} that is ready
      *
      * @param entity The {@link Entity} to check
-     *
      * @return true if the {@link Entity} is used or may be used as {@link Chair}
      */
     public boolean isChair(@NotNull Entity entity) {

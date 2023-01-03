@@ -143,7 +143,7 @@ public class Updater implements Listener {
 
     /**
      * Check if {@code ver1} is newer that {@code ver2}.<br>
-     * Expects SemVer (https://semver.org/)
+     * Expects <a href="https://semver.org/">SemVer</a>
      *
      * @return true, if {@code ver1} is newer than {@code ver2}, false otherwise
      */

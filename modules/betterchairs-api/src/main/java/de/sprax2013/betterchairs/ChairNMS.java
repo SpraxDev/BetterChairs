@@ -36,9 +36,7 @@ public abstract class ChairNMS {
      * @param loc                   The location for the Chair-Entity
      * @param regenerationAmplifier The amplifier for the regeneration effect
      * @param useArmorStand         Whether an ArmorStand should be used as Entity
-     *
      * @return The created Entity to be used for a Chair
-     *
      * @see #getRegenerationAmplifier(Player)
      * @see ChairUtils#applyChairProtections(Entity)
      */
@@ -47,7 +45,6 @@ public abstract class ChairNMS {
 
     /**
      * @param entity The {@link Entity} that should be deleted
-     *
      * @throws IllegalArgumentException if {@code entity} is not an instance of the custom Entity
      */
     public abstract void killChairEntity(@NotNull Entity entity);
@@ -61,7 +58,6 @@ public abstract class ChairNMS {
 
     /**
      * @param block The {@link Block} to check
-     *
      * @return true if the block is a half slab (not double slab!), false otherwise
      */
     public abstract boolean isSlab(@NotNull Block block);
@@ -76,9 +72,7 @@ public abstract class ChairNMS {
      * This can for example be used to un-cancel an {@link org.bukkit.event.entity.EntitySpawnEvent}
      *
      * @param entity {@link Entity} to check
-     *
      * @return true if Entity is or will be used as Chair, false otherwise
-     *
      * @see ChairManager#isChair(Entity)
      */
     public abstract boolean isChair(@NotNull Entity entity);
