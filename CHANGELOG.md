@@ -10,6 +10,15 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.5.5
+_2023-01-08_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.4...v1.5.5)
+
+### Changed
+* config.yml and message.yml are now properly read in UTF-8 on all systems
+  * This allows non-english languages to be used properly
+* Updated download links to the Songoda Marketplace to use the new URL
+
+
 ## Version 1.5.4
 _2023-01-03_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.3...v1.5.4)
 
