@@ -53,8 +53,8 @@ It is:
 
 ## Useful Links
 * Download the latest version from [GitHub](https://github.com/SpraxDev/BetterChairs/releases/latest),
-  [Songoda](https://songoda.com/marketplace/product/betterchairs-remastered-by-spraxdev.489),
-  [SpigotMC](https://www.spigotmc.org/resources/betterchairs-remastered.84809/)
+  [Songoda](https://marketplace.songoda.com/marketplace/product/489),
+  [SpigotMC](https://www.spigotmc.org/resources/84809/)
 * [The Wiki](https://github.com/SpraxDev/BetterChairs/wiki) contains the **API Documentation**
 
 [![bStats Graph](https://bstats.org/signatures/bukkit/BetterChairs%20Remastered.svg)](https://bstats.org/plugin/bukkit/BetterChairs%20Remastered/8214)
