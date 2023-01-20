@@ -10,7 +10,7 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
-## v1.5.6
+## Version 1.5.6
 _2023-01-20_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.5...v1.5.6)
 
 ### Changed
