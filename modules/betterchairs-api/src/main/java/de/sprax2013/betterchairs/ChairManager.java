@@ -160,19 +160,20 @@ public class ChairManager {
 
         boolean hasPassenger = chair.chairEntity.getPassenger() != null;
 
-        if (hasPassenger)
+        if (hasPassenger) {
             Bukkit.getPluginManager().callEvent(new PlayerLeaveChairEvent(chair.player, chair));
+        }
 
         this.chairNMS.killChairEntity(chair.chairEntity);
         this.chairs.remove(chair);
 
-        if (hasPassenger && teleportPlayer && Settings.LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getValueAsBoolean()) {
-            Runnable task = () -> chair.player.teleport(chair.getPlayerLeavingLocation());
+        if (hasPassenger && teleportPlayer) {
+            Runnable teleportTask = () -> chair.player.teleport(chair.getPlayerLeavingLocation());
 
             if (sameTickTeleport) {
-                task.run();
+                teleportTask.run();
             } else {
-                Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), task);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), teleportTask);
             }
         }
     }

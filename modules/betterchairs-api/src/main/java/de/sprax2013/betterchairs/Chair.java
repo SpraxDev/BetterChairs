@@ -2,6 +2,7 @@ package de.sprax2013.betterchairs;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -79,7 +80,12 @@ public class Chair {
 
     @NotNull
     public Location getPlayerLeavingLocation() {
-        Location loc = this.playerOriginalLoc.clone();
+        Location loc;
+        if (Settings.LEAVING_CHAIR_TELEPORT_TO_OLD_LOCATION.getValueAsBoolean()) {
+            loc = this.playerOriginalLoc.clone();
+        } else {
+            loc = this.block.getRelative(BlockFace.UP).getLocation().add(0.5, 0, 0.5);
+        }
 
         if (Settings.LEAVING_CHAIR_KEEP_HEAD_ROTATION.getValueAsBoolean()) {
             loc.setDirection(this.player.getLocation().getDirection());
