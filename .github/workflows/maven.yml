@@ -51,7 +51,7 @@ jobs:
       - name: Compile Spigot versions (remapped)
         uses: SpraxDev/Action-SpigotMC@v4
         with:
-          versions: 1.19, 1.19.2, 1.19.3
+          versions: 1.19, 1.19.2, 1.19.3, 1.19.4
           remapped: true
 
       # Compile the project using maven
