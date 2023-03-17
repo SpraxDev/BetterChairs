@@ -10,6 +10,19 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.6.0
+_2023-03-17_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.6...v1.6.0)
+
+### Added
+* Minecraft 1.19.4 support
+### Changed
+* Player no longer fall through the chair block when `TeleportPlayerToOldLocation` is disabled
+### Breaking Changes
+* `Chair#getPlayerLeavingLocation()` now takes `TeleportPlayerToOldLocation` into account
+  and produces a different result when it is disabled
+  * Should *probably* not cause any trouble for other plugins using the API
+
+
 ## Version 1.5.6
 _2023-01-20_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.5.5...v1.5.6)
 
