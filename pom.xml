@@ -14,6 +14,7 @@
         <module>modules/betterchairs-api</module>
         <module>modules/betterchairs-plugin</module>
 
+        <module>modules/nms/betterchairs-v1_20_R1</module>
         <module>modules/nms/betterchairs-v1_19_R3</module>
         <module>modules/nms/betterchairs-v1_19_R2</module>
         <module>modules/nms/betterchairs-v1_19_R1</module>
@@ -99,7 +100,7 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.0.1</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
