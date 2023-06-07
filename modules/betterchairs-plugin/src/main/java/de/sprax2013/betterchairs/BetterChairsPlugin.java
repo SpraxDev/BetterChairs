@@ -36,7 +36,6 @@ public class BetterChairsPlugin extends JavaPlugin {
 
         LimeDevUtilitySpigot.init(this);  // Initialize LimeDevUtility
         MinecraftVersion.getLogger().setLevel(Level.WARNING); // Hide info messages from NBT-API
-        MinecraftVersion.disableUpdateCheck();
 
         ChairNMS chairNMS = getNewNMSInstance();
 
