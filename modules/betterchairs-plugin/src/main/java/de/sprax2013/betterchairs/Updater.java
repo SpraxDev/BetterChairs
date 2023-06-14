@@ -26,7 +26,7 @@ public class Updater implements Listener {
     public static final String VERSION_TXT_URL = "https://spraxdev.github.io/BetterChairs/version.txt";
 
     public static final String SPIGOT_MC_URL = "https://r.spiget.org/84809";
-    public static final String SONGODA_URL = "https://marketplace.songoda.com/marketplace/product/489";
+    public static final String CRAFTARO_URL = "https://craftaro.com/marketplace/product/489";
     public static final String GITHUB_URL = "https://github.com/SpraxDev/BetterChairs/releases";
 
     public static final String CHANGELOG_URL = "https://github.com/SpraxDev/BetterChairs/blob/master/CHANGELOG.md";
@@ -95,8 +95,8 @@ public class Updater implements Listener {
             this.newerVersion = versionStr;
 
             ChairManager.getLogger()
-                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from: %nSpigotMC: %s%nSongoda: %s%nGitHub: %s%n%nChangelog: %s",
-                            currVersion, versionStr, SPIGOT_MC_URL, SONGODA_URL, GITHUB_URL, getChangelogUrl(versionStr)));
+                    .info(() -> String.format("Found a new update v%s -> v%s — Download the update from: %nSpigotMC: %s%nCraftaro: %s%nGitHub: %s%n%nChangelog: %s",
+                            currVersion, versionStr, SPIGOT_MC_URL, CRAFTARO_URL, GITHUB_URL, getChangelogUrl(versionStr)));
         } else {
             this.newerVersion = null;
         }
@@ -119,10 +119,10 @@ public class Updater implements Listener {
                         .color(ChatColor.GREEN)
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SPIGOT_MC_URL))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on SpigotMC")))
-                        .append("[Songoda] ")
+                        .append("[Craftaro] ")
                         .color(ChatColor.GREEN)
-                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, SONGODA_URL))
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on Songoda")))
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, CRAFTARO_URL))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§2Click to visit the download page on Craftaro")))
                         .append("[GitHub] ")
                         .color(ChatColor.GREEN)
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, GITHUB_URL))

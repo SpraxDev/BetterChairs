@@ -53,7 +53,7 @@ It is:
 
 ## Useful Links
 * Download the latest version from [GitHub](https://github.com/SpraxDev/BetterChairs/releases/latest),
-  [Songoda](https://marketplace.songoda.com/marketplace/product/489),
+  [Craftaro](https://craftaro.com/marketplace/product/489),
   [SpigotMC](https://www.spigotmc.org/resources/84809/)
 * [The Wiki](https://github.com/SpraxDev/BetterChairs/wiki) contains the **API Documentation**
 
