@@ -10,6 +10,18 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.7.1
+_2023-09-24_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.0...v1.7.1)
+
+### Added
+* Minecraft 1.20.2 support
+* Fixes sign detection on chairs not working in newer game versions (`NeedsSignsOnBothSides` setting) (#193)
+* Adds more wood variants to sign detection on chairs (`NeedsSignsOnBothSides` setting)
+* Fixes AlreadyOccupied-Message shown when trying to switch to the current seat (`AllowSwitchingSeats` setting) (#180)
+### Changed
+* Updates *Songoda Marketplace* references to *Craftaro*
+
+
 ## Version 1.7.0
 _2023-06-14_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.6.0...v1.7.0)
 
