@@ -24,8 +24,6 @@ import org.bukkit.material.WoodenStep;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.logging.Level;
-
 public class BetterChairsPlugin extends JavaPlugin {
     private static BetterChairsPlugin plugin;
     private static ChairManager chairManager;
@@ -35,7 +33,7 @@ public class BetterChairsPlugin extends JavaPlugin {
         plugin = this;
 
         LimeDevUtilitySpigot.init(this);  // Initialize LimeDevUtility
-        MinecraftVersion.getLogger().setLevel(Level.WARNING); // Hide info messages from NBT-API
+        MinecraftVersion.disableUpdateCheck();
 
         ChairNMS chairNMS = getNewNMSInstance();
 
