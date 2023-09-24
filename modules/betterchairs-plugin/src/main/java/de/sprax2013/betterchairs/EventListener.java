@@ -101,11 +101,13 @@ public class EventListener implements Listener {
         if (e.isCancelled() && !Settings.IGNORES_INTERACT_PREVENTION.getValueAsBoolean()) return;
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
+        Chair chairTheCurrentPlayerIsSittingIn = getManager().getChair(e.getPlayer());
+
         // Check Player
         if (!e.getClickedBlock().getWorld().equals(e.getPlayer().getLocation().getWorld())) return; // Happens sometimes
         if (e.getPlayer().isSneaking()) return;
         if (getManager().hasChairsDisabled(e.getPlayer())) return;
-        if (getManager().getChair(e.getPlayer()) != null && // This also destroys zombie chair on old spigot versions
+        if (chairTheCurrentPlayerIsSittingIn != null && // This also destroys zombie chair on old spigot versions
                 !Settings.ALLOW_SWITCHING_SEATS.getValueAsBoolean()) {
             return;
         }
@@ -158,7 +160,7 @@ public class EventListener implements Listener {
 
         // Check Chair
         if (getManager().isOccupied(e.getClickedBlock())) {
-            if (Settings.MSG_ALREADY_OCCUPIED.getValueAsBoolean()) {
+            if (Settings.MSG_ALREADY_OCCUPIED.getValueAsBoolean() && (chairTheCurrentPlayerIsSittingIn == null || !chairTheCurrentPlayerIsSittingIn.getBlock().equals(e.getClickedBlock()))) {
                 e.getPlayer().sendMessage(Messages.getString(Messages.USE_ALREADY_OCCUPIED));
             }
 
