@@ -175,9 +175,14 @@ public class EventListener implements Listener {
                 return; // No
             }
 
+            // Block rotation changed between versions (both options needed for backwards compatibility)
+            boolean signOption1 = side1 != getManager().chairNMS.getBlockRotation(block1).getOppositeFace() ||
+                    side2 != getManager().chairNMS.getBlockRotation(block2).getOppositeFace();
+            boolean signOption2 = side2 != getManager().chairNMS.getBlockRotation(block1).getOppositeFace() ||
+                    side1 != getManager().chairNMS.getBlockRotation(block2).getOppositeFace();
+
             // Are they attached to the chair?
-            if (side1 != getManager().chairNMS.getBlockRotation(block1).getOppositeFace() ||
-                    side2 != getManager().chairNMS.getBlockRotation(block2).getOppositeFace()) {
+            if (!signOption1 && !signOption2) {
                 if (Settings.MSG_NEEDS_SIGNS.getValueAsBoolean()) {
                     e.getPlayer().sendMessage(Messages.getString(Messages.USE_NEEDS_SIGNS));
                 }
