@@ -30,9 +30,19 @@ import static de.sprax2013.betterchairs.BetterChairsPlugin.getInstance;
 import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 
 public class EventListener implements Listener {
-    private static final List<XMaterial> WALL_SIGN_MATERIALS = Arrays.asList(XMaterial.ACACIA_WALL_SIGN,
-            XMaterial.BIRCH_WALL_SIGN, XMaterial.DARK_OAK_WALL_SIGN, XMaterial.JUNGLE_WALL_SIGN,
-            XMaterial.OAK_WALL_SIGN, XMaterial.SPRUCE_WALL_SIGN);
+    private static final List<XMaterial> WALL_SIGN_MATERIALS = Arrays.asList(
+            XMaterial.ACACIA_WALL_SIGN,
+            XMaterial.BAMBOO_WALL_SIGN,
+            XMaterial.BIRCH_WALL_SIGN,
+            XMaterial.CHERRY_WALL_SIGN,
+            XMaterial.CRIMSON_WALL_SIGN,
+            XMaterial.DARK_OAK_WALL_SIGN,
+            XMaterial.JUNGLE_WALL_SIGN,
+            XMaterial.MANGROVE_WALL_SIGN,
+            XMaterial.OAK_WALL_SIGN,
+            XMaterial.SPRUCE_WALL_SIGN,
+            XMaterial.WARPED_WALL_SIGN
+    );
 
     private List<Material> filteredMaterials;
 
