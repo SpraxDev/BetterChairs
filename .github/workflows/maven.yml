@@ -17,6 +17,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Configure maven's settings.xml (mirrors, deployment credentials)
+        uses: whelk-io/maven-settings-xml-action@v21
+        with:
+          mirrors: >
+            [
+              {
+                "id": "Central-mirror",
+                "name": "Central-Repository [Mirror]",
+                "url": "https://repo.sprax2013.de/repository/central/",
+                "mirrorOf": "central"
+              },
+              {
+                "id": "SpigotMC-mirror",
+                "name": "SpigotMC-Repository [Mirror]",
+                "url": "https://repo.sprax2013.de/repository/SpigotMC-Snapshots/",
+                "mirrorOf": "SpigotMC,SpigotMC-repo,spigotmc,spigotmc-repo,spigot-repo,spigotmc-snapshots,spigotmc-public"
+              }
+            ]
+
       # Use Java 8 to compile old Spigot version
       - uses: actions/setup-java@v4
         with:
