@@ -10,6 +10,13 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Unreleased
+_yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.1...curr-tag-name)
+
+### Added
+* [Hangar](https://hangar.papermc.io/Sprax/BetterChairs) and [modrinth](https://modrinth.com/plugin/betterchairs) plugin pages to the update message (+ `README.md`)
+
+
 ## Version 1.7.1
 _2023-09-24_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.0...v1.7.1)
 
