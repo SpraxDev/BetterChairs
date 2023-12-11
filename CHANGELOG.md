@@ -14,6 +14,7 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.1...curr-tag-name)
 
 ### Added
+* Minecraft 1.20.3 / 1.20.4 support
 * [Hangar](https://hangar.papermc.io/Sprax/BetterChairs) and [modrinth](https://modrinth.com/plugin/betterchairs) plugin pages to the update message (+ `README.md`)
 
 
