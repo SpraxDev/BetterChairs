@@ -10,12 +10,12 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
-## Unreleased
-_yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.1...curr-tag-name)
+## Version 1.7.2
+_2023-12-28_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.1...v1.7.2)
 
 ### Added
 * Minecraft 1.20.3 / 1.20.4 support
-* [Hangar](https://hangar.papermc.io/Sprax/BetterChairs) and [modrinth](https://modrinth.com/plugin/betterchairs) plugin pages to the update message (+ `README.md`)
+* [modrinth](https://modrinth.com/plugin/betterchairs) and [Hangar](https://hangar.papermc.io/Sprax/BetterChairs) plugin pages to the update message (+ `README.md`)
 
 
 ## Version 1.7.1
