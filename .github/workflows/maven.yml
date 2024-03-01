@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Configure maven's settings.xml (mirrors, deployment credentials)
-        uses: whelk-io/maven-settings-xml-action@v21
+        uses: whelk-io/maven-settings-xml-action@v22
         with:
           mirrors: >
             [
