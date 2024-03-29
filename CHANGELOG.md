@@ -10,6 +10,16 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.7.3
+_2024-03-29_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.2...v1.7.3)
+
+### Added
+* Support for Paper 1.20 builds without CraftBukkit relocation
+  * Preparations for [announced](https://forums.papermc.io/threads/important-dev-psa-future-removal-of-cb-package-relocation.1106/) internal Paper changes
+### Changed
+* Remove *Craftaro Marketplace* references from the Updater etc.
+
+
 ## Version 1.7.2
 _2023-12-28_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.1...v1.7.2)
 
