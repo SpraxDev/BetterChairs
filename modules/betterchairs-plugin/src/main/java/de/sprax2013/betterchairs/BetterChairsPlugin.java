@@ -1,6 +1,7 @@
 package de.sprax2013.betterchairs;
 
 import de.sprax2013.lime.spigot.LimeDevUtilitySpigot;
+import de.sprax2013.lime.spigot.nms.NmsVersionDetector;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -69,8 +70,7 @@ public class BetterChairsPlugin extends JavaPlugin {
             Metrics bStats = new Metrics(this, 8214);
 
             // Custom chart: NMS Version
-            String nmsVersion = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-
+            String nmsVersion = NmsVersionDetector.detect().orElse(Bukkit.getServer().getBukkitVersion());
             bStats.addCustomChart(new SimplePie("nms_version", () -> nmsVersion));
         } catch (Exception ex) {
             // Does not work on Spigot 1.8.0 (gson is missing)
@@ -103,9 +103,10 @@ public class BetterChairsPlugin extends JavaPlugin {
      */
     @NotNull
     private ChairNMS getNewNMSInstance() {
-        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+        String version = NmsVersionDetector.detect().orElse(null);
 
         try {
+            assert version != null;
             return (ChairNMS) Class.forName("betterchairs.nms." + version + "." + version).getConstructors()[0].newInstance();
         } catch (Exception ignore) {
             getLogger().warning("Your server version (" + version + ") is not fully supported - Loading fallback...");
