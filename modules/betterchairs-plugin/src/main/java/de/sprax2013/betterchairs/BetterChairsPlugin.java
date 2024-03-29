@@ -89,10 +89,10 @@ public class BetterChairsPlugin extends JavaPlugin {
             for (Player online : Bukkit.getOnlinePlayers()) {
                 getManager().onQuit(online.getUniqueId());
             }
-        }
 
-        Settings.reset();
-        Messages.reset();
+            Settings.reset();
+            Messages.reset();
+        }
 
         chairManager = null;
         ChairManager.instance = null;
