@@ -57,7 +57,7 @@ jobs:
         with:
           versions: 1.17
 
-      # Use Java 17 for everything else
+      # Use Java 17 for Spigot 1.18 – 1.20.4
       - uses: actions/setup-java@v4
         with:
           java-version: 17
@@ -71,6 +71,18 @@ jobs:
         uses: SpraxDev/Action-SpigotMC@v5
         with:
           versions: 1.19, 1.19.2, 1.19.3, 1.19.4, 1.20.1, 1.20.2, 1.20.4
+          remapped: true
+
+      # Use Java 21 for everything else
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - name: Compile Spigot versions (remapped)
+        uses: SpraxDev/Action-SpigotMC@v5
+        with:
+          versions: 1.20.5
           remapped: true
 
       # Compile the project using maven
