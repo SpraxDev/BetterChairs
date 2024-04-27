@@ -7,8 +7,6 @@ import de.sprax2013.betterchairs.CustomChairEntity;
 import de.sprax2013.betterchairs.Messages;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.item.ItemStack;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
