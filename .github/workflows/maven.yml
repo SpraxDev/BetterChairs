@@ -98,7 +98,7 @@ jobs:
       - name: Compile Spigot versions (remapped)
         uses: SpraxDev/Action-SpigotMC@feat/sftp-cache
         with:
-          versions: 1.20.5
+          versions: 1.20.6
           remapped: true
           sftpCacheHost: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST }}
           sftpCachePort: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PORT }}
