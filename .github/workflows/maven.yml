@@ -41,6 +41,7 @@ jobs:
         with:
           java-version: 8
           distribution: temurin
+          overwrite-settings: false
           cache: maven
       - name: Compile Spigot 1.8 - 1.16.5
         uses: SpraxDev/Action-SpigotMC@feat/sftp-cache
@@ -56,10 +57,11 @@ jobs:
         with:
           java-version: 16
           distribution: temurin
+          overwrite-settings: false
       - name: Compile Spigot 1.17
         uses: SpraxDev/Action-SpigotMC@feat/sftp-cache
         with:
-          versions: 1.17
+          versions: '1.17'
           sftpCacheHost: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST }}
           sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
@@ -70,6 +72,7 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+          overwrite-settings: false
 
       - name: Compile Spigot versions
         uses: SpraxDev/Action-SpigotMC@feat/sftp-cache
@@ -94,6 +97,7 @@ jobs:
         with:
           java-version: 21
           distribution: temurin
+          overwrite-settings: false
 
       - name: Compile Spigot versions (remapped)
         uses: SpraxDev/Action-SpigotMC@feat/sftp-cache
