@@ -23,16 +23,34 @@ jobs:
           mirrors: >
             [
               {
+                "id": "Sonatype-Nexus-Snapshots-mirror",
+                "name": "Sonatype-Nexus-Snapshots-Repository [Mirror]",
+                "url": "https://repo.sprax2013.de/repository/sonatype-nexus-snapshots/",
+                "mirrorOf": "sonatype-nexus-snapshots"
+              },
+              {
                 "id": "Central-mirror",
                 "name": "Central-Repository [Mirror]",
                 "url": "https://repo.sprax2013.de/repository/central/",
                 "mirrorOf": "central"
               },
               {
-                "id": "SpigotMC-mirror",
-                "name": "SpigotMC-Repository [Mirror]",
+                "id": "SpigotMC-Snapshots-mirror",
+                "name": "SpigotMC-Snapshots-Repository [Mirror]",
                 "url": "https://repo.sprax2013.de/repository/SpigotMC-Snapshots/",
-                "mirrorOf": "SpigotMC,SpigotMC-repo,spigotmc,spigotmc-repo,spigot-repo,spigotmc-snapshots,spigotmc-public"
+                "mirrorOf": "SpigotMC,SpigotMC-repo,spigotmc,spigotmc-repo,spigot-repo,spigotmc-snapshots"
+              },
+              {
+                "id": "SpigotMC-Releases-mirror",
+                "name": "SpigotMC-Releases-Repository [Mirror]",
+                "url": "https://repo.sprax2013.de/repository/SpigotMC-Releases/",
+                "mirrorOf": "spigotmc-releases"
+              },
+              {
+                "id": "Minecraft-Libraries-mirror",
+                "name": "Minecraft-Libraries-Repository [Mirror]",
+                "url": "https://repo.sprax2013.de/repository/Minecraft-Libraries/",
+                "mirrorOf": "minecraft-libraries"
               }
             ]
 
