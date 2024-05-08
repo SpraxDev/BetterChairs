@@ -47,7 +47,7 @@ jobs:
         with:
           versions: 1.8, 1.8.3, 1.8.8, 1.9.2, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13, 1.13.2, 1.14.4, 1.15.2, 1.16.1, 1.16.3, 1.16.5
           sftpCacheHost: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST }}
-          sftpCachePort: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PORT }}
+          sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
 
@@ -61,7 +61,7 @@ jobs:
         with:
           versions: 1.17
           sftpCacheHost: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST }}
-          sftpCachePort: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PORT }}
+          sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
 
@@ -76,7 +76,7 @@ jobs:
         with:
           versions: 1.18.1, 1.18.2
           sftpCacheHost: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST }}
-          sftpCachePort: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PORT }}
+          sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
       - name: Compile Spigot versions (remapped)
@@ -85,7 +85,7 @@ jobs:
           versions: 1.19, 1.19.2, 1.19.3, 1.19.4, 1.20.1, 1.20.2, 1.20.4
           remapped: true
           sftpCacheHost: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST }}
-          sftpCachePort: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PORT }}
+          sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
 
@@ -101,7 +101,7 @@ jobs:
           versions: 1.20.6
           remapped: true
           sftpCacheHost: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST }}
-          sftpCachePort: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PORT }}
+          sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
 
