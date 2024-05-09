@@ -69,6 +69,7 @@ jobs:
           sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
+          sftpCacheExpectedHostKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST_KEY }}
 
       # Use Java 16 for Spigot 1.17
       - uses: actions/setup-java@v4
@@ -84,6 +85,7 @@ jobs:
           sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
+          sftpCacheExpectedHostKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST_KEY }}
 
       # Use Java 17 for Spigot 1.18 – 1.20.4
       - uses: actions/setup-java@v4
@@ -100,6 +102,7 @@ jobs:
           sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
+          sftpCacheExpectedHostKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST_KEY }}
       - name: Compile Spigot versions (remapped)
         uses: SpraxDev/Action-SpigotMC@feat/sftp-cache
         with:
@@ -109,6 +112,7 @@ jobs:
           sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
+          sftpCacheExpectedHostKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST_KEY }}
 
       # Use Java 21 for everything else
       - uses: actions/setup-java@v4
@@ -126,6 +130,7 @@ jobs:
           sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}
           sftpCacheUser: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_USER }}
           sftpCachePrivateKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_PRIVATE_KEY }}
+          sftpCacheExpectedHostKey: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST_KEY }}
 
       # Compile the project using maven
       - name: Build with Maven
