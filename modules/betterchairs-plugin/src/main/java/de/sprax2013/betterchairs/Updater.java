@@ -30,7 +30,7 @@ public class Updater implements Listener {
     public static final String SPIGOT_MC_URL = "https://r.spiget.org/84809";
     public static final String GITHUB_URL = "https://github.com/SpraxDev/BetterChairs/releases";
 
-    public static final String CHANGELOG_URL = "https://github.com/SpraxDev/BetterChairs/blob/master/CHANGELOG.md";
+    public static final String CHANGELOG_URL = "https://github.com/SpraxDev/BetterChairs/blob/main/CHANGELOG.md";
 
     private final JavaPlugin plugin;
 
