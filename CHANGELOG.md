@@ -10,6 +10,13 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.8.0
+_2024-05-09_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.3...v1.8.0)
+
+### Added
+* Support for Paper and Spigot 1.20.6 (and 1.20.5)
+
+
 ## Version 1.7.3
 _2024-03-29_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.2...v1.7.3)
 
