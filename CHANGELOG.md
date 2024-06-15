@@ -10,6 +10,13 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.9.0
+_2024-06-15_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.8.0...v1.9.0)
+
+### Added
+* Support for Spigot 1.21
+
+
 ## Version 1.8.0
 _2024-05-09_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.7.3...v1.8.0)
 
