@@ -110,7 +110,7 @@ jobs:
           distribution: temurin
           overwrite-settings: false
 
-      - name: Compile Spigot versions (1.20.6)
+      - name: Compile Spigot versions (1.20.6 – 1.21)
         uses: SpraxDev/Action-SpigotMC@v5
         with:
           versions: 1.20.6, 1.21
