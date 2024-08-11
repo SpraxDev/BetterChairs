@@ -110,10 +110,10 @@ jobs:
           distribution: temurin
           overwrite-settings: false
 
-      - name: Compile Spigot versions (1.20.6 – 1.21)
+      - name: Compile Spigot versions (1.20.6 – 1.21.1)
         uses: SpraxDev/Action-SpigotMC@v5
         with:
-          versions: 1.20.6, 1.21
+          versions: 1.20.6, 1.21.1
           remapped: true
           sftpCacheHost: ${{ secrets.SPIGOT_BUILDTOOLS_SFTP_HOST }}
           sftpCachePort: ${{ vars.SPIGOT_BUILDTOOLS_SFTP_PORT }}

@@ -13,7 +13,7 @@
     <artifactId>betterchairs-v1_21_R1</artifactId>
 
     <properties>
-        <nms.ver>1.21-R0.1-SNAPSHOT</nms.ver>
+        <nms.ver>1.21.1-R0.1-SNAPSHOT</nms.ver>
     </properties>
 
     <build>
