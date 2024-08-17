@@ -117,15 +117,7 @@ public class ChairUtils {
 
         XMaterial blockType = XMaterial.matchXMaterial(block.getType());
 
-        if (blockType == XMaterial.ACACIA_TRAPDOOR ||
-                blockType == XMaterial.BIRCH_TRAPDOOR ||
-                blockType == XMaterial.CRIMSON_TRAPDOOR ||
-                blockType == XMaterial.DARK_OAK_TRAPDOOR ||
-                blockType == XMaterial.IRON_TRAPDOOR ||
-                blockType == XMaterial.JUNGLE_TRAPDOOR ||
-                blockType == XMaterial.OAK_TRAPDOOR ||
-                blockType == XMaterial.SPRUCE_TRAPDOOR ||
-                blockType == XMaterial.WARPED_TRAPDOOR) {
+        if (blockType.name().endsWith("_TRAPDOOR")) {
             yOffset = -0.125;
         }
 
