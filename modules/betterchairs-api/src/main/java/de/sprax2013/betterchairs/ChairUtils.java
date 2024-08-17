@@ -118,7 +118,7 @@ public class ChairUtils {
         XMaterial blockType = XMaterial.matchXMaterial(block.getType());
 
         if (blockType.name().endsWith("_TRAPDOOR")) {
-            yOffset = -0.125;
+            yOffset = -0.25;
         }
 
         return -1.2 + yOffset + (sitsOnArmorStand ? 0 : 1);
