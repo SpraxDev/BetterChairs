@@ -10,6 +10,20 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.11.0
+_2024-08-17_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.10.0...v1.11.0)
+
+### Added
+* Add an option to make right-clicking on chairs opt in by default (#203)
+  * When enabled, players need to toggle/enable chairs for themselves using `/toggleChairs`, `/bct` or `/BetterChairs toggle`
+  * By default, this option is disabled and players can just right-click on chairs (as it has been the case before)
+
+### Changed
+* Correct sitting height for Minecraft 1.20 and 1.21 (#204)
+* Correct sitting height for trapdoors (you now sit a bit lower than before)
+* Detect all current trapdoor variations when applying a specific sitting height for them
+
+
 ## Version 1.10.0
 _2024-08-11_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.9.1...v1.10.0)
 
