@@ -60,6 +60,10 @@ public class Settings {
             "Enable this if you want players to be able to sit on chairs\n" +
                     "while other plugins (like WorldGuard or PlotSquared) are not\n" +
                     "allowing interactions/use with the chair blocks.");
+    public static final ConfigEntry HAVE_CHAIRS_DISABLED_FOR_PLAYER_BY_DEFAULT = config.createEntry(
+            "Chairs.HaveChairsDisabledForPlayerByDefault", false,
+            "This requires players to use /toggleChairs or /BetterChairs toggle\n" +
+                    "before they can right-click on chair blocks.");
     public static final ConfigEntry REMEMBER_IF_PLAYER_DISABLED_CHAIRS = config.createEntry(
                     "Chairs.RememberIfPlayerDisabledChairsAfterRelogin", true,
                     "Enable this if you want BetterChairs to remember a player who used /bc <toggle|on|off> after a plugin reload or him rejoining")

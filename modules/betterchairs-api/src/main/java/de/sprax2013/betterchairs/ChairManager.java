@@ -270,6 +270,9 @@ public class ChairManager {
 
         if (value == null) {
             value = Settings.REMEMBER_IF_PLAYER_DISABLED_CHAIRS.getValueAsBoolean() && new File(this.disabledForDir, uuid.toString()).exists();
+            if (!value) {
+                value = Settings.HAVE_CHAIRS_DISABLED_FOR_PLAYER_BY_DEFAULT.getValueAsBoolean();
+            }
 
             if (Bukkit.getPlayer(uuid).isOnline()) {
                 this.disabled.put(uuid, value);
