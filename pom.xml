@@ -56,7 +56,7 @@
 
         <!-- Used for static code analysis on https://sonarcloud.io/dashboard?id=SpraxDev_BetterChairs -->
         <sonar.projectKey>SpraxDev_BetterChairs</sonar.projectKey>
-        <sonar.organization>sprax2013</sonar.organization>
+        <sonar.organization>spraxdev</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
     </properties>
