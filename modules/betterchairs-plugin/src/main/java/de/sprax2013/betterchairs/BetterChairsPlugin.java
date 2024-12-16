@@ -112,7 +112,7 @@ public class BetterChairsPlugin extends JavaPlugin {
             assert version != null;
             return (ChairNMS) Class.forName("betterchairs.nms." + version + "." + version).getConstructors()[0].newInstance();
         } catch (Exception ignore) {
-            getLogger().warning("Your server version (" + version + ") is not fully supported - Loading fallback...");
+            getLogger().warning("Your server version (" + (version != null ? version : "UNKNOWN") + ") is not fully supported - Loading fallback...");
 
             // Loading fallback when NMS not available
             return new ChairNMS() {
