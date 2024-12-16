@@ -52,22 +52,26 @@ public class ChairUtils {
             ((LivingEntity) entity).setRemoveWhenFarAway(true);
         }
 
-        NBT.modify(entity, nbt -> {
-            try {
-                nbt.setBoolean("Invulnerable", true);
-                nbt.setInteger("Silent", 1);
+        try {
+            NBT.modify(entity, nbt -> {
+                try {
+                    nbt.setBoolean("Invulnerable", true);
+                    nbt.setInteger("Silent", 1);
 
-                if (entity instanceof ArmorStand) {
-                    nbt.setInteger("DisabledSlots", 0b11111);
-                }
+                    if (entity instanceof ArmorStand) {
+                        nbt.setInteger("DisabledSlots", 0b11111);
+                    }
 
-                if (entity instanceof Projectile) {
-                    nbt.setBoolean("NoGravity", true);
+                    if (entity instanceof Projectile) {
+                        nbt.setBoolean("NoGravity", true);
+                    }
+                } catch (Throwable ex) {
+                    ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getClass().getSimpleName() + ": " + ex.getMessage() + ")!");
                 }
-            } catch (Throwable ex) {
-                ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getClass().getSimpleName() + ": " + ex.getMessage() + ")!");
-            }
-        });
+            });
+        } catch (Throwable ex) {
+            ChairManager.getLogger().warning("Could not apply chair modifications (" + ex.getClass().getSimpleName() + ": " + ex.getMessage() + ")!");
+        }
     }
 
     /**
