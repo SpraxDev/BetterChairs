@@ -14,6 +14,7 @@
         <module>modules/betterchairs-api</module>
         <module>modules/betterchairs-plugin</module>
 
+        <module>modules/nms/betterchairs-v1_21_R5</module>
         <module>modules/nms/betterchairs-v1_21_R4</module>
         <module>modules/nms/betterchairs-v1_21_R3</module>
         <module>modules/nms/betterchairs-v1_21_R2</module>

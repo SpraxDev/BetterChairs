@@ -98,7 +98,7 @@ jobs:
       - name: Compile Spigot versions (1.20.6 – 1.21.3)
         uses: SpraxDev/Action-SpigotMC@v5
         with:
-          versions: 1.20.6, 1.21.1, 1.21.3, 1.21.4, 1.21.5
+          versions: 1.20.6, 1.21.1, 1.21.3, 1.21.4, 1.21.5, 1.21.7
           remapped: true
 
       # Compile the project using maven
