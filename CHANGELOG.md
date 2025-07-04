@@ -10,6 +10,13 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.15.0
+_2025-03-31_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.14.0...v1.15.0)
+
+### Added
+* Support for Minecraft 1.21.7 (and 1.21.6)
+
+
 ## Version 1.14.0
 _2025-03-31_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.13.0...v1.14.0)
 
