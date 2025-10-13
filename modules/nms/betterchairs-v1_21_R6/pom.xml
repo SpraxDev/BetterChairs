@@ -10,10 +10,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>betterchairs-v1_21_R5</artifactId>
+    <artifactId>betterchairs-v1_21_R6</artifactId>
 
     <properties>
-        <nms.ver>1.21.8-R0.1-SNAPSHOT</nms.ver>
+        <nms.ver>1.21.10-R0.1-SNAPSHOT</nms.ver>
     </properties>
 
     <build>
@@ -21,7 +21,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.1</version>
+                <version>3.14.0</version>
 
                 <configuration>
                     <source>21</source>

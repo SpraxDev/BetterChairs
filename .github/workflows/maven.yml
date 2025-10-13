@@ -95,10 +95,10 @@ jobs:
           distribution: temurin
           overwrite-settings: false
 
-      - name: Compile Spigot versions (1.20.6 – 1.21.3)
+      - name: Compile Spigot versions (1.20.6 – 1.21.10)
         uses: SpraxDev/Action-SpigotMC@v5
         with:
-          versions: 1.20.6, 1.21.1, 1.21.3, 1.21.4, 1.21.5, 1.21.7
+          versions: 1.20.6, 1.21.1, 1.21.3, 1.21.4, 1.21.5, 1.21.8, 1.21.10
           remapped: true
 
       # Compile the project using maven
