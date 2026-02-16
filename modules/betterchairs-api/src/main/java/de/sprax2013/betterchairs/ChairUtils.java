@@ -1,6 +1,5 @@
 package de.sprax2013.betterchairs;
 
-import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBT;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -115,16 +114,4 @@ public class ChairUtils {
         }
     }
 
-    public static double getSitOffset(Block block, boolean sitsOnArmorStand, ChairNMS chairNMS) {
-        double yOffset = (!chairNMS.isStair(block) && !chairNMS.isSlab(block)) ||
-                (chairNMS.isSlab(block) && chairNMS.isSlabTop(block)) ? 0.5 : 0;
-
-        XMaterial blockType = XMaterial.matchXMaterial(block.getType());
-
-        if (blockType.name().endsWith("_TRAPDOOR")) {
-            yOffset = -0.25;
-        }
-
-        return -1.2 + yOffset + (sitsOnArmorStand ? 0 : 1);
-    }
 }

@@ -75,7 +75,7 @@ public class ChairManager {
      * @see #create(Player, Block, double)
      */
     public boolean create(Player player, Block block) {
-        return create(player, block, ChairUtils.getSitOffset(block, !Settings.SIT_ON_ARROWS.getValueAsBoolean(), this.chairNMS));
+        return create(player, block, chairNMS.getOffsetDetector().getSitOffset(block, !Settings.SIT_ON_ARROWS.getValueAsBoolean()));
     }
 
     /**

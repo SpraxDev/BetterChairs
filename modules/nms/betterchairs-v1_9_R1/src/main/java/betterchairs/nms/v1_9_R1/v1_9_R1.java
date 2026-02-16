@@ -2,6 +2,8 @@ package betterchairs.nms.v1_9_R1;
 
 import de.sprax2013.betterchairs.ChairManager;
 import de.sprax2013.betterchairs.ChairNMS;
+import de.sprax2013.betterchairs.LegacyOffsetDetector;
+import de.sprax2013.betterchairs.OffsetDetector;
 import de.sprax2013.betterchairs.ChairUtils;
 import de.sprax2013.betterchairs.CustomChairEntity;
 import de.sprax2013.betterchairs.Messages;
@@ -99,5 +101,10 @@ public class v1_9_R1 extends ChairNMS {
     @Override
     public boolean isChair(@NotNull org.bukkit.entity.Entity entity) {
         return ((CraftEntity) entity).getHandle() instanceof CustomChairEntity;
+    }
+
+    @Override
+    public OffsetDetector getOffsetDetector() {
+        return new LegacyOffsetDetector(this);
     }
 }

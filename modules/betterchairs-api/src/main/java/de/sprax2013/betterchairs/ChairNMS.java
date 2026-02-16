@@ -77,6 +77,15 @@ public abstract class ChairNMS {
      */
     public abstract boolean isChair(@NotNull Entity entity);
 
+    /**
+     * Returns the {@link OffsetDetector} to use for this server version.
+     * Automatically selects {@link ModernOffsetDetector} when {@code Block#getCollisionShape()}
+     * is available (1.18+), and falls back to {@link LegacyOffsetDetector} otherwise.
+     */
+    public OffsetDetector getOffsetDetector() {
+        return new ModernOffsetDetector();
+    }
+
     @Nullable
     public Listener getListener() {
         return null;
