@@ -12,8 +12,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -382,6 +386,46 @@ public class EventListener implements Listener {
             Chair chair = getManager().getChair(b);
 
             if (chair != null) {
+                getManager().destroy(chair, true);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onBlockFadeMonitor(BlockFadeEvent e) {
+        Chair chair = getManager().getChair(e.getBlock());
+
+        if (chair != null) {
+            getManager().destroy(chair, true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onLeavesDecayMonitor(LeavesDecayEvent e) {
+        Chair chair = getManager().getChair(e.getBlock());
+
+        if (chair != null) {
+            getManager().destroy(chair, true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onBlockBurnMonitor(BlockBurnEvent e) {
+        Chair chair = getManager().getChair(e.getBlock());
+
+        if (chair != null) {
+            getManager().destroy(chair, true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onBlockPhysicsMonitor(BlockPhysicsEvent e) {
+        Chair chair = getManager().getChair(e.getBlock());
+
+        if (chair != null) {
+            // TODO: I think in the future, there needs to be a central method that is used to check if a given
+            //       block is allowed to be sat on (that we can call here instead)
+            if (e.getBlock().isEmpty()) {
                 getManager().destroy(chair, true);
             }
         }
