@@ -78,7 +78,7 @@ public class EventListener implements Listener {
                     Material mat = null;
 
                     if (xMat.isPresent()) {
-                        mat = xMat.get().parseMaterial();
+                        mat = xMat.get().get();
                     }
 
                     if (mat != null) {
