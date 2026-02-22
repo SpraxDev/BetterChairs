@@ -349,7 +349,7 @@ public class EventListener implements Listener {
     }
 
     /**
-     * Check if another plugin insists on a chair's block being moved by an piston<br>
+     * Check if another plugin insists on a chair's block being moved by a piston<br>
      * if so, destroy the chair
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -377,7 +377,7 @@ public class EventListener implements Listener {
     }
 
     /**
-     * Check if another plugin insists on a chair's block being moved by an piston<br>
+     * Check if another plugin insists on a chair's block being moved by a piston<br>
      * if so, destroy the chair
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
