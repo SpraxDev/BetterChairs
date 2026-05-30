@@ -10,6 +10,19 @@ _yyyy-mm-dd_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/prev
 * Line 1
 * Line 2
 -->
+## Version 1.19.0
+_2026-05-26_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.18.0...v1.19.0)
+
+### Added
+* Support for Minecraft 26.1.2
+  * Right now, a build height message is displayed when a player starts sitting.
+    I found some players online reporting this while playing so maybe this is a Minecraft 26 bug?
+    If you've got an idea on how to fix this in the plugin, please let me know
+
+### Changed
+* Prevent players from clipping into blocks by using /sit while sitting
+
+
 ## Version 1.18.0
 _2026-02-22_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.17.0...v1.18.0)
 
@@ -21,6 +34,7 @@ _2026-02-22_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.1
 * Improved chair (block) detection, that might fix some edge-cases where players would not be dismounted from their chairs
   * This also affected other plugins using the ChairManager, not being able to find a chair, although it existed
   * You *probably* never noticed this bug
+
 
 ## Version 1.17.0
 _2025-12-11_ [GitHub Diff](https://github.com/SpraxDev/BetterChairs/compare/v1.16.0...v1.17.0)
