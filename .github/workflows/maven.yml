@@ -88,7 +88,6 @@ jobs:
           versions: 1.18.1, 1.18.2, 1.19, 1.19.2, 1.19.3, 1.19.4, 1.20.1, 1.20.2, 1.20.4
           remapped: true
 
-      # Use Java 21 for everything else
       - uses: actions/setup-java@v5
         with:
           java-version: 21
@@ -100,6 +99,18 @@ jobs:
         with:
           versions: 1.20.6, 1.21.1, 1.21.3, 1.21.4, 1.21.5, 1.21.8, 1.21.10, 1.21.11
           remapped: true
+
+      # Use Java 25 for everything else
+      - uses: actions/setup-java@v5
+        with:
+          java-version: 25
+          distribution: temurin
+          overwrite-settings: false
+
+      - name: Compile Spigot versions (26.1.2 – 26.1.2)
+        uses: SpraxDev/Action-SpigotMC@v5
+        with:
+          versions: 26.1.2
 
       # Compile the project using maven
       - name: Build with Maven
