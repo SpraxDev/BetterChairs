@@ -17,9 +17,12 @@ import static de.sprax2013.betterchairs.BetterChairsPlugin.getManager;
 // TODO: Put all strings into messages.yml
 // TODO: Split file into smaller ones
 public class BetterChairsCommand implements CommandExecutor, TabCompleter {
+    private final JavaPlugin plugin;
     private final String permsSit, permsToggle, permsReload, permsReset;
 
     protected BetterChairsCommand(JavaPlugin plugin) {
+        this.plugin = plugin;
+
         this.permsSit = plugin.getName() + ".cmd.sit";
         this.permsToggle = plugin.getName() + ".cmd.toggle";
 
@@ -65,6 +68,11 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
             }
 
             Player p = (Player) sender;
+
+            if (getManager().getChair(p) != null) {
+                sender.sendMessage(Messages.getPrefix() + " §cYou are already sitting");
+                return true;
+            }
 
             Block b = null;
 
