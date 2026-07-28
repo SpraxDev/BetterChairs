@@ -107,10 +107,10 @@ jobs:
           distribution: temurin
           overwrite-settings: false
 
-      - name: Compile Spigot versions (26.1.2 – 26.1.2)
+      - name: Compile Spigot versions (26.1.2 – 26.2)
         uses: SpraxDev/Action-SpigotMC@v5
         with:
-          versions: 26.1.2
+          versions: 26.1.2, 26.2
 
       # Compile the project using maven
       - name: Build with Maven
