@@ -82,11 +82,22 @@ public class BetterChairsCommand implements CommandExecutor, TabCompleter {
                 b = p.getLocation().getBlock().getRelative(BlockFace.DOWN);
             }
 
-            if (b != null) {
-                getManager().create(p, b);
-            } else {
+            if (b == null) {
                 sender.sendMessage(Messages.getPrefix() + " §cYou need to be on solid ground");
+                return true;
             }
+
+            if (Settings.CHAIR_NEED_AIR_ABOVE.getValueAsBoolean() && !b.getRelative(BlockFace.UP).isEmpty()) {
+                sender.sendMessage(Messages.getPrefix() + " §cThere is not enough space above you to sit here");
+                return true;
+            }
+
+            if (!Settings.CHAIR_ALLOW_AIR_BELOW.getValueAsBoolean() && b.getRelative(BlockFace.DOWN).isEmpty()) {
+                sender.sendMessage(Messages.getPrefix() + " §cYou can not sit on a block with air below it");
+                return true;
+            }
+
+            getManager().create(p, b);
         } else if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("toggle")) {
                 handleToggleChairs(sender);
